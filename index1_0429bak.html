@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>学校数智化评价解决方案</title>
+  <link rel="preconnect" href="https://unpkg.com" crossorigin>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', 'PingFang SC', 'Hiragino Sans', Arial, sans-serif;
+      background: url('https://img2.baidu.com/it/u=2777322612,3193252514&fm=253&fmt=auto&app=120&f=JPEG?w=875&h=500') no-repeat center center fixed;
+      background-size: cover;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .glass-header {
+      margin-top: 40px;
+      margin-bottom: 32px;
+      padding: 24px 48px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.18);
+      box-shadow: 0 8px 32px 0 rgba(31,38,135,0.18);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border: 1px solid rgba(255,255,255,0.28);
+      text-align: center;
+    }
+    .glass-header h1 {
+      font-size: 2.3rem;
+      font-weight: 700;
+      color: #ebebfd;
+      margin: 0;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .entry-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: center;
+  align-items: stretch;
+  width: calc(100% - 40px);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* 新增子元素样式 */
+.entry-row > * {
+  flex: 0 0 calc(33.333% - 32px * 2 / 3); /* 计算逻辑：每个元素占1/3宽度并扣除间隙 */
+  box-sizing: border-box;
+}
+
+    .entry-card {
+      flex: 0 1 calc(33.333% - 22px);
+      min-width: 240px;
+      max-width: none;
+      background: rgba(255, 255, 255, 0.246);
+      border-radius: 20px;
+      box-shadow: 0 6px 24px 0 rgba(31,38,135,0.12);
+      backdrop-filter: blur(12px) saturate(180%);
+      -webkit-backdrop-filter: blur(12px) saturate(180%);
+      border: 2px dashed rgba(120,120,120,0.16);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 36px 18px 28px 18px;
+      transition: box-shadow 0.2s, transform 0.2s;
+      position: relative;
+      overflow: visible;
+      margin-bottom: 32px;
+    }
+    .entry-card:hover {
+      box-shadow: 0 10px 32px 0 rgba(31,38,135,0.22);
+      transform: translateY(-6px) scale(1.03);
+      border-color: #b5b5b5;
+    }
+    .entry-icon {
+      width: 54px;
+      height: 54px;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 2px 6px rgba(219, 223, 229, 0.441));
+      
+    }
+
+    
+    .entry-title {
+      font-size: 1.23rem;
+      font-weight: 600;
+      color: #222;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+    .entry-desc {
+      font-size: 1rem;
+      color: #dad5d5;
+      margin-bottom: 24px;
+      text-align: center;
+      min-height: 40px;
+    }
+    .entry-btn {
+      background: linear-gradient(90deg, #6ec1e4 0%, #bfe9ff 100%);
+      color: #222;
+      font-weight: 600;
+      border: none;
+      border-radius: 999px;
+      padding: 10px 34px;
+      font-size: 1rem;
+      box-shadow: 0 2px 10px 0 rgba(80,160,255,0.10);
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s;
+      outline: none;
+    }
+    .entry-btn:hover {
+      background: linear-gradient(90deg, #4ea6d3 0%, #9fd8f7 100%);
+      color: #fff;
+    }
+    @media (max-width: 900px) {
+      .entry-row {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 24px;
+        align-items: center;
+      }
+      .entry-card {
+        flex: 0 1 calc(50% - 12px);
+        max-width: none;
+      }
+    }
+    @media (max-width: 600px) {
+      .entry-card {
+        flex: 0 1 100%;
+      }
+    }
+    /* 修改滚动条样式而不是禁用 */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="glass-header">
+    <img src="images/teachseek.logo2.png" class="logo" alt="TeachSeek Logo">
+    <div class="subtitle">—— 小沃评价助手，赋能学校数智化专业发展</div>
+  </div>
+  
+  <style>
+  .glass-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-center; /* 保持容器居中对齐 */
+    gap: 10px;
+    padding: 22px 30px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+  }
+  
+  .logo {
+    height: 32px;
+    width: auto;
+    margin-bottom: 4px;
+  }
+  
+  .subtitle {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    letter-spacing: 0.5px;
+    font-weight: 300;
+    line-height: 1.4;
+    width: 100%; /* 确保文字容器占满宽度 */
+    text-align: center; /* 修改为居中对齐 */
+  }
+  </style>
+  
+  
+  <div class="entry-row">
+    <!-- 专业发展规划 -->
+    <div class="entry-card">
+      <img class="entry-icon" src="https://unpkg.com/lucide-static@latest/icons/compass.svg" alt="规划图标" />
+      <div class="entry-title">教师专业发展评价</div>
+      <div class="entry-desc">科学规划成长路径，助力教师持续发展。</div>
+      <button class="entry-btn" onclick="location.href='index1-planning.html'">进入</button>
+    </div>
+    <!-- AI课堂评价 -->
+    <div class="entry-card">
+      <img class="entry-icon" src="https://unpkg.com/lucide-static@latest/icons/sparkles.svg" alt="AI课堂图标" />
+      <div class="entry-title">AI课堂评价</div>
+      <div class="entry-desc">智能分析课堂表现，提升教学质量。</div>
+      <button class="entry-btn" onclick="location.href='index1-ai.html'">进入</button>
+    </div>
+    <!-- 学生发展能力 -->
+    <div class="entry-card">
+      <img class="entry-icon" src="https://unpkg.com/lucide-static@latest/icons/users.svg" alt="学生能力图标" />
+      <div class="entry-title">学业发展能力指导</div>
+      <div class="entry-desc">关注学生核心素养，促进全面成长。</div>
+      <button class="entry-btn" onclick="location.href='index1-student.html'">进入</button>
+    </div>
+    <!-- 高中升学规划评价 -->
+    <div class="entry-card">
+      <img class="entry-icon" src="images/Indicator.svg" alt="学生能力图标" />
+      <div class="entry-title">高中升学规划评价</div>
+      <div class="entry-desc">多元升学规划，打破信息壁垒，定制升学路径培优与评价指引。</div>
+      <button class="entry-btn" onclick="location.href='index1-student.html'">进入</button>
+    </div>
+    <!-- 论文选题&撰写 -->
+    <div class="entry-card">
+      <img class="entry-icon" src="images/activity.svg" alt="学生能力图标" />
+      <div class="entry-title">论文选题&撰写</div>
+      <div class="entry-desc">聚焦研究方向，提供选题，AI构建写作框架，论文内容生成。</div>
+      <button class="entry-btn" onclick="location.href='index1-student.html'">进入</button>
+    </div>
+    <!-- 高中升学规划评价 -->
+    <div class="entry-card">
+      <img class="entry-icon" src="images/checkbox_unchecked.svg" alt="学生能力图标" />
+      <div class="entry-title">……</div>
+      <div class="entry-desc">…………………………</div>
+      <button class="entry-btn" onclick="location.href='index1-student.html'">进入</button>
+    </div>
+  </div>
+
+
+</body>
+</html>

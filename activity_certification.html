@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高级教师认证研修班 - 小沃AI助手</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        pink: {
+                            50: '#fdf2f8',
+                            100: '#fce7f3',
+                            200: '#fbcfe8',
+                            300: '#f9a8d4',
+                            400: '#f472b6',
+                            500: '#ec4899',
+                            600: '#db2777',
+                            700: '#be185d',
+                            800: '#9d174d',
+                            900: '#831843',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="max-w-[360px] mx-auto p-6">
+        <!-- 顶部导航 -->
+        <div class="flex items-center justify-between mb-6">
+            <a href="training_activities.html" class="flex items-center text-pink-600">
+                <img src="https://unpkg.com/lucide-static@latest/icons/arrow-left.svg" class="w-5 h-5 mr-2" alt="Back">
+                <span>返回</span>
+            </a>
+            <h2 class="text-lg font-semibold text-gray-900">活动详情</h2>
+            <div class="w-5"></div> <!-- 占位 -->
+        </div>
+        
+        <!-- 活动封面 -->
+        <div class="rounded-xl overflow-hidden mb-5 shadow-sm relative">
+            <div class="h-40 bg-gradient-to-r from-blue-400 to-indigo-500">
+                <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover mix-blend-overlay" alt="Training">
+            </div>
+            <div class="absolute top-3 left-3 px-2 py-1 bg-white bg-opacity-90 rounded text-xs font-medium text-blue-600">进阶级</div>
+            <div class="absolute top-3 right-3 px-2 py-1 bg-white bg-opacity-90 rounded text-xs font-medium text-pink-600">推荐</div>
+        </div>
+        
+        <!-- 活动标题 -->
+        <h1 class="text-2xl font-bold text-gray-900 mb-2">高级教师认证研修班</h1>
+        
+        <!-- 活动基本信息 -->
+        <div class="bg-white rounded-xl p-4 shadow-sm mb-4">
+            <div class="flex items-center mb-3">
+                <img src="https://unpkg.com/lucide-static@latest/icons/calendar.svg" class="w-5 h-5 text-pink-600 mr-3" alt="Date">
+                <div>
+                    <p class="text-sm text-gray-500">活动时间</p>
+                    <p class="text-gray-800">2023.08.15-2023.09.20</p>
+                </div>
+            </div>
+            <div class="flex items-center mb-3">
+                <img src="https://unpkg.com/lucide-static@latest/icons/map-pin.svg" class="w-5 h-5 text-pink-600 mr-3" alt="Location">
+                <div>
+                    <p class="text-sm text-gray-500">活动地点</p>
+                    <p class="text-gray-800">线上学习+北京线下集训</p>
+                </div>
+            </div>
+            <div class="flex items-center mb-3">
+                <img src="https://unpkg.com/lucide-static@latest/icons/users.svg" class="w-5 h-5 text-pink-600 mr-3" alt="Target">
+                <div>
+                    <p class="text-sm text-gray-500">适合对象</p>
+                    <p class="text-gray-800">一级教师（5年以上教龄）</p>
+                </div>
+            </div>
+            <div class="flex items-center">
+                <img src="https://unpkg.com/lucide-static@latest/icons/award.svg" class="w-5 h-5 text-pink-600 mr-3" alt="Credit">
+                <div>
+                    <p class="text-sm text-gray-500">学时认证</p>
+                    <p class="text-gray-800">80学时</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 活动介绍 -->
+        <div class="bg-white rounded-xl p-4 shadow-sm mb-4">
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">活动介绍</h3>
+            <p class="text-gray-700 mb-3">高级教师认证研修班是针对有意晋升高级教师职称的一级教师设计的系统性培训项目。通过理论学习、实践研讨和考核评估，帮助教师全面提升专业素养和教学能力，为高级教师评定做好充分准备。</p>
+            <p class="text-gray-700">本研修班由教育部教师发展中心指导，省级教育研究院承办，邀请知名专家学者和特级教师授课，确保培训质量。</p>
+        </div>
+        
+        <!-- 认证要求 -->
+        <div class="bg-white rounded-xl p-4 shadow-sm mb-4">
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">认证要求</h3>
+            
+            <div class="mb-3">
+                <h4 class="font-medium text-gray-900 mb-2">申请条件</h4>
+                <ul class="list-disc list-inside text-gray-700 text-sm ml-2 space-y-1">
+                    <li>具有一级教师资格5年以上</li>
+                    <li>近三年教学考核结果为"优秀"</li>
+                    <li>具有区级以上教学比赛获奖经历</li>
+                    <li>具有校级以上课题研究经验</li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="font-medium text-gray-900 mb-2">完成要求</h4>
+                <ul class="list-disc list-inside text-gray-700 text-sm ml-2 space-y-1">
+                    <li>参与全部培训课程（不少于80%出勤率）</li>
+                    <li>完成规定的作业和实践任务</li>
+                    <li>提交1篇教育教学论文（3000字以上）</li>
+                    <li>通过结业考核（理论+实践）</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- 课程内容 -->
+        <div class="bg-white rounded-xl p-4 shadow-sm mb-4">
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">课程内容</h3>
+            
+            <div class="mb-3">
+                <h4 class="font-medium text-gray-900 mb-1">模块一：教育理论提升</h4>
+                <ul class="list-disc list-inside text-gray-700 text-sm ml-2">
+                    <li>现代教育理论与实践</li>
+                    <li>教育心理学进阶</li>
+                    <li>学科教学改革前沿</li>
+                </ul>
+            </div>
+            
+            <div class="mb-3">
+                <h4 class="font-medium text-gray-900 mb-1">模块二：教学能力突破</h4>
+                <ul class="list-disc list-inside text-gray-700 text-sm ml-2">
+                    <li>高效课堂教学策略</li>
+                    <li>深度学习设计与实施</li>
+                    <li>学科核心素养培养</li>
+                </ul>
+            </div>
+            
+            <div class="mb-3">
+                <h4 class="font-medium text-gray-900 mb-1">模块三：教育科研能力</h4>
+                <ul class="list-disc list-inside text-gray-700 text-sm ml-2">
+                    <li>教育科研方法与实践</li>
+                    <li>教学案例分析与撰写</li>
+                    <li>教育教学论文写作</li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="font-medium text-gray-900 mb-1">模块四：专业引领力</h4>
+                <ul class="list-disc list-inside text-gray-700 text-sm ml-2">
+                    <li>教师团队建设与管理</li>
+                    <li>青年教师指导方法</li>
+                    <li>教育教学资源开发</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- 培训方式 -->
+        <div class="bg-white rounded-xl p-4 shadow-sm mb-4">
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">培训方式</h3>
+            
+            <div class="flex items-center bg-blue-50 rounded-lg p-3 mb-3">
+                <div class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                    <img src="https://unpkg.com/lucide-static@latest/icons/monitor.svg" class="h-5 w-5 text-blue-600" alt="Online">
+                </div>
+                <div>
+                    <p class="font-medium text-gray-900">线上学习（4周）</p>
+                    <p class="text-sm text-gray-600">每周10学时，包含直播课程和自主学习</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center bg-green-50 rounded-lg p-3 mb-3">
+                <div class="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                    <img src="https://unpkg.com/lucide-static@latest/icons/users.svg" class="h-5 w-5 text-green-600" alt="Offline">
+                </div>
+                <div>
+                    <p class="font-medium text-gray-900">线下集训（1周）</p>
+                    <p class="text-sm text-gray-600">40学时，包含工作坊、观摩和研讨</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center bg-yellow-50 rounded-lg p-3">
+                <div class="h-10 w-10 rounded-full bg-yellow-100 flex items-center justify-center mr-3">
+                    <img src="https://unpkg.com/lucide-static@latest/icons/clipboard.svg" class="h-5 w-5 text-yellow-600" alt="Assessment">
+                </div>
+                <div>
+                    <p class="font-medium text-gray-900">考核评估</p>
+                    <p class="text-sm text-gray-600">理论考核+教学展示+成果答辩</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 专家团队 -->
+        <div class="bg-white rounded-xl p-4 shadow-sm mb-4">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-lg font-semibold text-gray-900">授课专家</h3>
+                <a href="certification_experts.html" class="text-pink-600 text-sm">查看全部 ></a>
+            </div>
+            
+            <div class="flex space-x-3 mb-3 overflow-x-auto pb-2">
+                <div class="flex flex-col items-center min-w-[70px]">
+                    <div class="w-16 h-16 rounded-full bg-gray-200 overflow-hidden mb-2">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover" alt="Expert">
+                    </div>
+                    <p class="text-sm font-medium text-center">赵教授</p>
+                    <p class="text-xs text-gray-500 text-center">教育学院</p>
+                </div>
+                
+                <div class="flex flex-col items-center min-w-[70px]">
+                    <div class="w-16 h-16 rounded-full bg-gray-200 overflow-hidden mb-2">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover" alt="Expert">
+                    </div>
+                    <p class="text-sm font-medium text-center">李主任</p>
+                    <p class="text-xs text-gray-500 text-center">教研员</p>
+                </div>
+                
+                <div class="flex flex-col items-center min-w-[70px]">
+                    <div class="w-16 h-16 rounded-full bg-gray-200 overflow-hidden mb-2">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover" alt="Expert">
+                    </div>
+                    <p class="text-sm font-medium text-center">王老师</p>
+                    <p class="text-xs text-gray-500 text-center">特级教师</p>
+                </div>
+                
+                <div class="flex flex-col items-center min-w-[70px]">
+                    <div class="w-16 h-16 rounded-full bg-gray-200 overflow-hidden mb-2">
+                        <img src="https://images.unsplash.com/photo-1629467057571-42d22d8f0cbd?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover" alt="Expert">
+                    </div>
+                    <p class="text-sm font-medium text-center">张博士</p>
+                    <p class="text-xs text-gray-500 text-center">科研专家</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 报名信息 -->
+        <div class="flex space-x-3 mb-6">
+            <div class="flex-1 bg-white rounded-xl p-4 shadow-sm">
+                <p class="text-sm text-gray-500 mb-1">活动名额</p>
+                <p class="text-2xl font-bold text-gray-900">50<span class="text-sm font-normal text-gray-500 ml-1">人</span></p>
+            </div>
+            <div class="flex-1 bg-white rounded-xl p-4 shadow-sm">
+                <p class="text-sm text-gray-500 mb-1">已报名</p>
+                <p class="text-2xl font-bold text-pink-600">32<span class="text-sm font-normal text-gray-500 ml-1">人</span></p>
+            </div>
+        </div>
+        
+        <!-- 报名按钮 -->
+        <a href="certification_apply.html" class="block w-full py-3 bg-pink-600 text-white text-center rounded-lg text-base font-medium mb-3">
+            申请认证
+        </a>
+    </div>
+</body>
+</html> 

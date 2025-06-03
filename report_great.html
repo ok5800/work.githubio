@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教学质量分析报告 - 小沃AI助手</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        secondary: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            200: '#ddd6fe',
+                            300: '#c4b5fd',
+                            400: '#a78bfa',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            800: '#5b21b6',
+                            900: '#4c1d95',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    backdropBlur: {
+                        xs: '2px',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .tech-bg {
+            background: linear-gradient(125deg, #040b21 0%, #0f2942 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tech-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.15) 0%, transparent 30%),
+                radial-gradient(circle at 85% 30%, rgba(168, 85, 247, 0.15) 0%, transparent 30%);
+            z-index: 1;
+        }
+        
+        .floating-particle {
+            position: absolute;
+            animation: float 8s ease-in-out infinite;
+            opacity: 0.3;
+            z-index: 3;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px) translateX(0px); }
+            50% { transform: translateY(-10px) translateX(5px); }
+            100% { transform: translateY(0px) translateX(0px); }
+        }
+        
+        .particle-1 {
+            top: 20%;
+            left: 80%;
+            animation-delay: 0s;
+        }
+        
+        .particle-2 {
+            top: 70%;
+            left: 20%;
+            animation-delay: -2s;
+        }
+        
+        .particle-3 {
+            top: 40%;
+            left: 50%;
+            animation-delay: -4s;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-5xl">
+        <!-- 返回按钮 -->
+        <div class="flex items-center mb-6">
+            <a href="teaching_quality_assessment.html" class="flex items-center text-indigo-600">
+                <img src="https://unpkg.com/lucide-static@latest/icons/arrow-left.svg" class="w-5 h-5 mr-2" alt="Back">
+                <span>返回评估页面</span>
+            </a>
+        </div>
+        
+        <!-- 报告头部 -->
+        <div class="mb-8">
+            <div class="tech-bg rounded-xl p-6 relative mb-4">
+                <!-- 浮动粒子 -->
+                <div class="floating-particle particle-1">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#38bdf8" stroke-width="0.5"/>
+                        <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="#38bdf8" stroke-width="0.5"/>
+                    </svg>
+                </div>
+                <div class="floating-particle particle-2">
+                    <svg width="35" height="35" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z" stroke="#a855f7" stroke-width="0.5"/>
+                    </svg>
+                </div>
+                <div class="floating-particle particle-3">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 2V5" stroke="white" stroke-width="0.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M16 2V5" stroke="white" stroke-width="0.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M3.5 9.09H20.5" stroke="white" stroke-width="0.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                
+                <div class="relative z-10 flex justify-between items-start">
+                    <div>
+                        <div class="inline-block mb-3">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-indigo-500/20 to-purple-500/20 text-white backdrop-blur-sm border border-white/10">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/zap.svg" class="w-3 h-3 mr-1" alt="AI Powered">
+                                AI 智能分析报告
+                            </span>
+                        </div>
+                        <h1 class="text-3xl font-bold text-white tracking-tight mb-1">中小学教学质量评估报告</h1>
+                        <p class="text-white/90">初中数学 • 王明老师 • 2025春季学期</p>
+                    </div>
+                    <div class="flex space-x-3">
+                        <button class="p-2 bg-white/10 backdrop-blur-sm rounded-lg border border-white/10 text-white hover:bg-white/20">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/download.svg" class="w-5 h-5" alt="Download">
+                        </button>
+                        <button class="p-2 bg-white/10 backdrop-blur-sm rounded-lg border border-white/10 text-white hover:bg-white/20">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/share.svg" class="w-5 h-5" alt="Share">
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 图标装饰 -->
+                <div class="absolute bottom-0 right-0 p-4">
+                    <svg width="120" height="80" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg" class="opacity-10">
+                        <path d="M20,20 L100,20 M40,20 L40,60 M60,20 L60,60 M80,20 L80,60 M20,40 L100,40 M20,60 L100,60" stroke="white" stroke-width="1"/>
+                        <circle cx="40" cy="40" r="5" fill="rgba(56, 189, 248, 0.3)"/>
+                        <circle cx="80" cy="40" r="5" fill="rgba(168, 85, 247, 0.3)"/>
+                    </svg>
+                </div>
+            </div>
+            
+            <!-- 报告信息卡片 -->
+            <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="flex items-center">
+                        <div class="h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center mr-3">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/calendar.svg" class="h-5 w-5 text-indigo-600" alt="Date">
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500">分析期间</p>
+                            <p class="font-medium text-gray-900">2025年2月至4月</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center mr-3">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/users.svg" class="h-5 w-5 text-indigo-600" alt="Students">
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500">涵盖班级</p>
+                            <p class="font-medium text-gray-900">3个班级 (共78名学生)</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center mr-3">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/layers.svg" class="h-5 w-5 text-indigo-600" alt="Data Points">
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500">数据点</p>
+                            <p class="font-medium text-gray-900">15,420 <span class="text-xs text-gray-500">(多维度采集)</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 报告概览 -->
+        <div class="mb-8">
+            <h2 class="text-xl font-bold text-gray-900 mb-4">报告概览</h2>
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                <div class="prose max-w-none text-gray-700">
+                    <p class="mb-4">
+                        本报告基于2025年春季学期的教学数据，对王明老师在初中数学教学方面的表现进行了全面评估。
+                        评估采用多维指标体系，结合量化数据和质性分析，旨在提供客观、科学的教学质量评价，并为教学改进提供针对性建议。
+                    </p>
+                    
+                    <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 my-4">
+                        <h3 class="text-lg font-medium text-gray-900 mb-2">核心发现</h3>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>教学设计结构清晰，知识点层次分明，但部分内容与学生生活实际连接不足</li>
+                            <li>课堂互动频率高，但学生参与分布不均，且高阶思维挑战性不足</li>
+                            <li>作业设计多样化，但针对不同能力学生的分层设计有待加强</li>
+                            <li>反馈机制及时有效，但缺乏对学习过程的持续性跟踪</li>
+                        </ul>
+                    </div>
+                    
+                    <p>
+                        整体而言，教学质量评分为<strong class="text-indigo-600">85分</strong>（满分100分），
+                        较上学期提升<span class="text-green-600">3.5分</span>，
+                        在学校数学教研组中排名<strong>第2位</strong>。
+                        建议重点关注课堂互动的均衡性以及高阶思维能力的培养。
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 数据可视化 -->
+        <div class="mb-8">
+            <h2 class="text-xl font-bold text-gray-900 mb-4">教学表现分析</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <!-- 教学质量雷达图 -->
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">教学能力雷达分析</h3>
+                    <div class="aspect-square">
+                        <canvas id="radarChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- 趋势分析 -->
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">教学质量趋势分析</h3>
+                    <div class="aspect-square">
+                        <canvas id="lineChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 各维度表现详情 -->
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 mb-6">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">各维度表现详情</h3>
+                
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead>
+                            <tr>
+                                <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">评估维度</th>
+                                <th class="px-6 py-3 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">得分</th>
+                                <th class="px-6 py-3 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">环比</th>
+                                <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">主要优势</th>
+                                <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">改进空间</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">教学设计能力</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-900">
+                                    <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-green-100 text-green-800 font-medium">88</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-center text-green-600">+3.2</td>
+                                <td class="px-6 py-4 text-sm text-gray-700">教学目标明确，知识构建环环相扣</td>
+                                <td class="px-6 py-4 text-sm text-gray-700">增加实际应用场景，提高知识关联度</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">课堂互动效果</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-900">
+                                    <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-yellow-100 text-yellow-800 font-medium">82</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-center text-red-600">-2.1</td>
+                                <td class="px-6 py-4 text-sm text-gray-700">提问频率高，师生互动活跃</td>
+                                <td class="px-6 py-4 text-sm text-gray-700">提高后排学生参与度，增加思维深度</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">教学目标达成度</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-900">
+                                    <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-green-100 text-green-800 font-medium">87</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-center text-green-600">+4.5</td>
+                                <td class="px-6 py-4 text-sm text-gray-700">教学过程紧扣目标，各环节衔接紧密</td>
+                                <td class="px-6 py-4 text-sm text-gray-700">针对不同层次学生制定差异化目标</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">学生学习效果</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-900">
+                                    <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-blue-100 text-blue-800 font-medium">85</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-center text-green-600">+2.8</td>
+                                <td class="px-6 py-4 text-sm text-gray-700">整体掌握度良好，优秀率提升显著</td>
+                                <td class="px-6 py-4 text-sm text-gray-700">关注学习困难学生，缩小学生间差距</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">教学反思与改进</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-900">
+                                    <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-purple-100 text-purple-800 font-medium">83</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-center text-green-600">+5.6</td>
+                                <td class="px-6 py-4 text-sm text-gray-700">反思深入，及时调整教学策略</td>
+                                <td class="px-6 py-4 text-sm text-gray-700">建立系统化改进跟踪机制</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- 班级表现对比 -->
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">班级表现对比</h3>
+                <div class="h-80">
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- AI洞察建议 -->
+        <div class="mb-8">
+            <h2 class="text-xl font-bold text-gray-900 mb-4">AI洞察建议</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- 教学设计洞察 -->
+                <div class="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl p-6 border border-indigo-100">
+                    <div class="flex items-start mb-4">
+                        <div class="h-10 w-10 rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center mr-3 flex-shrink-0">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/pencil-ruler.svg" class="h-5 w-5 text-white" alt="Design">
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-900">教学设计建议</h3>
+                            <p class="text-sm text-gray-600">提升教学设计的针对性和实用性</p>
+                        </div>
+                    </div>
+                    
+                    <ul class="space-y-3 text-sm text-gray-700">
+                        <li class="flex items-start">
+                            <span class="h-5 w-5 rounded-full bg-indigo-100 flex items-center justify-center mr-2 flex-shrink-0 mt-0.5">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/check.svg" class="h-3 w-3 text-indigo-600" alt="Check">
+                            </span>
+                            <span>将抽象概念与学生生活实际结合，如利用购物、建筑等场景教授比例、几何等知识</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="h-5 w-5 rounded-full bg-indigo-100 flex items-center justify-center mr-2 flex-shrink-0 mt-0.5">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/check.svg" class="h-3 w-3 text-indigo-600" alt="Check">
+                            </span>
+                            <span>设计分层教学任务，针对不同能力水平学生设置基础、提高和拓展任务</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="h-5 w-5 rounded-full bg-indigo-100 flex items-center justify-center mr-2 flex-shrink-0 mt-0.5">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/check.svg" class="h-3 w-3 text-indigo-600" alt="Check">
+                            </span>
+                            <span>强化知识间的联系，通过概念图等工具帮助学生建立知识网络</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 课堂互动洞察 -->
+                <div class="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-6 border border-blue-100">
+                    <div class="flex items-start mb-4">
+                        <div class="h-10 w-10 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center mr-3 flex-shrink-0">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/users.svg" class="h-5 w-5 text-white" alt="Interaction">
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-900">课堂互动建议</h3>
+                            <p class="text-sm text-gray-600">优化课堂互动质量和学生参与度</p>
+                        </div>
+                    </div>
+                    
+                    <ul class="space-y-3 text-sm text-gray-700">
+                        <li class="flex items-start">
+                            <span class="h-5 w-5 rounded-full bg-blue-100 flex items-center justify-center mr-2 flex-shrink-0 mt-0.5">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/check.svg" class="h-3 w-3 text-blue-600" alt="Check">
+                            </span>
+                            <span>采用随机点名、小组轮换发言等策略，确保全体学生均有发言机会</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="h-5 w-5 rounded-full bg-blue-100 flex items-center justify-center mr-2 flex-shrink-0 mt-0.5">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/check.svg" class="h-3 w-3 text-blue-600" alt="Check">
+                            </span>
+                            <span>增加开放性、分析性和评价性问题比例，提升学生高阶思维能力</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="h-5 w-5 rounded-full bg-blue-100 flex items-center justify-center mr-2 flex-shrink-0 mt-0.5">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/check.svg" class="h-3 w-3 text-blue-600" alt="Check">
+                            </span>
+                            <span>引入数字化工具如智能投票、在线问答，提高全班参与度</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 评价反馈洞察 -->
+                <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 border border-green-100">
+                    <div class="flex items-start mb-4">
+                        <div class="h-10 w-10 rounded-full bg-gradient-to-br from-green-600 to-emerald-600 flex items-center justify-center mr-3 flex-shrink-0">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/clipboard-check.svg" class="h-5 w-5 text-white" alt="Feedback">
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-900">评价反馈建议</h3>
+                            <p class="text-sm text-gray-600">完善评价体系和反馈机制</p>
+                        </div>
+                    </div>
+                    
+                    <ul class="space-y-3 text-sm text-gray-700">
+                        <li class="flex items-start">
+                            <span class="h-5 w-5 rounded-full bg-green-100 flex items-center justify-center mr-2 flex-shrink-0 mt-0.5">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/check.svg" class="h-3 w-3 text-green-600" alt="Check">
+                            </span>
+                            <span>建立过程性评价档案，记录学生学习进步轨迹，而非仅关注结果</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="h-5 w-5 rounded-full bg-green-100 flex items-center justify-center mr-2 flex-shrink-0 mt-0.5">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/check.svg" class="h-3 w-3 text-green-600" alt="Check">
+                            </span>
+                            <span>提供具体、actionable的反馈，指明改进方向而非简单评价</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="h-5 w-5 rounded-full bg-green-100 flex items-center justify-center mr-2 flex-shrink-0 mt-0.5">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/check.svg" class="h-3 w-3 text-green-600" alt="Check">
+                            </span>
+                            <span>引入同伴互评和自评机制，培养学生评价能力和自我认知</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 资源整合建议 -->
+                <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-6 border border-amber-100">
+                    <div class="flex items-start mb-4">
+                        <div class="h-10 w-10 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center mr-3 flex-shrink-0">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/briefcase.svg" class="h-5 w-5 text-white" alt="Resources">
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-900">资源整合建议</h3>
+                            <p class="text-sm text-gray-600">优化教学资源配置和应用</p>
+                        </div>
+                    </div>
+                    
+                    <ul class="space-y-3 text-sm text-gray-700">
+                        <li class="flex items-start">
+                            <span class="h-5 w-5 rounded-full bg-amber-100 flex items-center justify-center mr-2 flex-shrink-0 mt-0.5">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/check.svg" class="h-3 w-3 text-amber-600" alt="Check">
+                            </span>
+                            <span>整合线上线下资源，构建混合式教学模式，满足不同学习风格</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="h-5 w-5 rounded-full bg-amber-100 flex items-center justify-center mr-2 flex-shrink-0 mt-0.5">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/check.svg" class="h-3 w-3 text-amber-600" alt="Check">
+                            </span>
+                            <span>建立教学资源库，收集优质案例、练习和多媒体材料，便于查询</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="h-5 w-5 rounded-full bg-amber-100 flex items-center justify-center mr-2 flex-shrink-0 mt-0.5">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/check.svg" class="h-3 w-3 text-amber-600" alt="Check">
+                            </span>
+                            <span>引入数字化工具辅助教学，如智能练习系统、知识图谱等</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 关联建议 -->
+        <div class="mb-8">
+            <h2 class="text-xl font-bold text-gray-900 mb-4">以评促提升配套资源与服务</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- 教师助手 -->
+                <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                    <div class="flex items-center mb-4">
+                        <div class="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/user-check.svg" class="h-6 w-6 text-blue-600" alt="Teacher Assistant">
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-900">推荐教师工具</h3>
+                            <p class="text-xs text-gray-500">个性化教学支持工具</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">
+                        基于您的教学风格和改进方向，我们推荐以下助手功能:
+                    </p>
+                    <ul class="text-sm space-y-2 mb-3">
+                        <li class="flex items-center">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/check.svg" class="h-4 w-4 text-green-500 mr-2" alt="Check">
+                            <span>互动课堂助手 - 提升课堂互动效率</span>
+                        </li>
+                        <li class="flex items-center">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/check.svg" class="h-4 w-4 text-green-500 mr-2" alt="Check">
+                            <span>学情分析工具包 - 精准把握学生状况</span>
+                        </li>
+                    </ul>
+                    <a href="index.html" class="text-blue-600 text-sm font-medium hover:text-blue-800 inline-flex items-center">
+                        查看使用
+                        <img src="https://unpkg.com/lucide-static@latest/icons/arrow-right.svg" class="h-4 w-4 ml-1" alt="Arrow">
+                    </a>
+                </div>
+                
+                <!-- 智能荐课 -->
+                <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                    <div class="flex items-center mb-4">
+                        <div class="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/book-open.svg" class="h-6 w-6 text-green-600" alt="Course Recommendation">
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-900">智能荐课</h3>
+                            <p class="text-xs text-gray-500">精选课程资源推荐</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">
+                        根据您的改进方向，以下是为您量身推荐的课程:
+                    </p>
+                    <ul class="text-sm space-y-2 mb-3">
+                        <li class="flex items-center">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/check.svg" class="h-4 w-4 text-green-500 mr-2" alt="Check">
+                            <span>《提高课堂互动质量的策略与方法》</span>
+                        </li>
+                        <li class="flex items-center">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/check.svg" class="h-4 w-4 text-green-500 mr-2" alt="Check">
+                            <span>《数学学科深度学习设计》</span>
+                        </li>
+                    </ul>
+                    <a href="#" class="text-blue-700 text-sm font-medium hover:text-blue-800 inline-flex items-center">
+                        浏览学习    
+                        <img src="https://unpkg.com/lucide-static@latest/icons/arrow-right.svg" class="h-4 w-4 ml-1" alt="Arrow">
+                    </a>
+                </div>
+                
+                <!-- 关联成果库 -->
+                <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                    <div class="flex items-center mb-4">
+                        <div class="h-12 w-12 rounded-full bg-purple-100 flex items-center justify-center mr-3">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/folder.svg" class="h-6 w-6 text-purple-600" alt="Resource Library">
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-900">关联成果库</h3>
+                            <p class="text-xs text-gray-500">优质教学资源与案例</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">
+                        这些成果既是个人的成果积累，也是校本的成果库，与您的教学场景高度相关:
+                    </p>
+                    <ul class="text-sm space-y-2 mb-3">
+                        <li class="flex items-center">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/check.svg" class="h-4 w-4 text-green-500 mr-2" alt="Check">
+                            <span>初中数学高阶思维培养案例集</span>
+                        </li>
+                        <li class="flex items-center">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/check.svg" class="h-4 w-4 text-green-500 mr-2" alt="Check">
+                            <span>分层教学设计资源包</span>
+                        </li>
+                    </ul>
+                    <a href="#" class="text-blue-700 text-sm font-medium hover:text-blue-800 inline-flex items-center">
+                        浏览详情
+                        <img src="https://unpkg.com/lucide-static@latest/icons/arrow-right.svg" class="h-4 w-4 ml-1" alt="Arrow">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 雷达图
+            const radarCtx = document.getElementById('radarChart').getContext('2d');
+            new Chart(radarCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['教学设计', '课堂互动', '教学目标达成', '学生学习效果', '教学反思与改进'],
+                    datasets: [{
+                        label: '当前学期',
+                        data: [88, 82, 87, 85, 83],
+                        backgroundColor: 'rgba(124, 58, 237, 0.2)',
+                        borderColor: 'rgba(124, 58, 237, 0.8)',
+                        pointBackgroundColor: 'rgba(124, 58, 237, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(124, 58, 237, 1)'
+                    }, {
+                        label: '上一学期',
+                        data: [84, 84, 83, 82, 77],
+                        backgroundColor: 'rgba(209, 213, 219, 0.2)',
+                        borderColor: 'rgba(209, 213, 219, 0.8)',
+                        pointBackgroundColor: 'rgba(209, 213, 219, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(209, 213, 219, 1)'
+                    }]
+                },
+                options: {
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            min: 60,
+                            max: 100,
+                            ticks: {
+                                stepSize: 10
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // 趋势线图
+            const lineCtx = document.getElementById('lineChart').getContext('2d');
+            new Chart(lineCtx, {
+                type: 'line',
+                data: {
+                    labels: ['11月', '12月', '1月', '2月', '3月', '4月'],
+                    datasets: [{
+                        label: '教学质量评分',
+                        data: [79, 81, 82, 81, 83, 85],
+                        fill: false,
+                        borderColor: 'rgba(14, 165, 233, 1)',
+                        tension: 0.1,
+                        pointBackgroundColor: 'rgba(14, 165, 233, 1)'
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            min: 70,
+                            max: 90
+                        }
+                    }
+                }
+            });
+            
+            // 班级表现柱状图
+            const barCtx = document.getElementById('barChart').getContext('2d');
+            new Chart(barCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['知识掌握度', '课堂参与度', '学习兴趣', '作业完成质量', '考试成绩'],
+                    datasets: [{
+                        label: '初二(1)班',
+                        data: [83, 76, 85, 91, 88],
+                        backgroundColor: 'rgba(79, 70, 229, 0.7)',
+                    }, {
+                        label: '初二(2)班',
+                        data: [78, 82, 79, 86, 81],
+                        backgroundColor: 'rgba(16, 185, 129, 0.7)',
+                    }, {
+                        label: '初二(3)班',
+                        data: [81, 78, 83, 85, 84],
+                        backgroundColor: 'rgba(245, 158, 11, 0.7)',
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            min: 70,
+                            max: 100
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

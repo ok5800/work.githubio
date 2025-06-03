@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课堂诊断分析报告</title>
+    <style>
+        :root {
+            --primary-color: #3B82F6;
+            --secondary-color: #60A5FA;
+            --accent-color: #2563EB;
+            --success-color: #10B981;
+            --warning-color: #F59E0B;
+            --danger-color: #EF4444;
+            --info-color: #6366F1;
+            --text-color: #1F2937;
+            --text-light: #6B7280;
+            --glass-bg: rgba(255, 255, 255, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --dark-glass-bg: rgba(15, 23, 42, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1.5rem;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            grid-column: span 12;
+            text-align: center;
+            padding: 2rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 1rem auto;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        .metrics-row {
+            grid-column: span 12;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .metric-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card::after {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            bottom: -70px;
+            right: -70px;
+            z-index: 0;
+        }
+
+        .metric-icon {
+            width: 48px;
+            height: 48px;
+            padding: 10px;
+            background-color: rgba(59, 130, 246, 0.1);
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 0.5rem 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .metric-label {
+            font-size: 1rem;
+            color: var(--text-light);
+            position: relative;
+            z-index: 1;
+        }
+
+        .analysis-section {
+            grid-column: span 12;
+        }
+
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .analysis-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .analysis-item:hover {
+            transform: translateX(5px);
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .analysis-icon {
+            width: 32px;
+            height: 32px;
+            flex-shrink: 0;
+            padding: 6px;
+            background-color: rgba(59, 130, 246, 0.1);
+            border-radius: 50%;
+        }
+
+        .analysis-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
+        }
+
+        .analysis-content p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-light);
+        }
+
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .chart-wrapper {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .chart-title {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .chart-title svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 1rem;
+            padding: 2rem;
+            max-width: 700px;
+            width: 90%;
+            margin: auto;
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+            z-index: 10;
+        }
+
+        .close-modal:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-title {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            position: relative;
+            padding-bottom: 0.75rem;
+        }
+
+        .modal-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--primary-color);
+            border-radius: 1.5px;
+        }
+
+        .modal-content p {
+            margin-bottom: 1.25rem;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+
+        .suggestion-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .suggestion-list li {
+            margin-bottom: 0.75rem;
+            padding-left: 1.5rem;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .suggestion-list li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+        }
+
+        .dimension-card {
+            grid-column: span 12;
+            margin-bottom: 2rem;
+        }
+
+        .dimension-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .module-card {
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            transition: all 0.3s ease;
+        }
+
+        .module-card:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: translateY(-3px);
+        }
+
+        .module-title {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .module-title .dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+        }
+
+        .observation-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .observation-list li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.25rem;
+            position: relative;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--text-light);
+        }
+
+        .observation-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            background-color: rgba(59, 130, 246, 0.1);
+            color: var(--primary-color);
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: rgba(209, 213, 219, 0.5);
+            border-radius: 0.5rem;
+            margin: 0.5rem 0 1rem;
+            height: 0.5rem;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 0.5rem;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transition: width 1s ease;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-left: 0.5rem;
+        }
+
+        .badge-primary {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: var(--primary-color);
+        }
+
+        .badge-success {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+        }
+
+        .badge-warning {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+        }
+
+        @media (max-width: 1200px) {
+            .container {
+                grid-template-columns: repeat(6, 1fr);
+            }
+            
+            .header, .analysis-section, .dimension-card {
+                grid-column: span 6;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .header, .analysis-section, .dimension-card {
+                grid-column: 1;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .metric-value {
+                font-size: 2rem;
+            }
+
+            .charts-container {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                width: 95%;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header glass-card">
+            <h1>课堂诊断分析报告</h1>
+            <p>基于新课标核心素养及CFS教师教学设计能力评价标准，通过AI智能分析课堂教学设计与实施过程，提供专业的诊断分析和改进建议。</p>
+        </div>
+
+        <div class="metrics-row">
+            <div class="glass-card metric-card">
+                <img src="https://unpkg.com/lucide-static@latest/icons/target.svg" alt="目标达成度" class="metric-icon">
+                <div class="metric-value">92<span style="font-size: 1.5rem;">%</span></div>
+                <div class="metric-label">教学目标达成度</div>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: 92%;"></div>
+                </div>
+            </div>
+
+            <div class="glass-card metric-card">
+                <img src="https://unpkg.com/lucide-static@latest/icons/users.svg" alt="学生参与度" class="metric-icon">
+                <div class="metric-value">88<span style="font-size: 1.5rem;">%</span></div>
+                <div class="metric-label">学生课堂参与度</div>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: 88%;"></div>
+                </div>
+            </div>
+
+            <div class="glass-card metric-card">
+                <img src="https://unpkg.com/lucide-static@latest/icons/activity.svg" alt="教学效果" class="metric-icon">
+                <div class="metric-value">85<span style="font-size: 1.5rem;">%</span></div>
+                <div class="metric-label">教学效果评分</div>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: 85%;"></div>
+                </div>
+            </div>
+
+            <div class="glass-card metric-card">
+                <img src="https://unpkg.com/lucide-static@latest/icons/book-open.svg" alt="综合评分" class="metric-icon">
+                <div class="metric-value">89<span style="font-size: 1.5rem;">%</span></div>
+                <div class="metric-label">综合评分</div>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: 89%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 课程维度 -->
+        <div class="dimension-card glass-card">
+            <h2 class="section-title">课程维度分析 <span class="badge badge-primary">12项观察点</span></h2>
+            <div class="dimension-grid">
+                <div class="module-card">
+                    <h3 class="module-title"><span class="dot"></span>教学设计</h3>
+                    <ul class="observation-list">
+                        <li>设计学习目标</li>
+                        <li>理解教学内容及教学法</li>
+                        <li>理解学生</li>
+                        <li>选择学习资源</li>
+                        <li>匹配学习活动</li>
+                        <li>设计学习评价</li>
+                    </ul>
+                </div>
+                <div class="module-card">
+                    <h3 class="module-title"><span class="dot"></span>教学目标达成</h3>
+                    <ul class="observation-list">
+                        <li>教学目标合理性（课程、教材、学情）</li>
+                        <li>教学过程与方法（教学方式、学习行为、课堂环境）</li>
+                        <li>教学评价形式（方法性、科学性、教学评一致性）</li>
+                    </ul>
+                </div>
+                <div class="module-card">
+                    <h3 class="module-title"><span class="dot"></span>课堂问题链</h3>
+                    <ul class="observation-list">
+                        <li>问题链设计计划性</li>
+                        <li>问题链设计合理性</li>
+                        <li>问题链递进关系和通进性</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 教师维度 -->
+        <div class="dimension-card glass-card">
+            <h2 class="section-title">教师维度分析 <span class="badge badge-primary">24项观察点</span></h2>
+            <div class="dimension-grid">
+                <div class="module-card">
+                    <h3 class="module-title"><span class="dot"></span>综合能力</h3>
+                    <ul class="observation-list">
+                        <li>课堂教学素养系统（44个观察指标，19个二级指标，参照附录1）</li>
+                        <li>课堂教学整体分分析（5个观察指标，19个二级指标，参照附录2）</li>
+                    </ul>
+                </div>
+                <div class="module-card">
+                    <h3 class="module-title"><span class="dot"></span>教学设计与课堂实践相关度</h3>
+                    <ul class="observation-list">
+                        <li>教学设计环节及其要求</li>
+                        <li>课堂实施相关性度</li>
+                        <li>教学步骤在课堂实施的时长</li>
+                        <li>教学步骤在课堂实施的学生参与度</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 学生维度 -->
+        <div class="dimension-card glass-card">
+            <h2 class="section-title">学生维度分析 <span class="badge badge-primary">10项观察点</span></h2>
+            <div class="dimension-grid">
+                <div class="module-card">
+                    <h3 class="module-title"><span class="dot"></span>学习行为数据</h3>
+                    <ul class="observation-list">
+                        <li>参与度</li>
+                        <li>抢头度</li>
+                        <li>主动学习</li>
+                        <li>被动学习</li>
+                    </ul>
+                </div>
+                <div class="module-card">
+                    <h3 class="module-title"><span class="dot"></span>深度学习数据</h3>
+                    <ul class="observation-list">
+                        <li>学生深度学习等级</li>
+                        <li>学生思考时长</li>
+                        <li>学生个性思考方式</li>
+                        <li>学生提问次数</li>
+                        <li>学生连续发言时长</li>
+                        <li>教师反馈方式</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 课堂维度 -->
+        <div class="dimension-card glass-card">
+            <h2 class="section-title">课堂维度分析 <span class="badge badge-primary">13项观察点</span></h2>
+            <div class="dimension-grid">
+                <div class="module-card">
+                    <h3 class="module-title"><span class="dot"></span>教学结构</h3>
+                    <ul class="observation-list">
+                        <li>教师讲授</li>
+                        <li>师生互动</li>
+                        <li>自主学习</li>
+                        <li>合作学习</li>
+                        <li>展示汇报</li>
+                        <li>教师讲评</li>
+                        <li>教师高效结语</li>
+                        <li>课堂质疑点</li>
+                        <li>课堂实型</li>
+                        <li>课堂互动类型</li>
+                    </ul>
+                </div>
+                <div class="module-card">
+                    <h3 class="module-title"><span class="dot"></span>课堂诊断分析</h3>
+                    <ul class="observation-list">
+                        <li>有效问题分类及数量</li>
+                        <li>适时内容及次数</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card analysis-section">
+            <h2 class="section-title">核心分析</h2>
+            <div class="analysis-grid">
+                <div class="analysis-item">
+                    <img src="https://unpkg.com/lucide-static@latest/icons/book-open.svg" alt="教学设计" class="analysis-icon">
+                    <div class="analysis-content">
+                        <h3>教学设计能力</h3>
+                        <p>教学目标明确，符合新课标要求，教学环节设计合理，能够有效促进学生核心素养的发展。</p>
+                    </div>
+                </div>
+
+                <div class="analysis-item">
+                    <img src="https://unpkg.com/lucide-static@latest/icons/message-square.svg" alt="课堂互动" class="analysis-icon">
+                    <div class="analysis-content">
+                        <h3>课堂互动效果</h3>
+                        <p>师生互动频繁，学生参与度高，课堂氛围活跃，能够激发学生的学习兴趣。</p>
+                    </div>
+                </div>
+
+                <div class="analysis-item">
+                    <img src="https://unpkg.com/lucide-static@latest/icons/lightbulb.svg" alt="创新能力" class="analysis-icon">
+                    <div class="analysis-content">
+                        <h3>教学创新能力</h3>
+                        <p>教学方法新颖，能够灵活运用多种教学手段，注重培养学生的创新思维。</p>
+                    </div>
+                </div>
+
+                <div class="analysis-item">
+                    <img src="https://unpkg.com/lucide-static@latest/icons/check-circle.svg" alt="评价反馈" class="analysis-icon">
+                    <div class="analysis-content">
+                        <h3>评价与反馈</h3>
+                        <p>及时给予学生评价和反馈，评价方式多元，有助于学生改进学习。</p>
+                    </div>
+                </div>
+            </div>
+            <div class="charts-container">
+                <div class="chart-wrapper">
+                    <h3 class="chart-title">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/pie-chart.svg" alt="核心素养" width="24" height="24">
+                        核心素养达成度分析
+                    </h3>
+                    <canvas id="coreCompetencyChart"></canvas>
+                </div>
+                <div class="chart-wrapper">
+                    <h3 class="chart-title">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/bar-chart.svg" alt="教学能力" width="24" height="24">
+                        教学能力评估
+                    </h3>
+                    <canvas id="teachingAbilityChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="analysisModal">
+        <div class="modal-content">
+            <button class="close-modal">
+                <img src="https://unpkg.com/lucide-static@latest/icons/x.svg" alt="关闭" width="24" height="24">
+            </button>
+            <h2 class="modal-title" id="modalTitle"></h2>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // 页面加载动画
+        document.addEventListener('DOMContentLoaded', () => {
+            // 卡片动画效果
+            const cards = document.querySelectorAll('.glass-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+
+            // 渐入进度条动画
+            setTimeout(() => {
+                const progressBars = document.querySelectorAll('.progress-bar');
+                progressBars.forEach(bar => {
+                    const width = bar.style.width;
+                    bar.style.width = '0%';
+                    setTimeout(() => {
+                        bar.style.width = width;
+                    }, 100);
+                });
+            }, 500);
+
+            // 模态框数据
+            const modalData = {
+                '教学设计能力': {
+                    title: '教学设计能力分析',
+                    content: `
+                        <p>基于新课标核心素养要求，对教学设计能力进行深入分析：</p>
+                        <ul class="suggestion-list">
+                            <li>教学目标设定符合学科核心素养要求，层次分明</li>
+                            <li>教学内容组织合理，符合学生认知规律</li>
+                            <li>教学环节设计完整，时间分配恰当</li>
+                            <li>教学资源运用恰当，能够支持教学目标达成</li>
+                            <li>匹配的学习活动设计丰富多样，针对性强</li>
+                            <li>评价设计多元，注重过程性评价和形成性评价</li>
+                        </ul>
+                        <p>改进建议：</p>
+                        <ul class="suggestion-list">
+                            <li>进一步细化教学目标，增强目标的可测量性和可操作性</li>
+                            <li>建议增加分层教学设计，更好地满足不同学生的学习需求</li>
+                            <li>可以尝试引入更多基于真实情境的学习任务</li>
+                            <li>进一步优化学习资源，增加多媒体和交互性资源的使用</li>
+                        </ul>
+                    `
+                },
+                '课堂互动效果': {
+                    title: '课堂互动效果分析',
+                    content: `
+                        <p>对课堂互动情况进行全面评估：</p>
+                        <ul class="suggestion-list">
+                            <li>师生互动频率适中，平均每5分钟有效互动3-4次</li>
+                            <li>学生参与度良好，87%的学生在课堂中有积极参与</li>
+                            <li>小组讨论组织有序，合作学习效果显著</li>
+                            <li>学生提问数量适中，但深度思考型问题较少</li>
+                            <li>教师提问分布合理，覆盖不同认知层次</li>
+                            <li>教师反馈及时有效，能针对学生回答进行有效点评</li>
+                        </ul>
+                        <p>改进建议：</p>
+                        <ul class="suggestion-list">
+                            <li>增加更多开放性问题的讨论，促进学生深度思考</li>
+                            <li>注意关注课堂中较少发言的学生，确保全员参与</li>
+                            <li>可以尝试更多样化的互动方式，如角色扮演、辩论等</li>
+                            <li>适当延长学生思考时间，平均至少给予5-8秒的等待时间</li>
+                            <li>增加学生主导的互动环节，培养学生的主体性</li>
+                        </ul>
+                    `
+                },
+                '教学创新能力': {
+                    title: '教学创新能力分析',
+                    content: `
+                        <p>对教学创新能力进行深入分析：</p>
+                        <ul class="suggestion-list">
+                            <li>教学方法新颖，融合多种现代教学理念</li>
+                            <li>教学手段多样，善于运用现代教育技术辅助教学</li>
+                            <li>注重培养学生的创新思维和批判性思考能力</li>
+                            <li>课堂活动设计富有创意，能激发学生兴趣</li>
+                            <li>教学情境设计生动有趣，贴近学生生活实际</li>
+                            <li>能够灵活调整教学策略，根据课堂实际情况做出应变</li>
+                        </ul>
+                        <p>改进建议：</p>
+                        <ul class="suggestion-list">
+                            <li>尝试更多跨学科整合的教学方法，加强学科间的联系</li>
+                            <li>增加探究性和实践性教学活动的比重</li>
+                            <li>进一步探索创新性的学习成果呈现方式</li>
+                            <li>可以引入更多真实世界的问题和挑战</li>
+                            <li>尝试运用项目式学习、设计思维等创新教学模式</li>
+                        </ul>
+                    `
+                },
+                '评价与反馈': {
+                    title: '评价与反馈分析',
+                    content: `
+                        <p>对评价与反馈机制进行全面评估：</p>
+                        <ul class="suggestion-list">
+                            <li>评价方式多元，包括口头评价、书面评价、学生自评和互评</li>
+                            <li>反馈及时有效，课堂中给予学生的反馈平均在10秒内</li>
+                            <li>评价标准明确，学生能够理解评价要求</li>
+                            <li>注重过程性评价，关注学生的进步和发展</li>
+                            <li>评价语言积极鼓励，能够激发学生的学习动力</li>
+                            <li>评价内容全面，不仅关注知识掌握，也关注能力培养</li>
+                        </ul>
+                        <p>改进建议：</p>
+                        <ul class="suggestion-list">
+                            <li>增加学生自评和互评环节的比重，培养学生的元认知能力</li>
+                            <li>细化评价标准，使用更具体的描述性语言</li>
+                            <li>尝试运用数字化工具进行即时评价</li>
+                            <li>建立更系统的学习进展记录机制</li>
+                            <li>在评价反馈中增加对学习策略的指导</li>
+                        </ul>
+                    `
+                }
+            };
+
+            // 添加点击事件
+            document.querySelectorAll('.analysis-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const title = item.querySelector('h3').textContent;
+                    const data = modalData[title];
+                    if (data) {
+                        document.getElementById('modalTitle').textContent = data.title;
+                        document.getElementById('modalContent').innerHTML = data.content;
+                        document.getElementById('analysisModal').classList.add('active');
+                    }
+                });
+            });
+
+            // 关闭模态框
+            document.querySelector('.close-modal').addEventListener('click', () => {
+                document.getElementById('analysisModal').classList.remove('active');
+            });
+
+            // 点击模态框外部关闭
+            document.getElementById('analysisModal').addEventListener('click', (e) => {
+                if (e.target === document.getElementById('analysisModal')) {
+                    document.getElementById('analysisModal').classList.remove('active');
+                }
+            });
+
+            // 核心素养达成度图表
+            const coreCompetencyCtx = document.getElementById('coreCompetencyChart').getContext('2d');
+            new Chart(coreCompetencyCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['学科素养', '学习能力', '创新思维', '实践能力', '合作交流', '情感态度'],
+                    datasets: [{
+                        label: '达成度',
+                        data: [86, 90, 84, 82, 93, 88],
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                        borderColor: 'rgba(59, 130, 246, 1)',
+                        pointBackgroundColor: 'rgba(59, 130, 246, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(59, 130, 246, 1)'
+                    }]
+                },
+                options: {
+                    scales: {
+                        r: {
+                            angleLines: {
+                                display: true,
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 100,
+                            ticks: {
+                                display: false
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                            titleColor: '#3B82F6',
+                            bodyColor: '#1F2937',
+                            borderColor: '#E5E7EB',
+                            borderWidth: 1,
+                            padding: 12,
+                            cornerRadius: 8,
+                            displayColors: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return `达成度: ${context.raw}%`;
+                                }
+                            }
+                        }
+                    },
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+
+            // 教学能力评估图表
+            const teachingAbilityCtx = document.getElementById('teachingAbilityChart').getContext('2d');
+            new Chart(teachingAbilityCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['教学设计', '课堂管理', '教学实施', '评价反馈', '教学创新'],
+                    datasets: [{
+                        label: '得分',
+                        data: [92, 88, 90, 85, 87],
+                        backgroundColor: [
+                            'rgba(59, 130, 246, 0.8)',
+                            'rgba(96, 165, 250, 0.8)',
+                            'rgba(59, 130, 246, 0.8)',
+                            'rgba(96, 165, 250, 0.8)',
+                            'rgba(59, 130, 246, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(59, 130, 246, 1)',
+                            'rgba(96, 165, 250, 1)',
+                            'rgba(59, 130, 246, 1)',
+                            'rgba(96, 165, 250, 1)',
+                            'rgba(59, 130, 246, 1)'
+                        ],
+                        borderWidth: 1,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                            titleColor: '#3B82F6',
+                            bodyColor: '#1F2937',
+                            borderColor: '#E5E7EB',
+                            borderWidth: 1,
+                            padding: 12,
+                            cornerRadius: 8,
+                            displayColors: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return `得分: ${context.raw}/100`;
+                                }
+                            }
+                        }
+                    },
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+
+            // 为每个模块卡片添加点击效果
+            document.querySelectorAll('.module-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const title = this.querySelector('.module-title').textContent;
+                    alert(`更多关于"${title}"的详细分析即将推出`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

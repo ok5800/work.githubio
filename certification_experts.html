@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>授课专家 - 小沃AI助手</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        pink: {
+                            50: '#fdf2f8',
+                            100: '#fce7f3',
+                            200: '#fbcfe8',
+                            300: '#f9a8d4',
+                            400: '#f472b6',
+                            500: '#ec4899',
+                            600: '#db2777',
+                            700: '#be185d',
+                            800: '#9d174d',
+                            900: '#831843',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="max-w-[360px] mx-auto p-6">
+        <!-- 顶部导航 -->
+        <div class="flex items-center justify-between mb-6">
+            <a href="activity_certification.html" class="flex items-center text-pink-600">
+                <img src="https://unpkg.com/lucide-static@latest/icons/arrow-left.svg" class="w-5 h-5 mr-2" alt="Back">
+                <span>返回</span>
+            </a>
+            <h2 class="text-lg font-semibold text-gray-900">授课专家</h2>
+            <div class="w-5"></div> <!-- 占位 -->
+        </div>
+        
+        <!-- 页面标题 -->
+        <h1 class="text-xl font-bold text-gray-900 mb-5">高级教师认证研修班讲师团队</h1>
+        
+        <!-- 讲师分类标签 -->
+        <div class="flex space-x-2 mb-6 overflow-x-auto pb-2">
+            <button class="px-3 py-1.5 bg-pink-600 text-white text-sm rounded-full whitespace-nowrap">全部</button>
+            <button class="px-3 py-1.5 bg-white text-gray-700 text-sm rounded-full border border-gray-200 whitespace-nowrap">教育理论</button>
+            <button class="px-3 py-1.5 bg-white text-gray-700 text-sm rounded-full border border-gray-200 whitespace-nowrap">教学实践</button>
+            <button class="px-3 py-1.5 bg-white text-gray-700 text-sm rounded-full border border-gray-200 whitespace-nowrap">学科专家</button>
+            <button class="px-3 py-1.5 bg-white text-gray-700 text-sm rounded-full border border-gray-200 whitespace-nowrap">科研指导</button>
+        </div>
+        
+        <!-- 讲师列表 -->
+        <div class="space-y-5">
+            <!-- 讲师1 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm">
+                <div class="p-4">
+                    <div class="flex items-start">
+                        <div class="h-16 w-16 rounded-full bg-gray-200 overflow-hidden mr-3">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover" alt="Expert">
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start mb-1">
+                                <h3 class="font-semibold text-gray-900">赵明远 教授</h3>
+                                <span class="px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded-full">首席专家</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">北京师范大学教育学院</p>
+                            <div class="flex space-x-2">
+                                <span class="px-2 py-0.5 bg-gray-100 text-gray-800 text-xs rounded-full">教育理论</span>
+                                <span class="px-2 py-0.5 bg-gray-100 text-gray-800 text-xs rounded-full">教育心理学</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 border-t border-gray-100 pt-3">
+                        <p class="text-sm text-gray-700">教育学博士，国家级教学名师，主要研究方向为教师专业发展、教学评价与课程改革。主持国家级课题10余项，出版著作20余部。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 讲师2 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm">
+                <div class="p-4">
+                    <div class="flex items-start">
+                        <div class="h-16 w-16 rounded-full bg-gray-200 overflow-hidden mr-3">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover" alt="Expert">
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start mb-1">
+                                <h3 class="font-semibold text-gray-900">李静 主任</h3>
+                                <span class="px-2 py-0.5 bg-green-100 text-green-800 text-xs rounded-full">教研专家</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">省教育研究院基础教育研究所</p>
+                            <div class="flex space-x-2">
+                                <span class="px-2 py-0.5 bg-gray-100 text-gray-800 text-xs rounded-full">课程改革</span>
+                                <span class="px-2 py-0.5 bg-gray-100 text-gray-800 text-xs rounded-full">教学研究</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 border-t border-gray-100 pt-3">
+                        <p class="text-sm text-gray-700">特级教师，教育硕士，从事基础教育研究与教师培训工作20余年，主导多项省级教师培训项目，擅长教学实践指导与课例研究。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 讲师3 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm">
+                <div class="p-4">
+                    <div class="flex items-start">
+                        <div class="h-16 w-16 rounded-full bg-gray-200 overflow-hidden mr-3">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover" alt="Expert">
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start mb-1">
+                                <h3 class="font-semibold text-gray-900">王建国 老师</h3>
+                                <span class="px-2 py-0.5 bg-purple-100 text-purple-800 text-xs rounded-full">特级教师</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">市重点中学</p>
+                            <div class="flex space-x-2">
+                                <span class="px-2 py-0.5 bg-gray-100 text-gray-800 text-xs rounded-full">数学教学</span>
+                                <span class="px-2 py-0.5 bg-gray-100 text-gray-800 text-xs rounded-full">课堂教学</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 border-t border-gray-100 pt-3">
+                        <p class="text-sm text-gray-700">全国优秀教师，从教30年，数学学科带头人，多次获得全国教学大赛一等奖，擅长数学思维培养与高效课堂构建。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 讲师4 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm">
+                <div class="p-4">
+                    <div class="flex items-start">
+                        <div class="h-16 w-16 rounded-full bg-gray-200 overflow-hidden mr-3">
+                            <img src="https://images.unsplash.com/photo-1629467057571-42d22d8f0cbd?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover" alt="Expert">
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start mb-1">
+                                <h3 class="font-semibold text-gray-900">张伟 博士</h3>
+                                <span class="px-2 py-0.5 bg-orange-100 text-orange-800 text-xs rounded-full">科研专家</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">教育科学研究院</p>
+                            <div class="flex space-x-2">
+                                <span class="px-2 py-0.5 bg-gray-100 text-gray-800 text-xs rounded-full">教育科研</span>
+                                <span class="px-2 py-0.5 bg-gray-100 text-gray-800 text-xs rounded-full">论文指导</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 border-t border-gray-100 pt-3">
+                        <p class="text-sm text-gray-700">教育学博士，研究员，专注于教育科研方法研究与应用，发表CSSCI论文30余篇，主持多项国家级科研项目，擅长课题研究指导。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 讲师5 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm">
+                <div class="p-4">
+                    <div class="flex items-start">
+                        <div class="h-16 w-16 rounded-full bg-gray-200 overflow-hidden mr-3">
+                            <img src="https://images.unsplash.com/photo-1553267751-1c066ff65581?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover" alt="Expert">
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start mb-1">
+                                <h3 class="font-semibold text-gray-900">陈红 教授</h3>
+                                <span class="px-2 py-0.5 bg-red-100 text-red-800 text-xs rounded-full">学科专家</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">华东师范大学语文教育研究所</p>
+                            <div class="flex space-x-2">
+                                <span class="px-2 py-0.5 bg-gray-100 text-gray-800 text-xs rounded-full">语文教学</span>
+                                <span class="px-2 py-0.5 bg-gray-100 text-gray-800 text-xs rounded-full">课程标准</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 border-t border-gray-100 pt-3">
+                        <p class="text-sm text-gray-700">语文教育专家，参与国家语文课程标准制定，长期从事语文教学研究与教师培训工作，著有《语文核心素养培养》等多部专著。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 讲师6 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm">
+                <div class="p-4">
+                    <div class="flex items-start">
+                        <div class="h-16 w-16 rounded-full bg-gray-200 overflow-hidden mr-3">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover" alt="Expert">
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start mb-1">
+                                <h3 class="font-semibold text-gray-900">刘阳 副教授</h3>
+                                <span class="px-2 py-0.5 bg-yellow-100 text-yellow-800 text-xs rounded-full">信息技术</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">教育技术学院</p>
+                            <div class="flex space-x-2">
+                                <span class="px-2 py-0.5 bg-gray-100 text-gray-800 text-xs rounded-full">教育信息化</span>
+                                <span class="px-2 py-0.5 bg-gray-100 text-gray-800 text-xs rounded-full">智慧教学</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 border-t border-gray-100 pt-3">
+                        <p class="text-sm text-gray-700">教育技术学博士，国家级在线开放课程主讲教师，专注于信息技术与教育教学融合研究，擅长数字化教学资源开发与应用。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 底部提示 -->
+        <div class="mt-6 text-center text-sm text-gray-500">
+            <p>以上专家将全程参与教学与指导</p>
+            <p>具体授课安排以课程通知为准</p>
+        </div>
+    </div>
+</body>
+</html> 

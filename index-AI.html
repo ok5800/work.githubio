@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小沃AI助手 - 赋能师道 数智化助力教师专业发展</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        secondary: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            200: '#ddd6fe',
+                            300: '#c4b5fd',
+                            400: '#a78bfa',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            800: '#5b21b6',
+                            900: '#4c1d95',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    backdropBlur: {
+                        xs: '2px',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .tech-bg {
+            background: linear-gradient(125deg, #040b21 0%, #0f2942 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* 科技感背景元素 */
+        .tech-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.15) 0%, transparent 30%),
+                radial-gradient(circle at 85% 30%, rgba(168, 85, 247, 0.15) 0%, transparent 30%);
+            z-index: 1;
+        }
+        
+        /* 电路板图案 */
+        .tech-bg::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='none' stroke='rgba(255,255,255,0.05)' stroke-width='1' d='M10,30 L90,30 M30,10 L30,90 M70,10 L70,90 M10,70 L90,70 M10,50 L30,50 M70,50 L90,50 M50,10 L50,30 M50,70 L50,90'/%3E%3Ccircle cx='30' cy='30' r='2' fill='rgba(56,189,248,0.2)'/%3E%3Ccircle cx='70' cy='30' r='2' fill='rgba(56,189,248,0.2)'/%3E%3Ccircle cx='30' cy='70' r='2' fill='rgba(168,85,247,0.2)'/%3E%3Ccircle cx='70' cy='70' r='2' fill='rgba(168,85,247,0.2)'/%3E%3Ccircle cx='50' cy='50' r='3' fill='rgba(255,255,255,0.1)'/%3E%3C/svg%3E");
+            z-index: 2;
+            opacity: 0.7;
+        }
+        
+        /* 浮动粒子动画 */
+        @keyframes float {
+            0% { transform: translateY(0px) translateX(0px); }
+            50% { transform: translateY(-10px) translateX(5px); }
+            100% { transform: translateY(0px) translateX(0px); }
+        }
+        
+        .floating-particle {
+            position: absolute;
+            animation: float 8s ease-in-out infinite;
+            opacity: 0.3;
+            z-index: 3;
+        }
+        
+        .particle-1 {
+            top: 20%;
+            left: 80%;
+            animation-delay: 0s;
+        }
+        
+        .particle-2 {
+            top: 70%;
+            left: 20%;
+            animation-delay: -2s;
+        }
+        
+        .particle-3 {
+            top: 40%;
+            left: 50%;
+            animation-delay: -4s;
+        }
+        
+        .tab-active {
+            border-bottom: 2px solid #0ea5e9;
+            color: #0ea5e9;
+            font-weight: 500;
+        }
+        
+        .mockup-border {
+            border: 2px dashed #e5e7eb;
+            border-radius: 12px;
+        }
+
+
+
+
+        
+        .glass-header {
+      margin-left: 20px;
+      margin-top: 20px;
+      margin-bottom: 16px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.18);
+      box-shadow: 0 4px 16px 0 rgba(31,38,135,0.18);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border: 1px solid rgba(255,255,255,0.28);
+      text-align: center;
+      height: 40px;
+      width: 220px;
+    }
+            .glass-header h1 {
+            font-size: 0.2rem;
+            font-weight: 700;
+            color: #ebebfd;
+            margin: 0;
+            letter-spacing: 1px;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        }
+        
+    
+    /* 登录按钮样式 */
+    .login-btn {
+      display: flex;
+      align-items: center;
+      /* background: rgba(35, 111, 217, 0.794); */
+      padding: 4px 10px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      transition: all 0.3s ease;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 30;
+    }
+    
+    .login-btn:hover {
+      background: rgba(82, 141, 237, 0.905);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .login-btn span {
+      color: #fff;
+      font-weight: 500;
+      margin-left: 4px;
+      font-size: 0.9em;
+    }
+    
+    /* 用户信息样式 */
+    .user-info {
+      display: none;
+      align-items: center;
+      background: rgba(117, 128, 208, 0.478);
+      padding: 4px 8px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      position: relative;
+      z-index: 30;
+    }
+    
+    .user-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+    
+    .user-name {
+      color: #fff;
+      font-weight: 500;
+      font-size: 0.9em;
+      margin-right: 6px;
+    }
+    
+    .dropdown-icon {
+      width: 14px;
+      height: 14px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    
+    /* 下拉菜单样式 */
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 35px;
+      right: 0;
+      background: rgba(117, 128, 208, 0.706);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      min-width: 120px;
+      z-index: 1001;
+    }
+    
+    .dropdown-menu.show {
+      display: block;
+      animation: fadeIn 0.2s ease;
+    }
+    
+    .dropdown-menu a {
+      display: block;
+      padding: 8px 12px;
+      color: #f9f5f5;
+      text-decoration: none;
+      transition: background 0.2s;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      font-size: 0.9em;
+    }
+    
+    .dropdown-menu a:last-child {
+      border-bottom: none;
+    }
+    
+    .dropdown-menu a:hover {
+      background: rgba(209, 235, 147, 0.284);
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    </style>
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+
+    
+
+    
+    <div class="mockup-border m-4 p-6 max-w-4xl mx-auto">
+        <div class="mx-auto max-w-7xl">
+            <!-- Banner Section -->
+            <div class="relative rounded-xl overflow-hidden tech-bg h-48 mb-6">
+                <!-- 添加登录按钮 -->
+                <div class="absolute top-6 right-8 z-30">
+                    <div class="login-btn" id="loginBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        <span>登录</span>
+                    </div>
+                    
+                    <div class="user-info" id="userInfo">
+                        <img src="https://img1.baidu.com/it/u=3177203332,1299138918&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500" alt="用户头像" class="user-avatar">
+                        <span class="user-name">李明老师</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="dropdown-icon" id="dropdownIcon">
+                            <path d="m6 9 6 6 6-6"/>
+                        </svg>
+                        
+                        <div class="dropdown-menu" id="dropdownMenu">
+                            <a href="#">修改个人资料</a>
+                            <a href="#">我的AI创作</a>
+                            <a href="#" id="logoutBtn">退出</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 浮动粒子 -->
+                <div class="floating-particle particle-1">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#38bdf8" stroke-width="0.5"/>
+                        <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="#38bdf8" stroke-width="0.5"/>
+                        <path d="M12 7V5" stroke="#38bdf8" stroke-width="0.5"/>
+                        <path d="M12 19V17" stroke="#38bdf8" stroke-width="0.5"/>
+                        <path d="M5 12H7" stroke="#38bdf8" stroke-width="0.5"/>
+                        <path d="M17 12H19" stroke="#38bdf8" stroke-width="0.5"/>
+                    </svg>
+                </div>
+                <div class="floating-particle particle-2">
+                    <svg width="35" height="35" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z" stroke="#a855f7" stroke-width="0.5"/>
+                        <path d="M12 15.5C13.933 15.5 15.5 13.933 15.5 12C15.5 10.067 13.933 8.5 12 8.5C10.067 8.5 8.5 10.067 8.5 12C8.5 13.933 10.067 15.5 12 15.5Z" stroke="#a855f7" stroke-width="0.5"/>
+                        <path d="M18.5 7.5V7.5" stroke="#a855f7" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="floating-particle particle-3">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 2V5" stroke="white" stroke-width="0.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M16 2V5" stroke="white" stroke-width="0.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M3.5 9.09H20.5" stroke="white" stroke-width="0.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M21 8.5V17C21 20 19.5 22 16 22H8C4.5 22 3 20 3 17V8.5C3 5.5 4.5 3.5 8 3.5H16C19.5 3.5 21 5.5 21 8.5Z" stroke="white" stroke-width="0.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M11.995 13.7H12.005" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M8.294 13.7H8.304" stroke="white" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M8.294 16.7H8.304" stroke="white" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                
+                <!-- 科技感网格背景 -->
+                <div class="absolute inset-0 z-10">
+                    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                        <!-- 数字化波浪 -->
+                        <path d="M0,80 Q80,60 160,80 T320,80 T480,80" stroke="rgba(56, 189, 248, 0.2)" fill="none" stroke-width="1"/>
+                        <path d="M0,100 Q80,120 160,100 T320,100 T480,100" stroke="rgba(168, 85, 247, 0.15)" fill="none" stroke-width="1"/>
+                        
+                        <!-- 数据点 -->
+                        <circle cx="80" cy="60" r="2" fill="rgba(56, 189, 248, 0.5)"/>
+                        <circle cx="160" cy="80" r="2" fill="rgba(56, 189, 248, 0.5)"/>
+                        <circle cx="240" cy="60" r="2" fill="rgba(56, 189, 248, 0.5)"/>
+                        <circle cx="320" cy="80" r="2" fill="rgba(56, 189, 248, 0.5)"/>
+                        
+                        <circle cx="80" cy="120" r="2" fill="rgba(168, 85, 247, 0.5)"/>
+                        <circle cx="160" cy="100" r="2" fill="rgba(168, 85, 247, 0.5)"/>
+                        <circle cx="240" cy="120" r="2" fill="rgba(168, 85, 247, 0.5)"/>
+                        <circle cx="320" cy="100" r="2" fill="rgba(168, 85, 247, 0.5)"/>
+                    </svg>
+                </div>
+                
+                <!-- 教育科技图标 -->
+                <div class="absolute bottom-4 right-8 z-20">
+                    <div class="flex space-x-3">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500/20 to-primary-600/10 flex items-center justify-center backdrop-blur-sm border border-primary-500/10">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+                                <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                                <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                            </svg>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-secondary-500/20 to-secondary-600/10 flex items-center justify-center backdrop-blur-sm border border-secondary-500/10">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+                                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                                <line x1="10" y1="9" x2="8" y2="9"></line>
+                            </svg>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500/20 to-blue-600/10 flex items-center justify-center backdrop-blur-sm border border-blue-500/10">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="2" y1="12" x2="22" y2="12"></line>
+                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 左侧装饰 -->
+                <div class="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-primary-400/40 via-primary-500/20 to-transparent"></div>
+                
+                <!-- 右下角装饰 -->
+                <div class="absolute bottom-0 right-0 w-32 h-32 rounded-tl-full bg-gradient-to-tl from-secondary-500/20 to-transparent"></div>
+                
+                <!-- 文字内容 -->
+
+
+             
+  
+                <div class="glass-header">
+                    <img src="images/teachseek.logo2.png" class="logo" alt="TeachSeek Logo">
+
+                    <!-- <div class="subtitle">—— 小沃评价助手，赋能学校数智化专业发展</div> -->
+                  </div>
+
+                <div class="relative z-20 h-full flex flex-col justify-center px-8" style="margin-top: -50px;">
+                    
+                    <div class="inline-block">
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-primary-500/20 to-secondary-500/20 text-white backdrop-blur-sm mb-2 border border-white/10">
+                            <svg class="w-3 h-3 mr-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 16.01C14.2091 16.01 16 14.2191 16 12.01C16 9.80087 14.2091 8.01001 12 8.01001C9.79086 8.01001 8 9.80087 8 12.01C8 14.2191 9.79086 16.01 12 16.01Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M2 12.01H8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M16 12.01H22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            小沃AI助手 ——
+                            AI驱动 · 教育赋能
+                        </span>
+                    </div>
+                    <!-- <h1 class="text-2xl font-bold text-white tracking-tight" style="font-family: 'Inter', sans-serif; letter-spacing: -0.025em;">小沃AI助手</h1> -->
+                    <p class="mt-2 text-xl text-white/90 font-medium max-w-2xl" style="font-family: 'Inter', sans-serif;">数字化助力教师专业发展，赋能学校智教 · 智学 · 智评 · 智管</p>
+                </div>
+            </div>
+            
+            <!-- Search Bar -->
+            <div class="mb-6">
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/search.svg" class="w-5 h-5 text-gray-500" alt="Search">
+                    </div>
+                    <input type="search" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-200 rounded-lg bg-white focus:ring-primary-500 focus:border-primary-500 shadow-sm" placeholder="搜索AI教学工具、研培课程..." required>
+                    <button type="submit" class="absolute right-2.5 bottom-2.5 bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 text-white transition-colors">搜索</button>
+                </div>
+            </div>
+            
+            <!-- Tabs -->
+            <div class="border-b border-gray-200 mb-6">
+                <nav class="flex space-x-8" aria-label="Tabs">
+                    <button class="tab-active px-1 py-4 text-sm font-medium">所有</button>
+                    <button class="text-gray-500 hover:text-gray-700 px-1 py-4 text-sm font-medium">收藏</button>
+                    <button class="text-gray-500 hover:text-gray-700 px-1 py-4 text-sm font-medium">教学工具</button>
+                    <button class="text-gray-500 hover:text-gray-700 px-1 py-4 text-sm font-medium">AI课题&论文</button>
+                    <button class="text-gray-500 hover:text-gray-700 px-1 py-4 text-sm font-medium">数据&报告</button>
+                    <button class="text-gray-500 hover:text-gray-700 px-1 py-4 text-sm font-medium">成果&档案</button>
+                </nav>
+            </div>
+            
+            <!-- Content Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Tool 1 -->
+                <a href="04AI/lesson_planner.html" class="block">
+                   1 <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden border border-gray-100">
+                        <div class="p-5">
+                            <div class="flex items-center mb-4">
+                                <div class="h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center">
+                                    <img src="https://unpkg.com/lucide-static@latest/icons/book-open.svg" class="h-5 w-5 text-primary-600" alt="Lesson Plan">
+                                </div>
+                                <h3 class="ml-3 text-lg font-semibold text-gray-900">智能备课助手</h3>
+                            </div>
+                            <p class="text-gray-600 text-sm">基于教学目标智能生成教案，提供多样化教学策略与资源推荐。</p>
+                        </div>
+                    </div>
+                </a>
+
+
+                 <!-- Tool 2 -->
+                 <a href="04AI/presentation_maker.html" class="block">
+                   2 <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden border border-gray-100">
+                        <div class="p-5">
+                            <div class="flex items-center mb-4">
+                                <div class="h-10 w-10 rounded-full bg-red-100 flex items-center justify-center">
+                                    <img src="https://unpkg.com/lucide-static@latest/icons/presentation.svg" class="h-5 w-5 text-red-600" alt="Presentation">
+                                </div>
+                                <h3 class="ml-3 text-lg font-semibold text-gray-900">课件制作工具</h3>
+                            </div>
+                            <p class="text-gray-600 text-sm">一键生成精美课件，内置丰富模板与素材库，让教学展示更生动。</p>
+                        </div>
+                    </div>
+                    </a>
+                
+                <!-- Tool 3-->
+                <a href="04AI/homework_assessment.html" class="block">
+                   3 <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden border border-gray-100">
+                        <div class="p-5">
+                            <div class="flex items-center mb-4">
+                                <div class="h-10 w-10 rounded-full bg-secondary-100 flex items-center justify-center">
+                                    <img src="https://unpkg.com/lucide-static@latest/icons/clipboard-check.svg" class="h-5 w-5 text-secondary-600" alt="Assessment">
+                                </div>
+                                <h3 class="ml-3 text-lg font-semibold text-gray-900">作业智评系统</h3>
+                            </div>
+                            <p class="text-gray-600 text-sm">自动批改学生作业，提供个性化反馈和学习建议，节省教师批改时间。</p>
+                        </div>
+                    </div>
+                </a>
+                
+                <!-- Tool 4 -->
+                <a href="04AI/data_analysis.html" class="block">
+                   4 <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden border border-gray-100">
+                        <div class="p-5">
+                            <div class="flex items-center mb-4">
+                                <div class="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
+                                    <img src="images/chart-pie.svg" class="h-5 w-5 text-green-600" alt="Data Analysis">
+                                </div>
+                                <h3 class="ml-3 text-lg font-semibold text-gray-900">学情数据分析</h3>
+                            </div>
+                            <p class="text-gray-600 text-sm">分析学生学习数据，生成可视化报告，帮助教师精准把握班级学习状况。</p>
+                        </div>
+                    </div>
+                </a>
+                
+                <!-- Tool 4 -->
+                <!-- <a href="classroom_management.html" class="block">
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden border border-gray-100">
+                    <div class="p-5">
+                        <div class="flex items-center mb-4">
+                            <div class="h-10 w-10 rounded-full bg-yellow-100 flex items-center justify-center">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/users.svg" class="h-5 w-5 text-yellow-600" alt="Classroom">
+                            </div>
+                            <h3 class="ml-3 text-lg font-semibold text-gray-900">班级管理助手</h3>
+                        </div>
+                        <p class="text-gray-600 text-sm">智能排课、考勤管理、学生分组，全方位提升班级管理效率。</p>
+                    </div>
+                </div> -->
+                
+               
+                
+                <!-- Tool 6 -->
+                <!-- <a href="innovation_lab.html" class="block">
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden border border-gray-100">
+                    <div class="p-5">
+                        <div class="flex items-center mb-4">
+                            <div class="h-10 w-10 rounded-full bg-purple-100 flex items-center justify-center">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/lightbulb.svg" class="h-5 w-5 text-purple-600" alt="Ideas">
+                            </div>
+                            <h3 class="ml-3 text-lg font-semibold text-gray-900">教学创新实验室</h3>
+                        </div>
+                        <p class="text-gray-600 text-sm">探索创新教学方法，提供教学实验设计与实施指导，促进教学创新。</p>
+                    </div>
+                </div>
+                </a> -->
+                
+                <!-- Tool 7 -->
+                <!-- <a href="growth_portfolio.html" class="block">
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden border border-gray-100">
+                    <div class="p-5">
+                        <div class="flex items-center mb-4">
+                            <div class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/file-text.svg" class="h-5 w-5 text-blue-600" alt="Report">
+                            </div>
+                            <h3 class="ml-3 text-lg font-semibold text-gray-900">成长档案生成器</h3>
+                        </div>
+                        <p class="text-gray-600 text-sm">自动整合教师专业发展数据，生成个性化成长档案与发展建议。</p>
+                    </div>
+                </div>
+                </a> -->
+                
+                <!-- Tool 8 -->
+                <!-- <a href="parent_communication.html" class="block">
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden border border-gray-100">
+                    <div class="p-5">
+                        <div class="flex items-center mb-4">
+                            <div class="h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/message-circle.svg" class="h-5 w-5 text-indigo-600" alt="Feedback">
+                            </div>
+                            <h3 class="ml-3 text-lg font-semibold text-gray-900">家校沟通平台</h3>
+                        </div>
+                        <p class="text-gray-600 text-sm">智能生成学生个性化反馈，促进教师与家长有效沟通，共同助力学生成长。</p>
+                    </div>
+                </div>
+                </a> -->
+                
+                <!-- Tool 9 -->
+                <!-- <a href="advisor_main.html" class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden border border-gray-100 block">
+                    <div class="p-5">
+                        <div class="flex items-center mb-4">
+                            <div class="h-10 w-10 rounded-full bg-pink-100 flex items-center justify-center">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/award.svg" class="h-5 w-5 text-pink-600" alt="Professional">
+                            </div>
+                            <h3 class="ml-3 text-lg font-semibold text-gray-900">专业发展顾问</h3>
+                        </div>
+                        <p class="text-gray-600 text-sm">基于教师个人特点，推荐专业发展路径、培训课程与学习资源。</p>
+                    </div>
+                </a>
+                 -->
+                <!-- Tool 10 -->
+                <!-- <a href="teaching_quality_assessment.html" class="block">
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden border border-gray-100">
+                    <div class="p-5">
+                        <div class="flex items-center mb-4">
+                            <div class="h-10 w-10 rounded-full bg-teal-100 flex items-center justify-center">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/trending-up.svg" class="h-5 w-5 text-teal-600" alt="Analytics">
+                            </div>
+                            <h3 class="ml-3 text-lg font-semibold text-gray-900">教学质量评估</h3>
+                        </div>
+                        <p class="text-gray-600 text-sm">多维度评估教学质量，提供改进建议，助力教师持续提升教学效果。</p>
+                    </div>
+                </div> -->
+            
+            
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- 在 body 末尾添加登录交互脚本 -->
+    <script>
+        // 登录功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginBtn = document.getElementById('loginBtn');
+            const userInfo = document.getElementById('userInfo');
+            const dropdownIcon = document.getElementById('dropdownIcon');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            const logoutBtn = document.getElementById('logoutBtn');
+            
+            // 点击登录按钮
+            loginBtn.addEventListener('click', function() {
+                loginBtn.style.display = 'none';
+                userInfo.style.display = 'flex';
+            });
+            
+            // 点击下拉图标
+            dropdownIcon.addEventListener('click', function() {
+                dropdownMenu.classList.toggle('show');
+                dropdownIcon.style.transform = dropdownMenu.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0)';
+            });
+            
+            // 点击退出
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                userInfo.style.display = 'none';
+                loginBtn.style.display = 'flex';
+                dropdownMenu.classList.remove('show');
+                dropdownIcon.style.transform = 'rotate(0)';
+            });
+            
+            // 点击页面其他区域关闭下拉菜单
+            document.addEventListener('click', function(e) {
+                if (!userInfo.contains(e.target)) {
+                    dropdownMenu.classList.remove('show');
+                    dropdownIcon.style.transform = 'rotate(0)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

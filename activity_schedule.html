@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>活动日程 - 小沃AI助手</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        pink: {
+                            50: '#fdf2f8',
+                            100: '#fce7f3',
+                            200: '#fbcfe8',
+                            300: '#f9a8d4',
+                            400: '#f472b6',
+                            500: '#ec4899',
+                            600: '#db2777',
+                            700: '#be185d',
+                            800: '#9d174d',
+                            900: '#831843',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="max-w-[360px] mx-auto p-6">
+        <!-- 顶部导航 -->
+        <div class="flex items-center justify-between mb-6">
+            <a href="activity_details.html" class="flex items-center text-pink-600">
+                <img src="https://unpkg.com/lucide-static@latest/icons/arrow-left.svg" class="w-5 h-5 mr-2" alt="Back">
+                <span>返回</span>
+            </a>
+            <h2 class="text-lg font-semibold text-gray-900">活动日程</h2>
+            <div class="w-5"></div> <!-- 占位 -->
+        </div>
+        
+        <!-- 活动标题 -->
+        <h1 class="text-xl font-bold text-gray-900 mb-5">新教师成长加速营日程安排</h1>
+        
+        <!-- 日程选择 -->
+        <div class="bg-white rounded-xl p-3 shadow-sm mb-6">
+            <div class="flex overflow-x-auto pb-2 space-x-2">
+                <button class="px-3 py-2 bg-pink-600 text-white text-sm rounded-lg whitespace-nowrap">第一周</button>
+                <button class="px-3 py-2 bg-white border border-gray-200 text-gray-700 text-sm rounded-lg whitespace-nowrap">第二周</button>
+                <button class="px-3 py-2 bg-white border border-gray-200 text-gray-700 text-sm rounded-lg whitespace-nowrap">结业日</button>
+            </div>
+        </div>
+        
+        <!-- 第一周日程 -->
+        <div class="mb-6">
+            <div class="flex items-center mb-4">
+                <div class="h-8 w-8 rounded-full bg-pink-100 flex items-center justify-center mr-2">
+                    <img src="https://unpkg.com/lucide-static@latest/icons/calendar.svg" class="h-4 w-4 text-pink-600" alt="Calendar">
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900">第一周：理论学习与基础培训</h3>
+            </div>
+            
+            <!-- 第一天 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm mb-4">
+                <div class="bg-pink-100 py-2 px-4">
+                    <p class="font-medium text-pink-800">7月10日（周一）</p>
+                </div>
+                <div class="divide-y divide-gray-100">
+                    <div class="p-4">
+                        <div class="flex justify-between mb-1">
+                            <p class="font-medium text-gray-900">开营仪式</p>
+                            <p class="text-sm text-gray-500">09:00-10:00</p>
+                        </div>
+                        <p class="text-sm text-gray-600">项目介绍、学员分组、导师见面</p>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between mb-1">
+                            <p class="font-medium text-gray-900">主题讲座：教师角色认知</p>
+                            <p class="text-sm text-gray-500">10:30-12:00</p>
+                        </div>
+                        <p class="text-sm text-gray-600">讲师：张明（教育学博士）</p>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between mb-1">
+                            <p class="font-medium text-gray-900">互动工作坊：教学使命与目标</p>
+                            <p class="text-sm text-gray-500">14:00-16:00</p>
+                        </div>
+                        <p class="text-sm text-gray-600">小组讨论与分享</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 第二天 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm mb-4">
+                <div class="bg-pink-100 py-2 px-4">
+                    <p class="font-medium text-pink-800">7月11日（周二）</p>
+                </div>
+                <div class="divide-y divide-gray-100">
+                    <div class="p-4">
+                        <div class="flex justify-between mb-1">
+                            <p class="font-medium text-gray-900">课堂管理基础</p>
+                            <p class="text-sm text-gray-500">09:00-11:00</p>
+                        </div>
+                        <p class="text-sm text-gray-600">讲师：王丽华（特级教师）</p>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between mb-1">
+                            <p class="font-medium text-gray-900">案例分析：常见课堂问题处理</p>
+                            <p class="text-sm text-gray-500">14:00-16:00</p>
+                        </div>
+                        <p class="text-sm text-gray-600">问题分析与解决方案讨论</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 第三天 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm mb-4">
+                <div class="bg-pink-100 py-2 px-4">
+                    <p class="font-medium text-pink-800">7月12日（周三）</p>
+                </div>
+                <div class="divide-y divide-gray-100">
+                    <div class="p-4">
+                        <div class="flex justify-between mb-1">
+                            <p class="font-medium text-gray-900">教学设计入门</p>
+                            <p class="text-sm text-gray-500">09:00-11:00</p>
+                        </div>
+                        <p class="text-sm text-gray-600">讲师：陈学明（教研员）</p>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between mb-1">
+                            <p class="font-medium text-gray-900">实践演练：课程单元设计</p>
+                            <p class="text-sm text-gray-500">14:00-16:30</p>
+                        </div>
+                        <p class="text-sm text-gray-600">分学科小组讨论与设计</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 第四天 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm mb-4">
+                <div class="bg-pink-100 py-2 px-4">
+                    <p class="font-medium text-pink-800">7月13日（周四）</p>
+                </div>
+                <div class="divide-y divide-gray-100">
+                    <div class="p-4">
+                        <div class="flex justify-between mb-1">
+                            <p class="font-medium text-gray-900">学生心理与发展特点</p>
+                            <p class="text-sm text-gray-500">09:00-11:00</p>
+                        </div>
+                        <p class="text-sm text-gray-600">讲师：李晓琳（心理学专家）</p>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between mb-1">
+                            <p class="font-medium text-gray-900">有效沟通技巧</p>
+                            <p class="text-sm text-gray-500">14:00-16:00</p>
+                        </div>
+                        <p class="text-sm text-gray-600">师生沟通实践与反馈</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 第五天 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm">
+                <div class="bg-pink-100 py-2 px-4">
+                    <p class="font-medium text-pink-800">7月14日（周五）</p>
+                </div>
+                <div class="divide-y divide-gray-100">
+                    <div class="p-4">
+                        <div class="flex justify-between mb-1">
+                            <p class="font-medium text-gray-900">教学评价方法</p>
+                            <p class="text-sm text-gray-500">09:00-11:00</p>
+                        </div>
+                        <p class="text-sm text-gray-600">多元评价体系设计</p>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between mb-1">
+                            <p class="font-medium text-gray-900">第一周总结与反思</p>
+                            <p class="text-sm text-gray-500">14:00-16:00</p>
+                        </div>
+                        <p class="text-sm text-gray-600">学习内容梳理与实践计划制定</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 周末作业 -->
+        <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+            <h3 class="font-medium text-gray-900 mb-2">周末作业</h3>
+            <p class="text-sm text-gray-600 mb-3">1. 完成个人教学理念反思（500字）</p>
+            <p class="text-sm text-gray-600 mb-3">2. 设计一节完整的教学课时计划</p>
+            <p class="text-sm text-gray-600">3. 阅读指定教育教学文献，提交读书笔记</p>
+        </div>
+        
+        <!-- 操作按钮 -->
+        <div class="flex space-x-3">
+            <button class="flex-1 py-2.5 bg-white border border-gray-200 text-gray-700 rounded-lg text-sm font-medium flex justify-center items-center">
+                <img src="https://unpkg.com/lucide-static@latest/icons/download.svg" class="w-4 h-4 mr-1" alt="Download">
+                下载日程
+            </button>
+            <button class="flex-1 py-2.5 bg-pink-600 text-white rounded-lg text-sm font-medium flex justify-center items-center">
+                <img src="https://unpkg.com/lucide-static@latest/icons/share-2.svg" class="w-4 h-4 mr-1" alt="Share">
+                分享日程
+            </button>
+        </div>
+    </div>
+</body>
+</html> 

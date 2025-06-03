@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数智化评价解决方案 - TeachSeek</title>
+  <link rel="preconnect" href="https://unpkg.com" crossorigin>
+  <!-- TailwindCSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', 'PingFang SC', 'Hiragino Sans', Arial, sans-serif;
+      background: 
+        linear-gradient(rgba(42, 53, 79, 0.576), rgba(107, 125, 143, 0.834)),
+        url('https://img0.baidu.com/it/u=2128176420,1654206607&fm=253&fmt=auto&app=138&f=JPEG?w=875&h=500') no-repeat center center fixed;
+      background-size: cover;
+    }
+    /* https://img0.baidu.com/it/u=1815297846,2521571631&fm=253&fmt=auto&app=120&f=JPEG?w=665&h=285 */
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      overflow-x: hidden;
+    }
+    .glass-header {
+      margin-top: 30px;
+      margin-bottom: 24px;
+      padding: 24px 48px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.18);
+      box-shadow: 0 8px 32px 0 rgba(31,38,135,0.18);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border: 1px solid rgba(255,255,255,0.28);
+      text-align: center;
+      width: 100%;
+      height: 100px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      box-sizing: border-box;
+      padding: 0 24px;
+    }
+    .glass-header h1 {
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: #d1d1f5;
+      margin: 0;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+    .main-mockup {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      align-items: stretch;
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      box-sizing: border-box;
+      padding: 0 16px;
+    }
+    .mock-card {
+      flex: 0 0 calc(50% - 8px);
+      min-width: 200px;
+      max-width: none;
+      background: 
+        linear-gradient(
+          135deg, 
+          rgba(74, 112, 217, 0.722) 100%, 
+          rgb(34, 34, 34) 100%
+        ),
+        rgba(255, 255, 255, 0.046);
+      border-radius: 20px;
+      box-shadow: 0 6px 24px 0 rgba(31,38,135,0.13);
+      backdrop-filter: blur(12px) saturate(180%);
+      -webkit-backdrop-filter: blur(12px) saturate(180%);
+      border: 2px dashed rgba(120,120,120,0.17);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 16px 20px 16px;
+      transition: box-shadow 0.2s, transform 0.2s;
+      position: relative;
+      overflow: visible;
+      margin-bottom: 16px;
+    }
+    .mock-card:hover {
+      box-shadow: 0 10px 32px 0 rgba(31,38,135,0.22);
+      transform: translateY(-6px) scale(1.03);
+      border-color: #b5b5b5;
+    }
+    .mock-icon {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 14px;
+      filter: drop-shadow(0 2px 6px rgba(219, 223, 229, 0.441));
+    }
+    .mock-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #222;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+    .mock-desc {
+      font-size: 0.9rem;
+      color: #eae3e3;
+      margin-bottom: 16px;
+      text-align: center;
+      min-height: 36px;
+    }
+
+    .entry-btn {
+      background: linear-gradient(90deg, #6ec1e4 0%, #bfe9ff 100%);
+      color: #222;
+      font-weight: 600;
+      border: none;
+      border-radius: 999px;
+      padding: 8px 24px;
+      font-size: 0.95rem;
+      box-shadow: 0 2px 10px 0 rgba(80,160,255,0.10);
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s;
+      outline: none;
+    }
+    .entry-btn:hover {
+      background: linear-gradient(90deg, #4ea6d3 0%, #9fd8f7 100%);
+      color: #fff;
+    }
+
+    .back-btn {
+      background: linear-gradient(90deg, #6ec1e4 0%, #bfe9ff 100%);
+      color: #222;
+      font-weight: 600;
+      border: none;
+      border-radius: 999px;
+      padding: 8px 24px;
+      font-size: 0.95rem;
+      box-shadow: 0 2px 10px 0 rgba(80,160,255,0.10);
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s;
+      outline: none;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      margin-left: 0;
+      margin-right: auto;
+      display: block;
+    }
+    .back-btn:hover {
+      background: linear-gradient(90deg, #4ea6d3 0%, #9fd8f7 100%);
+      color: #fff;
+    }
+    @media (max-width: 900px) {
+      .main-mockup {
+        padding: 0 16px;
+      }
+      .mock-card {
+        flex: 0 0 calc(50% - 12px);
+      }
+    }
+    @media (max-width: 768px) {
+      html, body {
+        height: auto;
+      }
+      body {
+        overflow-x: hidden;
+        padding-bottom: 40px;
+      }
+      .glass-header, .main-mockup, .back-btn {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .glass-header {
+        width: 90%;
+        padding: 20px;
+      }
+      .glass-header h1 {
+        font-size: 1.8rem;
+      }
+      .main-mockup {
+        width: 90%;
+      }
+      .mock-card {
+        flex: 0 0 100%;
+        margin-bottom: 20px;
+      }
+    }
+    /* 自定义滚动条样式 */
+    ::-webkit-scrollbar { 
+      width: 8px; 
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.1);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.3);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255,255,255,0.5);
+    }
+    
+    body { 
+      scrollbar-width: thin; 
+      scrollbar-color: rgba(255,255,255,0.3) rgba(255,255,255,0.1);
+    }
+
+    /* Modal Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .modal-container {
+      background: linear-gradient(135deg, #ffffff, #f5f7fa);
+      border-radius: 16px;
+      width: 90%;
+      max-width: 1200px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
+    
+    .modal-overlay.active .modal-container {
+      transform: scale(1);
+    }
+    
+    .modal-header {
+      background: linear-gradient(90deg, #2563eb, #3b82f6);
+      padding: 1.5rem;
+      border-radius: 16px 16px 0 0;
+      position: relative;
+    }
+    
+    .modal-close {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.5rem;
+      color: white;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
+    
+    .modal-body {
+      padding: 2.5rem;
+    }
+    
+    .evaluation-item {
+      margin-bottom: 1.5rem;
+      border-left: 1px solid #3b82f6;
+      padding-left: 1.2rem;
+      transition: transform 0.2s ease;
+    }
+    
+    .evaluation-item:hover {
+      transform: translateX(5px);
+    }
+    
+    .highlight-yellow {
+      background: linear-gradient(transparent 60%, rgba(253, 224, 71, 0.5) 40%);
+    }
+    
+    .highlight-purple {
+      background: linear-gradient(transparent 60%, rgba(167, 139, 250, 0.5) 40%);
+    }
+    
+    .highlight-pink {
+      background: linear-gradient(transparent 60%, rgba(244, 114, 182, 0.5) 40%);
+    }
+    
+    .progress-container {
+      background-color: #e5e7eb;
+      border-radius: 9999px;
+      height: 0.25rem;
+      overflow: hidden;
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      border-radius: 9999px;
+      background: linear-gradient(90deg, #2563eb, #7c3aed);
+      transition: width 1s ease-in-out;
+    }
+    
+    /* Framework diagram styles */
+    .framework-diagram {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+    }
+    
+    .framework-node {
+      fill: #f0f4f8;
+      stroke: #94a3b8;
+      stroke-width: 1.5;
+      rx: 4;
+      ry: 4;
+    }
+    
+    .framework-header {
+      fill: #cbd5e1;
+      stroke: #64748b;
+      stroke-width: 1.5;
+      stroke-dasharray: 4;
+      rx: 4;
+      ry: 4;
+    }
+    
+    .framework-text {
+      font-family: 'Segoe UI', 'PingFang SC', 'Hiragino Sans', Arial, sans-serif;
+      font-size: 12px;
+      text-anchor: middle;
+      dominant-baseline: middle;
+    }
+    
+    .framework-header-text {
+      font-family: 'Segoe UI', 'PingFang SC', 'Hiragino Sans', Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      text-anchor: middle;
+      dominant-baseline: middle;
+    }
+    
+    .framework-line {
+      stroke: #94a3b8;
+      stroke-width: 1;
+    }
+    
+    .framework-legend {
+      font-family: 'Segoe UI', 'PingFang SC', 'Hiragino Sans', Arial, sans-serif;
+      font-size: 11px;
+      fill: #64748b;
+    }
+    
+    /* Two-column layout */
+    .two-column-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    
+    @media (max-width: 768px) {
+      .two-column-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    @media (max-width: 640px) {
+      .modal-body {
+        padding: 1.5rem;
+      }
+      
+      .modal-container {
+        width: 95%;
+        max-height: 95vh;
+      }
+      
+      .evaluation-item {
+        padding-left: 1rem;
+        margin-bottom: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <div class="max-w-[800px] mx-auto p-6">
+     
+    <!-- 返回按钮 -->
+     <button class="back-btn" onclick="location.href='index1.html'">返回主页</button>
+  
+
+  <div class="glass-header">
+    <h1>数字素养诊断与能力指导</h1>
+  </div>
+  <div class="main-mockup">
+    <div class="mock-card">
+      <img class="mock-icon" src="images/test1.svg" alt="核心素养" />
+      <div class="mock-title">教师数字素养诊断</div>
+      <div class="mock-desc">全面诊断教师数字素养能力，为精准提升奠定基础.</div>
+      <div class="flex gap-2">
+        <button class="entry-btn" onclick="showModal()">查看方案</button>
+
+        <button class="entry-btn" onclick="window.open('03shuzi/index_shuzi01cp.html', '_blank')">开始测评</button>
+      </div>
+    </div>
+    
+    <div class="mock-card">
+      <img class="mock-icon" src="https://unpkg.com/lucide-static@latest/icons/activity.svg" alt="能力成长" />
+      <div class="mock-title">诊断与分析</div>
+      <div class="mock-desc">根据教师数字素养框架进行诊并形成分析报告。</div>
+      <button class="entry-btn" onclick="window.open('03shuzi/index_shuzi02bg.html', '_blank')">分析报告</button>
+
+    </div>
+    <div class="mock-card">
+      <img class="mock-icon" src="https://unpkg.com/lucide-static@latest/icons/sparkles.svg" alt="发展建议" />
+      <div class="mock-title">发展建议及指导提升</div>
+      <div class="mock-desc">根据测评结果，提供精准匹配的培训课程，定制化提升方案。</div>
+      <button class="entry-btn" onclick="window.open('03shuzi/index_shuzi03ts.html', '_blank')">去学习</button>
+    </div>
+
+
+    <div class="mock-card">
+      <img class="mock-icon" src="https://unpkg.com/lucide-static@latest/icons/check.svg" alt="成果展示" />
+      <div class="mock-title">成果展示</div>
+      <div class="mock-desc">记录并展示每一阶段的成长与成就。</div>
+      <button class="entry-btn" onclick="location.href='advisor_main1.html'">查看</button>
+    </div>
+    <div class="mock-card">
+      <img class="mock-icon" src="https://unpkg.com/lucide-static@latest/icons/check.svg" alt="成果展示" />
+      <div class="mock-title">管理控制台</div>
+      <div class="mock-desc">学校维护、各类可视化报告查看等。</div>
+      <button class="entry-btn" onclick="window.open('https://ztpj.veducloud.cn:53001/173199716815', '_blank')">管理</button>
+    </div>
+  </div>
+  
+  <!-- 评价方案模态窗口 -->
+  <div id="evaluationModal" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2 class="text-2xl font-bold text-white">教师数字素养评价方案</h2>
+        <div class="modal-close" onclick="closeModal()">
+          <i class="fas fa-times"></i>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="mb-6">
+          <div class="flex items-center mb-4">
+            <i class="fas fa-clipboard-check text-2xl text-blue-600 mr-3"></i>
+            <h3 class="text-xl font-semibold text-gray-800">方案概述</h3>
+          </div>
+          <p class="text-gray-700 leading-relaxed">
+            教师数字素养评价方案是一套系统性评估教师数字能力的综合工具，旨在从多维度评估教师的数字技能、数字教学方法和数字资源应用能力，为教师专业发展提供精准指导。该方案基于<span class="highlight-yellow">国际教育技术标准</span>和<span class="highlight-purple">中国教师教育技术能力标准</span>，结合教育信息化2.0行动计划的要求设计。
+          </p>
+          </br>
+        </div>
+
+
+        
+        <div class="flex items-center mb-3">
+          <i class="fas fa-chart-pie text-xl text-blue-600 mr-2"></i>
+          <h4 class="text-lg font-medium text-gray-800">评估框架及维度</h4>
+        </div>
+
+        <div class="flex flex-col gap-6 mb-8">
+          <div class="bg-white p-5 rounded-lg shadow-md">
+           
+            
+            <div class="two-column-grid">
+              
+              <!-- 左侧：教师数字素养框架示意图 -->
+               
+              <div class="border border-gray-200 rounded-lg p-4 shadow-sm bg-gray-50">
+                <div class="flex items-center mb-3">
+                  <i class="fas fa-tasks text-xl text-blue-600 mr-2"></i>
+                  <h4 class="text-lg font-medium text-gray-800">数字素养框架</h4>
+                </div>
+                <div class="overflow-hidden">
+                  <svg class="framework-diagram" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+                    <!-- 框架名称 -->
+                    <rect x="150" y="20" width="300" height="40" class="framework-header" />
+                    <text x="300" y="40" class="framework-header-text">教师数字素养框架</text>
+                    
+                    <!-- 一级维度 -->
+                    <rect x="50" y="100" width="90" height="40" class="framework-node" />
+                    <rect x="160" y="100" width="90" height="40" class="framework-node" />
+                    <rect x="270" y="100" width="90" height="40" class="framework-node" />
+                    <rect x="380" y="100" width="90" height="40" class="framework-node" />
+                    <rect x="490" y="100" width="90" height="40" class="framework-node" />
+                    
+                    <text x="95" y="120" class="framework-text" style="font-size: 10px;">数字化意识</text>
+                    <text x="205" y="115" class="framework-text" style="font-size: 10px;">数字技术</text>
+                    <text x="205" y="130" class="framework-text" style="font-size: 10px;">知识与技能</text>
+                    <text x="315" y="120" class="framework-text" style="font-size: 10px;">数字化应用</text>
+                    <text x="425" y="120" class="framework-text" style="font-size: 10px;">数字社会责任</text>
+                    <text x="535" y="120" class="framework-text" style="font-size: 10px;">专业发展</text>
+                    
+                    <!-- 连接线 -->
+                    <line x1="300" y1="60" x2="300" y2="80" class="framework-line" />
+                    <line x1="95" y1="80" x2="535" y2="80" class="framework-line" />
+                    <line x1="95" y1="80" x2="95" y2="100" class="framework-line" />
+                    <line x1="205" y1="80" x2="205" y2="100" class="framework-line" />
+                    <line x1="315" y1="80" x2="315" y2="100" class="framework-line" />
+                    <line x1="425" y1="80" x2="425" y2="100" class="framework-line" />
+                    <line x1="535" y1="80" x2="535" y2="100" class="framework-line" />
+                    
+                    <!-- 二级维度连接线 -->
+                    <line x1="95" y1="140" x2="95" y2="160" class="framework-line" />
+                    <line x1="50" y1="160" x2="140" y2="160" class="framework-line" />
+                    <line x1="50" y1="160" x2="50" y2="180" class="framework-line" />
+                    <line x1="95" y1="160" x2="95" y2="180" class="framework-line" />
+                    <line x1="140" y1="160" x2="140" y2="180" class="framework-line" />
+                    
+                    <line x1="205" y1="140" x2="205" y2="160" class="framework-line" />
+                    <line x1="160" y1="160" x2="250" y2="160" class="framework-line" />
+                    <line x1="160" y1="160" x2="160" y2="180" class="framework-line" />
+                    <line x1="250" y1="160" x2="250" y2="180" class="framework-line" />
+                    
+                    <line x1="315" y1="140" x2="315" y2="160" class="framework-line" />
+                    <line x1="270" y1="160" x2="360" y2="160" class="framework-line" />
+                    <line x1="270" y1="160" x2="270" y2="180" class="framework-line" />
+                    <line x1="300" y1="160" x2="300" y2="180" class="framework-line" />
+                    <line x1="330" y1="160" x2="330" y2="180" class="framework-line" />
+                    <line x1="360" y1="160" x2="360" y2="180" class="framework-line" />
+                    
+                    <line x1="425" y1="140" x2="425" y2="160" class="framework-line" />
+                    <line x1="380" y1="160" x2="470" y2="160" class="framework-line" />
+                    <line x1="380" y1="160" x2="380" y2="180" class="framework-line" />
+                    <line x1="470" y1="160" x2="470" y2="180" class="framework-line" />
+                    
+                    <line x1="535" y1="140" x2="535" y2="160" class="framework-line" />
+                    <line x1="490" y1="160" x2="580" y2="160" class="framework-line" />
+                    <line x1="490" y1="160" x2="490" y2="180" class="framework-line" />
+                    <line x1="580" y1="160" x2="580" y2="180" class="framework-line" />
+                    
+                    <!-- 二级维度 -->
+                    <rect x="25" y="180" width="50" height="140" class="framework-node" />
+                    <rect x="75" y="180" width="40" height="140" class="framework-node" />
+                    <rect x="115" y="180" width="50" height="140" class="framework-node" />
+                    
+                    <rect x="165" y="180" width="40" height="140" class="framework-node" />
+                    <rect x="205" y="180" width="40" height="140" class="framework-node" />
+                    
+                    <rect x="245" y="180" width="50" height="140" class="framework-node" />
+                    <rect x="295" y="180" width="40" height="140" class="framework-node" />
+                    <rect x="335" y="180" width="40" height="140" class="framework-node" />
+                    <rect x="375" y="180" width="50" height="140" class="framework-node" />
+                    
+                    <rect x="425" y="180" width="40" height="140" class="framework-node" />
+                    <rect x="465" y="180" width="40" height="140" class="framework-node" />
+                    
+                    <rect x="505" y="180" width="40" height="140" class="framework-node" />
+                    <rect x="545" y="180" width="40" height="140" class="framework-node" />
+                    
+                    <!-- 二级维度文字 (垂直排列) -->
+                    <text x="50" y="250" class="framework-text" transform="rotate(-90, 50, 250)" style="font-size: 9px;">数字化认识</text>
+                    <text x="95" y="250" class="framework-text" transform="rotate(-90, 95, 250)" style="font-size: 9px;">数字化意愿</text>
+                    <text x="140" y="250" class="framework-text" transform="rotate(-90, 140, 250)" style="font-size: 9px;">数字化意志</text>
+                    
+                    <text x="185" y="250" class="framework-text" transform="rotate(-90, 185, 250)" style="font-size: 9px;">数字技术知识</text>
+                    <text x="225" y="250" class="framework-text" transform="rotate(-90, 225, 250)" style="font-size: 9px;">数字技术技能</text>
+                    
+                    <text x="270" y="250" class="framework-text" transform="rotate(-90, 270, 250)" style="font-size: 9px;">数字化教学设计</text>
+                    <text x="315" y="250" class="framework-text" transform="rotate(-90, 315, 250)" style="font-size: 9px;">数字化教学实施</text>
+                    <text x="355" y="250" class="framework-text" transform="rotate(-90, 355, 250)" style="font-size: 9px;">数字化学业评价</text>
+                    <text x="400" y="250" class="framework-text" transform="rotate(-90, 400, 250)" style="font-size: 9px;">数字化协同育人</text>
+                    
+                    <text x="445" y="250" class="framework-text" transform="rotate(-90, 445, 250)" style="font-size: 9px;">法治道德规范</text>
+                    <text x="485" y="250" class="framework-text" transform="rotate(-90, 485, 250)" style="font-size: 9px;">数字安全保护</text>
+                    
+                    <text x="525" y="250" class="framework-text" transform="rotate(-90, 525, 250)" style="font-size: 9px;">自我提升</text>
+                    <text x="565" y="250" class="framework-text" transform="rotate(-90, 565, 250)" style="font-size: 9px;">同伴互助</text>
+                    
+                    <!-- 图例 -->
+                    <g transform="translate(150, 340)">
+                      <rect x="0" y="0" width="300" height="25" fill="none" />
+                      <rect x="20" y="0" width="60" height="25" class="framework-header" />
+                      <rect x="120" y="0" width="60" height="25" class="framework-node" />
+                      <rect x="220" y="0" width="60" height="25" class="framework-node" />
+                      
+                      <text x="50" y="13" class="framework-legend" text-anchor="middle">框架名称</text>
+                      <text x="150" y="13" class="framework-legend" text-anchor="middle">一级维度</text>
+                      <text x="250" y="13" class="framework-legend" text-anchor="middle">二级维度</text>
+                    </g>
+                  </svg>
+                </div>
+                <!-- <div class="text-center text-sm text-gray-500 font-medium mt-2">数字素养框架示意图</div> -->
+              </div>
+
+
+
+
+              <!-- 右侧：数字化意识及子级文本内容 -->
+              <div class="max-h-96 overflow-y-auto pr-2">
+                <div class="flex items-center mb-3">
+                  <i class="fas fa-tasks text-xl text-blue-600 mr-2"></i>
+                  <h4 class="text-lg font-medium text-gray-800">维度与指标</h4>
+                </div>
+                <ul class="space-y-2">
+                  <li class="evaluation-item">
+                    <div class="font-medium text-gray-800">数字化意识</div>
+                    <div class="text-sm text-gray-600">评估教师客观存在的数字化相关活动在教师头脑中的能动反映，包括数字化认识，数字化意愿，以及数字化意志。</div>
+                    <div class="progress-container">
+                      <div class="progress-bar" style="width: 70%"></div>
+                    </div>
+                    <ul class="pl-6 mt-2 space-y-2">
+                      <li class="evaluation-item">
+                        <div class="font-medium text-gray-700">· 数字化认识</div>
+                        <div class="text-xs text-gray-600">评估教师对数字技术在经济社会及教育发展中价值的理解</div>
+                        <div class="progress-container">
+                          <div class="progress-bar" style="width: 95%"></div>
+                        </div>
+                      </li>
+                      <li class="evaluation-item">
+                        <div class="font-medium text-gray-700">· 数字化意愿</div>
+                        <div class="text-xs text-gray-600">评估教师对数字技术资源及其应用于教育教学的态度</div>
+                        <div class="progress-container">
+                          <div class="progress-bar" style="width: 70%"></div>
+                        </div>
+                      </li>
+                      <li class="evaluation-item">
+                        <div class="font-medium text-gray-700">· 数字化意志</div>
+                        <div class="text-xs text-gray-600">评估教师积极克服困难和解决问题的信念</div>
+                        <div class="progress-container">
+                          <div class="progress-bar" style="width: 65%"></div>
+                        </div>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+
+                <ul class="space-y-2 mt-4">
+                  <li class="evaluation-item">
+                    <div class="font-medium text-gray-800">数字化技术与知识技能</div>
+                    <div class="text-sm text-gray-600">评估教师在日常教育教学活动中应了解的数字技术知识与需要掌握的数字技术技能，包括数字技术知识，以及数字技术技能</div>
+                    <div class="progress-container">
+                      <div class="progress-bar" style="width: 70%"></div>
+                    </div>
+                    <ul class="pl-6 mt-2 space-y-2">
+                      <li class="evaluation-item">
+                        <div class="font-medium text-gray-700">· 数字技术知识</div>
+                        <div class="text-xs text-gray-600">评估教师应了解的常见数字技术知识</div>
+                        <div class="progress-container">
+                          <div class="progress-bar" style="width: 85%"></div>
+                        </div>
+                      </li>
+                      <li class="evaluation-item">
+                        <div class="font-medium text-gray-700">· 数字技术技能</div>
+                        <div class="text-xs text-gray-600">评估教师应掌握的数字技术资源应用技能</div>
+                        <div class="progress-container">
+                          <div class="progress-bar" style="width: 70%"></div>
+                        </div>
+                      </li>
+                     
+                    </ul>
+                  </li>
+                </ul>
+
+               
+                <ul class="space-y-2 mt-4">
+                  <li class="evaluation-item">
+                    <div class="font-medium text-gray-800">数字化应用</div>
+                    <div class="text-sm text-gray-600">评估教师应用数字技术资源开展教育教学活动的能力，包括数字化教学设计，数字化教学实施，数字化学业评价，以及数字化协同育人。</div>
+                    <div class="progress-container">
+                      <div class="progress-bar" style="width: 70%"></div>
+                    </div>
+                    <ul class="pl-6 mt-2 space-y-2">
+                      <li class="evaluation-item">
+                        <div class="font-medium text-gray-700">· 数字化教学设计</div>
+                        <div class="text-xs text-gray-600">评估教师选用数字技术资源开展学习情况分析、设计教学活动和创设学习环境的能力</div>
+                        <div class="progress-container">
+                          <div class="progress-bar" style="width: 85%"></div>
+                        </div>
+                      </li>
+                      <li class="evaluation-item">
+                        <div class="font-medium text-gray-700">· 数字化教学实施</div>
+                        <div class="text-xs text-gray-600">评估教师应用数字技术资源实施教学的能力</div>
+                        <div class="progress-container">
+                          <div class="progress-bar" style="width: 70%"></div>
+                        </div>
+                      </li>
+                      <li class="evaluation-item">
+                        <div class="font-medium text-gray-700">· 数字化教学评价</div>
+                        <div class="text-xs text-gray-600">评估教师应用数字技术资源开展学生学业评价的能力</div>
+                        <div class="progress-container">
+                          <div class="progress-bar" style="width: 65%"></div>
+                        </div>
+                      </li>
+                      <div class="font-medium text-gray-700">· 数字化协同育人</div>
+                      <div class="text-xs text-gray-600">评估教师应用数字技术资源促进学校家庭社会协同育人的能力</div>
+                      <div class="progress-container">
+                        <div class="progress-bar" style="width: 65%"></div>
+                      </div>
+                    </li>
+                    </ul>
+                  </li>
+                </ul>
+
+
+               
+
+
+
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white p-5 rounded-lg shadow-md">
+            <div class="flex items-center mb-3">
+              <i class="fas fa-tasks text-xl text-blue-600 mr-2"></i>
+              <h4 class="text-lg font-medium text-gray-800">评价方法</h4>
+            </div>
+            <ul class="space-y-2">
+              <li class="evaluation-item">
+                <div class="font-medium text-gray-800">问卷调查</div>
+                <div class="text-sm text-gray-600">基于<span class="highlight-pink">自我评估量表</span>的在线调查</div>
+              </li>
+              <li class="evaluation-item">
+                <div class="font-medium text-gray-800">量表测试</div>
+                <div class="text-sm text-gray-600">基于教师数字能力的多维能业评估</div>
+              </li>
+              <!-- <li class="evaluation-item">
+                <div class="font-medium text-gray-800">教学案例分析</div>
+                <div class="text-sm text-gray-600">对数字教学设计和实施的评估</div>
+              </li> -->
+            </ul>
+          </div>
+        </div>
+
+        <div class="mb-6">
+        </br>          </br>
+
+
+          <div class="flex items-center mb-4">
+            <i class="fas fa-graduation-cap text-2xl text-blue-600 mr-3"></i>
+            <h3 class="text-xl font-semibold text-gray-800">评价流程</h3>
+          </div>
+          <div class="bg-white p-5 rounded-lg shadow-md">
+            <div class="flex flex-wrap justify-around gap-2">
+              <div class="flex flex-col items-center w-28">
+                <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-2">
+                  <i class="fas fa-user-edit text-blue-600"></i>
+                </div>
+                <div class="text-center text-sm font-medium">登陆并填写信息</div>
+              </div>
+              <div class="hidden sm:block pt-6">
+                <i class="fas fa-arrow-right text-gray-400"></i>
+              </div>
+              <div class="flex flex-col items-center w-28">
+                <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-2">
+                  <i class="fas fa-tasks text-blue-600"></i>
+                </div>
+                <div class="text-center text-sm font-medium">进行测评</div>
+              </div>
+              <div class="hidden sm:block pt-6">
+                <i class="fas fa-arrow-right text-gray-400"></i>
+              </div>
+              <div class="flex flex-col items-center w-28">
+                <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-2">
+                  <i class="fas fa-chart-bar text-blue-600"></i>
+                </div>
+                <div class="text-center text-sm font-medium">生成分析报告</div>
+              </div>
+              <div class="hidden sm:block pt-6">
+                <i class="fas fa-arrow-right text-gray-400"></i>
+              </div>
+              <div class="flex flex-col items-center w-28">
+                <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-2">
+                  <i class="fas fa-chalkboard-teacher text-blue-600"></i>
+                </div>
+                <div class="text-center text-sm font-medium">精准培训与能力提升服务</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+        </br>          </br>
+
+
+          <div class="flex items-center mb-4">
+
+            <i class="fas fa-lightbulb text-2xl text-blue-600 mr-3"></i>
+            <h3 class="text-xl font-semibold text-gray-800">预期结果</h3>
+          </div>
+          <div class="bg-blue-50 p-5 rounded-lg border-l-4 border-blue-500">
+            <ul class="space-y-2">
+              <li class="flex items-start">
+                <i class="fas fa-check-circle text-blue-600 mt-1 mr-2"></i>
+                <span class="text-gray-700">为教师提供数字素养现状的客观评价，明确自身发展方向</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle text-blue-600 mt-1 mr-2"></i>
+                <span class="text-gray-700">为教师及学校提供数字素养的专家指导和全国范围内的工作室名师引领</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle text-blue-600 mt-1 mr-2"></i>
+                <span class="text-gray-700">帮助学校管理者了解教师队伍数字素养整体情况，制定有针对性的培训计划</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle text-blue-600 mt-1 mr-2"></i>
+                <span class="text-gray-700">通过定制化培训提升，促进教育信息化与教学深度融合</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mt-8 flex justify-center">
+          <button class="entry-btn" onclick="window.open('03shuzi/index_shuzi01cp.html', '_blank')">开始测评</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Modal functionality
+    function showModal() {
+      const modal = document.getElementById('evaluationModal');
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      
+      // Animate progress bars after modal is visible
+      setTimeout(() => {
+        const progressBars = document.querySelectorAll('.progress-bar');
+        progressBars.forEach(bar => {
+          const width = bar.style.width;
+          bar.style.width = '0%';
+          setTimeout(() => {
+            bar.style.width = width;
+          }, 300);
+        });
+      }, 300);
+    }
+    
+    function closeModal() {
+      const modal = document.getElementById('evaluationModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    
+    // Close modal when clicking outside the modal content
+    document.getElementById('evaluationModal').addEventListener('click', function(event) {
+      if (event.target === this) {
+        closeModal();
+      }
+    });
+    
+    // Close modal with ESC key
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape' && document.getElementById('evaluationModal').classList.contains('active')) {
+        closeModal();
+      }
+    });
+  </script>
+</body>
+</html>

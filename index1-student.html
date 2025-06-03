@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数智化评价解决方案 - TeachSeek</title>
+  <link rel="preconnect" href="https://unpkg.com" crossorigin>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', 'PingFang SC', 'Hiragino Sans', Arial, sans-serif;
+      background: url('https://img1.baidu.com/it/u=169413304,1189606959&fm=253&fmt=auto&app=138&f=JPEG?w=1000&h=500') no-repeat center center fixed;
+      background-size: cover;
+      overflow: hidden;
+    }
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .glass-header {
+      margin-top: 40px;
+      margin-bottom: 32px;
+      padding: 24px 48px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.18);
+      box-shadow: 0 8px 32px 0 rgba(31,38,135,0.18);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border: 1px solid rgba(255,255,255,0.28);
+      text-align: center;
+    }
+    .glass-header h1 {
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: #d1d1f5;
+      margin: 0;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .main-mockup {
+      display: flex;
+      flex-direction: row;
+      gap: 32px;
+      justify-content: center;
+      align-items: stretch;
+      width: 100vw;
+      max-width: 1000px;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+    .mock-card {
+      flex: 1 1 0;
+      min-width: 220px;
+      max-width: 340px;
+      background: rgba(255,255,255,0.24);
+      border-radius: 20px;
+      box-shadow: 0 6px 24px 0 rgba(31,38,135,0.13);
+      backdrop-filter: blur(12px) saturate(180%);
+      -webkit-backdrop-filter: blur(12px) saturate(180%);
+      border: 2px dashed rgba(120,120,120,0.17);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 32px 16px 24px 16px;
+      transition: box-shadow 0.2s, transform 0.2s;
+      position: relative;
+      overflow: visible;
+    }
+    .mock-card:hover {
+      box-shadow: 0 10px 32px 0 rgba(31,38,135,0.22);
+      transform: translateY(-6px) scale(1.03);
+      border-color: #b5b5b5;
+    }
+    .mock-icon {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 18px;
+      filter: drop-shadow(0 2px 6px rgba(219, 223, 229, 0.441));
+    }
+    .mock-title {
+      font-size: 1.13rem;
+      font-weight: 600;
+      color: #222;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+    .mock-desc {
+      font-size: 0.98rem;
+      color: #cac3c3;
+      margin-bottom: 20px;
+      text-align: center;
+      min-height: 38px;
+    }
+
+
+    .entry-btn {
+      background: linear-gradient(90deg, #6ec1e4 0%, #bfe9ff 100%);
+      color: #222;
+      font-weight: 600;
+      border: none;
+      border-radius: 999px;
+      padding: 10px 34px;
+      font-size: 1rem;
+      box-shadow: 0 2px 10px 0 rgba(80,160,255,0.10);
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s;
+      outline: none;
+    }
+    .entry-btn:hover {
+      background: linear-gradient(90deg, #4ea6d3 0%, #9fd8f7 100%);
+      color: #fff;
+    }
+
+
+    .back-btn {
+      background: linear-gradient(90deg, #6ec1e4 0%, #bfe9ff 100%);
+      color: #222;
+      font-weight: 600;
+      border: none;
+      border-radius: 999px;
+      padding: 10px 34px;
+      font-size: 1rem;
+      box-shadow: 0 2px 10px 0 rgba(80,160,255,0.10);
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s;
+      outline: none;
+      margin-top: 30px;
+      margin-bottom: 10px;
+    }
+    .back-btn:hover {
+      background: linear-gradient(90deg, #4ea6d3 0%, #9fd8f7 100%);
+      color: #fff;
+    }
+    @media (max-width: 900px) {
+      .main-mockup {
+        flex-direction: column;
+        gap: 24px;
+        align-items: center;
+      }
+      .mock-card {
+        max-width: 96vw;
+      }
+    }
+    ::-webkit-scrollbar { display: none; }
+    body { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <div class="max-w-[800px] mx-auto p-6">
+     
+    <!-- 返回按钮 -->
+     <button class="back-btn" onclick="location.href='index1.html'">返回主页</button>
+  
+
+  <div class="glass-header">
+    <h1>学生发展能力指导
+    </h1>
+  </div>
+  <div class="main-mockup">
+    <div class="mock-card">
+      <img class="mock-icon" src="https://unpkg.com/lucide-static@latest/icons/users.svg" alt="核心素养" />
+      <div class="mock-title">能力指导评价方案</div>
+      <div class="mock-desc">关注学生综合素养，促进全面发展。</div>
+      <button class="entry-btn" onclick="window.open('advisor_fangan.html', '_blank')">查看</button>
+    </div>
+    
+    <div class="mock-card">
+      <img class="mock-icon" src="https://unpkg.com/lucide-static@latest/icons/activity.svg" alt="能力成长" />
+      <div class="mock-title">发展能力分析</div>
+      <div class="mock-desc">跟踪学生能力提升，个性化发展路径。</div>
+      <button class="entry-btn" onclick="location.href='advisor_main.html'">分析</button>
+
+    </div>
+    <div class="mock-card">
+      <img class="mock-icon" src="https://unpkg.com/lucide-static@latest/icons/sparkles.svg" alt="发展建议" />
+      <div class="mock-title">发展建议及指导提升</div>
+      <div class="mock-desc">科学分析成长数据，提供针对性建议。</div>
+      <div style="display: flex; justify-content: center; gap: 10px;">
+        <button class="entry-btn" onclick="window.open('http://wuceshi.stu.syeol.cn/', '_blank')">学生端</button>
+        <button class="entry-btn" onclick="window.open('http://wuceshi.college.syeol.cn/', '_blank')">学校端</button>
+      </div>
+    </div>
+  </div>
+  
+</body>
+</html>

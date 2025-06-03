@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>班级管理助手 - 小沃AI助手</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        secondary: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            200: '#ddd6fe',
+                            300: '#c4b5fd',
+                            400: '#a78bfa',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            800: '#5b21b6',
+                            900: '#4c1d95',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    backdropBlur: {
+                        xs: '2px',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .mockup-border {
+            border: 2px dashed #e5e7eb;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="flex flex-row space-x-4 p-4 overflow-x-auto">
+        <!-- 主页面 - 班级管理助手首页 -->
+        <div class="mockup-border p-6 min-w-[360px] max-w-[360px]">
+            <div class="mx-auto">
+                <!-- 返回按钮 -->
+                <div class="flex items-center mb-6">
+                    <a href="index.html" class="flex items-center text-primary-600">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/arrow-left.svg" class="w-5 h-5 mr-2" alt="Back">
+                        <span>返回首页</span>
+                    </a>
+                </div>
+                
+                <!-- 工具标题 -->
+                <div class="flex items-center mb-6">
+                    <div class="h-12 w-12 rounded-full bg-yellow-100 flex items-center justify-center">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/users.svg" class="h-6 w-6 text-yellow-600" alt="Classroom">
+                    </div>
+                    <h1 class="ml-3 text-2xl font-bold text-gray-900">班级管理助手</h1>
+                </div>
+                
+                <!-- 功能描述 -->
+                <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                    <p class="text-gray-700">智能排课、考勤管理、学生分组，全方位提升班级管理效率，让教师专注于教学本质。</p>
+                </div>
+                
+                <!-- 班级选择 -->
+                <div class="bg-yellow-50 rounded-xl p-5 border border-yellow-100 mb-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-3">班级管理中心</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">选择班级</label>
+                            <select class="w-full rounded-lg border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500 bg-white p-2.5 text-sm border">
+                                <option>高二(1)班</option>
+                                <option>高二(2)班</option>
+                                <option>高二(3)班</option>
+                                <option>高二(4)班</option>
+                                <option>高二(5)班</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">学期</label>
+                            <select class="w-full rounded-lg border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500 bg-white p-2.5 text-sm border">
+                                <option>2025年春季学期</option>
+                                <option>2024年秋季学期</option>
+                                <option>2024年春季学期</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 功能模块 -->
+                <div class="mb-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-3">管理功能</h2>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex flex-col items-center">
+                            <div class="h-10 w-10 rounded-full bg-yellow-100 flex items-center justify-center mb-2">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/calendar.svg" class="h-5 w-5 text-yellow-600" alt="Schedule">
+                            </div>
+                            <span class="text-sm font-medium text-gray-900">课表管理</span>
+                        </button>
+                        <button class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex flex-col items-center">
+                            <div class="h-10 w-10 rounded-full bg-yellow-100 flex items-center justify-center mb-2">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/check-square.svg" class="h-5 w-5 text-yellow-600" alt="Attendance">
+                            </div>
+                            <span class="text-sm font-medium text-gray-900">考勤记录</span>
+                        </button>
+                        <button class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex flex-col items-center">
+                            <div class="h-10 w-10 rounded-full bg-yellow-100 flex items-center justify-center mb-2">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/users-2.svg" class="h-5 w-5 text-yellow-600" alt="Groups">
+                            </div>
+                            <span class="text-sm font-medium text-gray-900">学生分组</span>
+                        </button>
+                        <button class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex flex-col items-center">
+                            <div class="h-10 w-10 rounded-full bg-yellow-100 flex items-center justify-center mb-2">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/activity.svg" class="h-5 w-5 text-yellow-600" alt="Activity">
+                            </div>
+                            <span class="text-sm font-medium text-gray-900">班级活动</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 班级概览 -->
+                <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-3">班级概览</h2>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">班级人数</span>
+                            <span class="font-medium text-gray-900">45人</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">男女比例</span>
+                            <span class="font-medium text-gray-900">24:21</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">班主任</span>
+                            <span class="font-medium text-gray-900">张明</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">本周出勤率</span>
+                            <span class="font-medium text-gray-900">98.2%</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">班级活动完成</span>
+                            <span class="font-medium text-gray-900">5/8</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 最近通知 -->
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-3">
+                        <h2 class="text-lg font-semibold text-gray-900">最近通知</h2>
+                        <button class="text-sm text-yellow-600 font-medium">查看全部</button>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="bg-white p-3 rounded-lg shadow-sm">
+                            <div class="flex justify-between items-start mb-1">
+                                <h3 class="font-medium text-gray-900">期中考试安排</h3>
+                                <span class="text-xs text-gray-500">2天前</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">高二年级期中考试将于4月15日开始，请各班做好准备工作。</p>
+                            <div class="flex justify-end">
+                                <button class="text-xs text-yellow-600 font-medium">详情</button>
+                            </div>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg shadow-sm">
+                            <div class="flex justify-between items-start mb-1">
+                                <h3 class="font-medium text-gray-900">班会课主题</h3>
+                                <span class="text-xs text-gray-500">3天前</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">本周班会课主题为"学习方法分享"，请提前准备相关材料。</p>
+                            <div class="flex justify-end">
+                                <button class="text-xs text-yellow-600 font-medium">详情</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 第二个页面 - 课表管理 -->
+        <div class="mockup-border p-6 min-w-[360px] max-w-[360px]">
+            <div class="mx-auto">
+                <!-- 顶部导航 -->
+                <div class="flex items-center justify-between mb-6">
+                    <a href="#" class="flex items-center text-yellow-600">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/arrow-left.svg" class="w-5 h-5 mr-2" alt="Back">
+                        <span>返回</span>
+                    </a>
+                    <h2 class="text-lg font-semibold text-gray-900">课表管理</h2>
+                    <button class="text-yellow-600">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/more-vertical.svg" class="w-5 h-5" alt="More">
+                    </button>
+                </div>
+                
+                <!-- 周选择器 -->
+                <div class="flex items-center justify-between mb-4">
+                    <button class="p-1">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/chevron-left.svg" class="w-5 h-5 text-gray-600" alt="Previous">
+                    </button>
+                    <div class="text-center">
+                        <h3 class="font-medium text-gray-900">2025年3月 第3周</h3>
+                        <p class="text-xs text-gray-500">3月17日 - 3月23日</p>
+                    </div>
+                    <button class="p-1">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/chevron-right.svg" class="w-5 h-5 text-gray-600" alt="Next">
+                    </button>
+                </div>
+                
+                <!-- 周课表 -->
+                <div class="bg-white rounded-xl shadow-sm p-3 mb-6">
+                    <div class="grid grid-cols-6 gap-1 mb-2">
+                        <div class="text-center text-xs font-medium text-gray-500"></div>
+                        <div class="text-center text-xs font-medium text-gray-500">周一</div>
+                        <div class="text-center text-xs font-medium text-gray-500">周二</div>
+                        <div class="text-center text-xs font-medium text-gray-500">周三</div>
+                        <div class="text-center text-xs font-medium text-gray-500">周四</div>
+                        <div class="text-center text-xs font-medium text-gray-500">周五</div>
+                    </div>
+                    
+                    <!-- 第1节课 -->
+                    <div class="grid grid-cols-6 gap-1 mb-1">
+                        <div class="text-center text-xs font-medium text-gray-500 flex items-center justify-center">1</div>
+                        <div class="bg-blue-50 rounded p-1 text-center">
+                            <p class="text-xs font-medium text-blue-700">数学</p>
+                            <p class="text-[10px] text-blue-600">李老师</p>
+                        </div>
+                        <div class="bg-green-50 rounded p-1 text-center">
+                            <p class="text-xs font-medium text-green-700">语文</p>
+                            <p class="text-[10px] text-green-600">王老师</p>
+                        </div>
+                        <div class="bg-purple-50 rounded p-1 text-center">
+                            <p class="text-xs font-medium text-purple-700">英语</p>
+                            <p class="text-[10px] text-purple-600">赵老师</p>
+                        </div>
+                        <div class="bg-blue-50 rounded p-1 text-center">
+                            <p class="text-xs font-medium text-blue-700">数学</p>
+                            <p class="text-[10px] text-blue-600">李老师</p>
+                        </div>
+                        <div class="bg-green-50 rounded p-1 text-center">
+                            <p class="text-xs font-medium text-green-700">语文</p>
+                            <p class="text-[10px] text-green-600">王老师</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 第2节课 -->
+                    <div class="grid grid-cols-6 gap-1 mb-1">
+                        <div class="text-center text-xs font-medium text-gray-500 flex items-center justify-center">2</div>
+                        <div class="bg-green-50 rounded p-1 text-center">
+                            <p class="text-xs font-medium text-green-700">语文</p>
+                            <p class="text-[10px] text-green-600">王老师</p>
+                        </div>
+                        <div class="bg-purple-50 rounded p-1 text-center">
+                            <p class="text-xs font-medium text-purple-700">英语</p>
+                            <p class="text-[10px] text-purple-600">赵老师</p>
+                        </div>
+                        <div class="bg-blue-50 rounded p-1 text-center">
+                            <p class="text-xs font-medium text-blue-700">数学</p>
+                            <p class="text-[10px] text-blue-600">李老师</p>
+                        </div>
+                        <div class="bg-green-50 rounded p-1 text-center">
+                            <p class="text-xs font-medium text-green-700">语文</p>
+                            <p class="text-[10px] text-green-600">王老师</p>
+                        </div>
+                        <div class="bg-purple-50 rounded p-1 text-center">
+                            <p class="text-xs font-medium text-purple-700">英语</p>
+                            <p class="text-[10px] text-purple-600">赵老师</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 第3节课 -->
+                    <div class="grid grid-cols-6 gap-1 mb-1">
+                        <div class="text-center text-xs font-medium text-gray-500 flex items-center justify-center">3</div>
+                        <div class="bg-red-50 rounded p-1 text-center">
+                            <p class="text-xs font-medium text-red-700">物理</p>
+                            <p class="text-[10px] text-red-600">张老师</p>
+                        </div>
+                        <div class="bg-yellow-50 rounded p-1 text-center">
+                            <p class="text-xs font-medium text-yellow-700">化学</p>
+                            <p class="text-[10px] text-yellow-600">刘老师</p>
+                        </div>
+                        <div class="bg-green-50 rounded p-1 text-center">
+                            <p class="text-xs font-medium text-green-700">语文</p>
+                            <p class="text-[10px] text-green-600">王老师</p>
+                        </div>
+                        <div class="bg-red-50 rounded p-1 text-center">
+                            <p class="text-xs font-medium text-red-700">物理</p>
+                            <p class="text-[10px] text-red-600">张老师</p>
+                        </div>
+                        <div class="bg-yellow-50 rounded p-1 text-center">
+                            <p class="text-xs font-medium text-yellow-700">化学</p>
+                            <p class="text-[10px] text-yellow-600">刘老师</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 第4节课 -->
+                    <div class="grid grid-cols-6 gap-1 mb-1">
+                        <div class="text-center text-xs font-medium text-gray-500 flex items-center justify-center">4</div>
+                        <div class="bg-yellow-50 rounded p-1 text-center">
+                            <p class="text-xs font-medium text-yellow-700">化学</p>
+                            <p class="text-[10px] text-yellow-600">刘老师</p>
+                        </div>
+                        <div class="bg-red-50 rounded p-1 text-center">
+                            <p class="text-xs font-medium text-red-700">物理</p>
+                            <p class="text-[10px] text-red-600">张老师</p>
+                        </div>
+                        <div class="bg-purple-50 rounded p-1 text-center">
+                            <p class="text-xs font-medium text-purple-700">英语</p>
+                            <p class="text-[10px] text-purple-600">赵老师</p>
+                        </div>
+                        <div class="bg-yellow-50 rounded p-1 text-center">
+                            <p class="text-xs font-medium text-yellow-700">化学</p>
+                            <p class="text-[10px] text-yellow-600">刘老师</p>
+                        </div>
+                        <div class="bg-red-50 rounded p-1 text-center">
+                            <p class="text-xs font-medium text-red-700">物理</p>
+                            <p class="text-[10px] text-red-600">张老师</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 课表管理功能 -->
+                <div class="space-y-4 mb-6">
+                    <button class="w-full bg-yellow-600 hover:bg-yellow-700 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-colors flex items-center justify-center">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/plus.svg" class="w-4 h-4 mr-2 text-white" alt="Add">
+                        <span>添加课程</span>
+                    </button>
+                    <button class="w-full bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-colors border border-gray-200 flex items-center justify-center">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/edit.svg" class="w-4 h-4 mr-2 text-gray-500" alt="Edit">
+                        <span>调整课程</span>
+                    </button>
+                    <button class="w-full bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-colors border border-gray-200 flex items-center justify-center">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/printer.svg" class="w-4 h-4 mr-2 text-gray-500" alt="Print">
+                        <span>打印课表</span>
+                    </button>
+                </div>
+                
+                <!-- AI助手建议 -->
+                <div class="bg-yellow-50 rounded-xl p-4 border border-yellow-100">
+                    <div class="flex items-start">
+                        <div class="h-8 w-8 rounded-full bg-yellow-100 flex items-center justify-center flex-shrink-0">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/lightbulb.svg" class="h-4 w-4 text-yellow-600" alt="Insight">
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="font-medium text-gray-900 mb-1">AI排课建议</h3>
+                            <p class="text-sm text-gray-600">根据学科难度分析，建议将数学课安排在上午精力充沛时段，体育课安排在下午。点击查看更多优化建议。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 第三个页面 - 考勤管理 -->
+        <div class="mockup-border p-6 min-w-[360px] max-w-[360px]">
+            <div class="mx-auto">
+                <!-- 顶部导航 -->
+                <div class="flex items-center justify-between mb-6">
+                    <a href="#" class="flex items-center text-yellow-600">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/arrow-left.svg" class="w-5 h-5 mr-2" alt="Back">
+                        <span>返回</span>
+                    </a>
+                    <h2 class="text-lg font-semibold text-gray-900">考勤管理</h2>
+                    <button class="text-yellow-600">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/more-vertical.svg" class="w-5 h-5" alt="More">
+                    </button>
+                </div>
+                
+                <!-- 日期选择 -->
+                <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                    <div class="flex justify-between items-center mb-3">
+                        <button>
+                            <img src="https://unpkg.com/lucide-static@latest/icons/chevron-left.svg" class="w-5 h-5 text-gray-600" alt="Previous">
+                        </button>
+                        <div class="text-center">
+                            <h3 class="font-medium text-gray-900">2025年3月20日</h3>
+                            <p class="text-xs text-gray-500">星期四</p>
+                        </div>
+                        <button>
+                            <img src="https://unpkg.com/lucide-static@latest/icons/chevron-right.svg" class="w-5 h-5 text-gray-600" alt="Next">
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-7 gap-1">
+                        <div class="text-center text-xs font-medium text-gray-500">日</div>
+                        <div class="text-center text-xs font-medium text-gray-500">一</div>
+                        <div class="text-center text-xs font-medium text-gray-500">二</div>
+                        <div class="text-center text-xs font-medium text-gray-500">三</div>
+                        <div class="text-center text-xs font-medium text-gray-500">四</div>
+                        <div class="text-center text-xs font-medium text-gray-500">五</div>
+                        <div class="text-center text-xs font-medium text-gray-500">六</div>
+                        
+                        <div class="text-center text-xs text-gray-400 p-2">25</div>
+                        <div class="text-center text-xs text-gray-400 p-2">26</div>
+                        <div class="text-center text-xs text-gray-400 p-2">27</div>
+                        <div class="text-center text-xs text-gray-400 p-2">28</div>
+                        <div class="text-center text-xs text-gray-900 p-2">1</div>
+                        <div class="text-center text-xs text-gray-900 p-2">2</div>
+                        <div class="text-center text-xs text-gray-900 p-2">3</div>
+                        
+                        <div class="text-center text-xs text-gray-900 p-2">4</div>
+                        <div class="text-center text-xs text-gray-900 p-2">5</div>
+                        <div class="text-center text-xs text-gray-900 p-2">6</div>
+                        <div class="text-center text-xs text-gray-900 p-2">7</div>
+                        <div class="text-center text-xs text-gray-900 p-2">8</div>
+                        <div class="text-center text-xs text-gray-900 p-2">9</div>
+                        <div class="text-center text-xs text-gray-900 p-2">10</div>
+                        
+                        <div class="text-center text-xs text-gray-900 p-2">11</div>
+                        <div class="text-center text-xs text-gray-900 p-2">12</div>
+                        <div class="text-center text-xs text-gray-900 p-2">13</div>
+                        <div class="text-center text-xs text-gray-900 p-2">14</div>
+                        <div class="text-center text-xs text-gray-900 p-2">15</div>
+                        <div class="text-center text-xs text-gray-900 p-2">16</div>
+                        <div class="text-center text-xs text-gray-900 p-2">17</div>
+                        
+                        <div class="text-center text-xs text-gray-900 p-2">18</div>
+                        <div class="text-center text-xs text-gray-900 p-2">19</div>
+                        <div class="text-center text-xs text-gray-900 p-2 bg-yellow-100 rounded-full font-medium">20</div>
+                        <div class="text-center text-xs text-gray-900 p-2">21</div>
+                        <div class="text-center text-xs text-gray-900 p-2">22</div>
+                        <div class="text-center text-xs text-gray-900 p-2">23</div>
+                        <div class="text-center text-xs text-gray-900 p-2">24</div>
+                    </div>
+                </div>
+                
+                <!-- 考勤记录 -->
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-3">
+                        <h2 class="text-lg font-semibold text-gray-900">考<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>班级管理助手 - 小沃AI助手</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        secondary: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            200: '#ddd6fe',
+                            300: '#c4b5fd',
+                            400: '#a78bfa',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            800: '#5b21b6',
+                            900: '#4c1d95',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    backdropBlur: {
+                        xs: '2px',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .mockup-border {
+            border: 2px dashed #e5e7eb;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="flex flex-row space-x-4 p-4 overflow-x-auto">
+        <!-- 主页面 - 班级管理助手首页 -->
+        <div class="mockup-border p-6 min-w-[360px] max-w-[360px]">
+            <div class="mx-auto">
+                <!-- 返回按钮 -->
+                <div class="flex items-center mb-6">
+                    <a href="index.html" class="flex items-center text-primary-600">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/arrow-left.svg" class="w-5 h-5 mr-2" alt="Back">
+                        <span>返回首页</span>
+                    </a>
+                </div>
+                
+                <!-- 工具标题 -->
+                <div class="flex items-center mb-6">
+                    <div class="h-12 w-12 rounded-full bg-yellow-100 flex items-center justify-center">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/users.svg" class="h-6 w-6 text-yellow-600" alt="Classroom">
+                    </div>
+                    <h1 class="ml-3 text-2xl font-bold text-gray-900">班级管理助手</h1>
+                </div>
+                
+                <!-- 功能描述 -->
+                <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                    <p class="text-gray-700">智能排课、考勤管理、学生分组，全方位提升班级管理效率，让教师专注于教学本质。</p>
+                </div>
+                
+                <!-- 班级选择 -->
+                <div class="bg-yellow-50 rounded-xl p-5 border border-yellow-100 mb-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-3">班级管理中心</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">选择班级</label>
+                            <select class="w-full rounded-lg border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500 bg-white p-2.5 text-sm border">
+                                <option>高二(1)班</option>
+                                <option>高二(2)班</option>
+                                <option>高二(3)班</option>
+                                <option>高二(4)班</option>
+                                <option>高二(5)班</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">学期</label>
+                            <select class="w-full rounded-lg border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500 bg-white p-2.5 text-sm border">
+                                <option>2025年春季学期</option>
+                                <option>2024年秋季学期</option>
+                                <option>2024年春季学期</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 功能模块 -->
+                <div class="mb-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-3">管理功能</h2>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex flex-col items-center">
+                            <div class="h-10 w-10 rounded-full bg-yellow-100 flex items-center justify-center mb-2">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/calendar.svg" class="h-5 w-5 text-yellow-600" alt="Schedule">
+                            </div>
+                            <span class="text-sm font-medium text-gray-900">课表管理</span>
+                        </button>
+                        <button class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex flex-col items-center">
+                            <div class="h-10 w-10 rounded-full bg-yellow-100 flex items-center justify-center mb-2">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/check-square.svg" class="h-5 w-5 text-yellow-600" alt="Attendance">
+                            </div>
+                            <span class="text-sm font-medium text-gray-900">考勤记录</span>
+                        </button>
+                        <button class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex flex-col items-center">
+                            <div class="h-10 w-10 rounded-full bg-yellow-100 flex items-center justify-center mb-2">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/users-2.svg" class="h-5 w-5 text-yellow-600" alt="Groups">
+                            </div>
+                            <span class="text-sm font-medium text-gray-900">学生分组</span>
+                        </button>
+                        <button class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex flex-col items-center">
+                            <div class="h-10 w-10 rounded-full bg-yellow-100 flex items-center justify-center mb-2">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/activity.svg" class="h-5 w-5 text-yellow-600" alt="Activity">
+                            </div>
+                            <span class="text-sm font-medium text-gray-900">班级活动</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 班级概览 -->
+                <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-3">班级概览</h2>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">班级人数</span>
+                            <span class="font-medium text-gray-900">45人</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">男女比例</span>
+                            <span class="font-medium text-gray-900">24:21</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">班主任</span>
+                            <span class="font-medium text-gray-900">张明</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">本周出勤率</span>
+                            <span class="font-medium text-gray-900">98.2%</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">班级活动完成</span>
+                            <span class="font-medium text-gray-900">5/8</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 最近通知 -->
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-3">
+                        <h2 class="text-lg font-semibold text-gray-900">最近通知</h2>
+                        <button class="text-sm text-yellow-600 font-medium">查看全部</button>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="bg-white p-3 rounded-lg shadow-sm">
+                            <div class="flex justify-between items-start mb-1">
+                                <h3 class="font-medium text-gray-900">期中考试安排</h3>
+                                <span class="text-xs text-gray-500">2天前</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">高二年级期中考试将于4月15日开始，请各班做好准备工作。</p>
+                            <div class="flex justify-end">
+                                <button class="text-xs text-yellow-600 font-medium">详情</button>
+                            </div>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg shadow-sm">
+                            <div class="flex justify-between items-start mb-1">
+                                <h3 class="font-medium text-gray-900">班会课主题</h3>
+                                <span class="text-xs text-gray-500">3天前</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">本周班会课主题为"学习方法分享"，请提前准备相关材料。</p>
+                            <div class="flex justify-end">
+                                <button class="text-xs text-yellow-600 font-medium">详情</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+</html>

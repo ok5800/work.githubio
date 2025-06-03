@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>培训活动 - 小沃AI助手</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        pink: {
+                            50: '#fdf2f8',
+                            100: '#fce7f3',
+                            200: '#fbcfe8',
+                            300: '#f9a8d4',
+                            400: '#f472b6',
+                            500: '#ec4899',
+                            600: '#db2777',
+                            700: '#be185d',
+                            800: '#9d174d',
+                            900: '#831843',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="max-w-[360px] mx-auto p-6">
+        <!-- 顶部导航 -->
+        <div class="flex items-center justify-between mb-6">
+            <a href="advisor_main.html" class="flex items-center text-blue-600">
+                <img src="https://unpkg.com/lucide-static@latest/icons/arrow-left.svg" class="w-5 h-5 mr-2" alt="Back">
+                <span>返回</span>
+            </a>
+            <h2 class="text-lg font-semibold text-gray-900">培训活动</h2>
+            <div class="w-5"></div> <!-- 占位 -->
+        </div>
+        
+        <!-- 筛选选项 -->
+        <div class="flex space-x-2 mb-4 overflow-x-auto pb-2">
+            <button class="px-3 py-1.5 bg-pink-600 text-white text-sm rounded-full whitespace-nowrap">全部</button>
+            <button class="px-3 py-1.5 bg-white text-gray-700 text-sm rounded-full border border-gray-200 whitespace-nowrap">教师发展</button>
+            <button class="px-3 py-1.5 bg-white text-gray-700 text-sm rounded-full border border-gray-200 whitespace-nowrap">学科专项</button>
+            <button class="px-3 py-1.5 bg-white text-gray-700 text-sm rounded-full border border-gray-200 whitespace-nowrap">创新研讨</button>
+            <button class="px-3 py-1.5 bg-white text-gray-700 text-sm rounded-full border border-gray-200 whitespace-nowrap">示范课堂</button>
+        </div>
+        
+        <!-- 活动列表 -->
+        <div class="space-y-4 mb-6">
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm">
+                <div class="h-32 bg-gradient-to-r from-pink-400 to-purple-500 relative">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover mix-blend-overlay" alt="Training">
+                        <div class="absolute top-2 right-2 bg-white bg-opacity-90 px-2 py-1 rounded text-xs font-medium text-pink-600">热门</div>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-semibold text-gray-900 mb-1">新教师成长加速营</h3>
+                    <div class="flex items-center text-sm text-gray-500 mb-2">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/calendar.svg" class="w-4 h-4 mr-1" alt="Date">
+                        <span>2023.07.10-2023.07.25</span>
+                        <span class="mx-2">|</span>
+                        <img src="https://unpkg.com/lucide-static@latest/icons/map-pin.svg" class="w-4 h-4 mr-1" alt="Location">
+                        <span>线上</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">帮助新入职教师快速适应教学工作，掌握课堂管理、教学设计等基本技能。</p>
+                    <div class="flex justify-between items-center">
+                        <div class="px-2 py-1 bg-pink-100 text-pink-800 text-xs rounded-full">入门级</div>
+                        <a href="activity_details.html" class="px-3 py-1.5 bg-pink-600 text-white text-sm rounded-lg">查看详情</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm">
+                <div class="h-32 bg-gradient-to-r from-blue-400 to-indigo-500 relative">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover mix-blend-overlay" alt="Training">
+                        <div class="absolute top-2 right-2 bg-white bg-opacity-90 px-2 py-1 rounded text-xs font-medium text-pink-600">推荐</div>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-semibold text-gray-900 mb-1">高级教师认证研修班</h3>
+                    <div class="flex items-center text-sm text-gray-500 mb-2">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/calendar.svg" class="w-4 h-4 mr-1" alt="Date">
+                        <span>2023.08.15-2023.09.20</span>
+                        <span class="mx-2">|</span>
+                        <img src="https://unpkg.com/lucide-static@latest/icons/map-pin.svg" class="w-4 h-4 mr-1" alt="Location">
+                        <span>线上+线下</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">针对一级教师提供的高级教师晋升培训，内容包括教学创新、课题研究等。</p>
+                    <div class="flex justify-between items-center">
+                        <div class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">进阶级</div>
+                        <a href="activity_certification.html" class="px-3 py-1.5 bg-pink-600 text-white text-sm rounded-lg">查看详情</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm">
+                <div class="h-32 bg-gradient-to-r from-green-400 to-teal-500 relative">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover mix-blend-overlay" alt="Training">
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-semibold text-gray-900 mb-1">骨干教师研讨会</h3>
+                    <div class="flex items-center text-sm text-gray-500 mb-2">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/calendar.svg" class="w-4 h-4 mr-1" alt="Date">
+                        <span>2023.10.08-2023.10.10</span>
+                        <span class="mx-2">|</span>
+                        <img src="https://unpkg.com/lucide-static@latest/icons/map-pin.svg" class="w-4 h-4 mr-1" alt="Location">
+                        <span>北京</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">全国骨干教师交流研讨会，探讨最新教育理念与实践，促进校际交流与合作。</p>
+                    <div class="flex justify-between items-center">
+                        <div class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">高级</div>
+                        <a href="activity_workshop.html" class="px-3 py-1.5 bg-pink-600 text-white text-sm rounded-lg">查看详情</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm">
+                <div class="h-32 bg-gradient-to-r from-yellow-400 to-orange-500 relative">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover mix-blend-overlay" alt="Training">
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-semibold text-gray-900 mb-1">学科教学创新工作坊</h3>
+                    <div class="flex items-center text-sm text-gray-500 mb-2">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/calendar.svg" class="w-4 h-4 mr-1" alt="Date">
+                        <span>2023.11.15-2023.11.17</span>
+                        <span class="mx-2">|</span>
+                        <img src="https://unpkg.com/lucide-static@latest/icons/map-pin.svg" class="w-4 h-4 mr-1" alt="Location">
+                        <span>上海</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">以学科为单位的教学创新工作坊，聚焦教学难点突破与创新教学方法研究。</p>
+                    <div class="flex justify-between items-center">
+                        <div class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">中级</div>
+                        <a href="activity_innovation.html" class="px-3 py-1.5 bg-pink-600 text-white text-sm rounded-lg">查看详情</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <button class="w-full py-2.5 border border-gray-200 text-gray-700 rounded-lg text-sm font-medium">
+            查看更多活动
+        </button>
+    </div>
+</body>
+</html> 

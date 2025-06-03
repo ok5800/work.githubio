@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>档案详情 - 小沃AI助手</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="max-w-[1200px] mx-auto p-4 md:p-6">
+        <!-- 返回按钮 -->
+        <div class="flex items-center mb-6">
+            <a href="advisor_main1-chengzhangdanganku.html" class="flex items-center text-blue-600">
+                <img src="https://unpkg.com/lucide-static/icons/arrow-left.svg" class="w-5 h-5 mr-2" alt="Back">
+                <span>返回上一步</span>
+            </a>
+        </div>
+
+        <!-- 档案内容主体 -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <!-- 档案头部 -->
+            <div class="h-64 md:h-80 bg-gradient-to-r from-blue-500 to-purple-500 relative">
+                <img id="archive-image" src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1000" class="w-full h-full object-cover opacity-90" alt="档案封面">
+                <div class="absolute inset-0 bg-black bg-opacity-30"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <span id="archive-category" class="bg-blue-600 bg-opacity-90 text-xs font-semibold px-2 py-1 rounded-full">教学设计</span>
+                        <span id="archive-subject" class="bg-purple-600 bg-opacity-90 text-xs font-semibold px-2 py-1 rounded-full">数学</span>
+                    </div>
+                    <h1 id="archive-title" class="text-2xl md:text-3xl font-bold mb-2">基于深度学习的小学数学思维培养方案</h1>
+                    <div class="flex items-center text-sm">
+                        <img src="https://unpkg.com/lucide-static/icons/user.svg" class="w-4 h-4 mr-1" alt="User">
+                        <span id="archive-author" class="mr-4">李明</span>
+                        <img src="https://unpkg.com/lucide-static/icons/calendar.svg" class="w-4 h-4 mr-1" alt="Date">
+                        <span id="archive-date">2023-06-15</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 档案主体内容 -->
+            <div class="p-6 md:p-8">
+                <!-- 档案描述 -->
+                <div class="mb-8">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">描述</h2>
+                    <p id="archive-description" class="text-gray-600 leading-relaxed">
+                        通过引入深度学习模型，设计了一套针对小学生数学思维培养的教学方案。本方案结合认知科学和人工智能技术，
+                        分析学生的学习行为和思维模式，提供个性化的数学思维训练。教学实践证明，该方案能显著提高学生的逻辑思维能力、
+                        空间想象力和数学问题解决能力。
+                    </p>
+                </div>
+
+                <!-- 档案内容 -->
+                <div class="mb-8">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">详细内容</h2>
+                    <div id="archive-content" class="prose max-w-none">
+                        <h3>1. 研究背景与意义</h3>
+                        <p>
+                            当前小学数学教育面临的核心挑战是如何培养学生的数学思维能力，而非简单的计算技能。
+                            传统教学方法往往过于关注结果而非过程，难以激发学生的思维潜能。本研究旨在通过深度学习技术，
+                            分析学生的思维模式，为每个学生提供量身定制的思维训练方案。
+                        </p>
+
+                        <h3>2. 研究方法</h3>
+                        <p>
+                            本研究采用混合研究方法，结合定量分析和定性研究。通过收集学生解题过程的数据，
+                            利用深度学习算法建立学生的思维模型，识别其思维特点和学习风格。同时，通过课堂观察和访谈，
+                            了解学生的学习体验和反馈。
+                        </p>
+
+                        <h3>3. 实施步骤</h3>
+                        <ul>
+                            <li>前测：评估学生的初始数学思维水平</li>
+                            <li>数据收集：记录学生解题过程和思考方式</li>
+                            <li>模型构建：利用深度学习算法分析学生思维特点</li>
+                            <li>方案设计：根据分析结果制定个性化教学策略</li>
+                            <li>实施与调整：在教学实践中应用和优化方案</li>
+                            <li>后测：评估学生的数学思维发展情况</li>
+                        </ul>
+
+                        <h3>4. 研究成果</h3>
+                        <p>
+                            通过为期一学期的实验教学，实验班学生在数学思维测试中的平均分提高了32%，
+                            显著高于对照班的17%。特别是在创新性解题和空间思维方面，提升更为明显。
+                            学生对数学学习的兴趣明显增强，主动提问和探索的行为增加。
+                        </p>
+
+                        <h3>5. 结论与建议</h3>
+                        <p>
+                            基于深度学习的数学思维培养方案能有效提升学生的高阶思维能力。建议在更广泛的教学实践中推广应用，
+                            并进一步研究如何将此方法扩展到其他学科领域。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 附件与资源 -->
+                <div class="mb-8">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">附件与资源</h2>
+                    <div class="space-y-3">
+                        <a href="#" class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-blue-50 transition-colors">
+                            <img src="https://unpkg.com/lucide-static/icons/file-text.svg" class="w-5 h-5 mr-3 text-blue-600" alt="Document">
+                            <div>
+                                <p class="font-medium text-gray-800">完整研究报告.pdf</p>
+                                <p class="text-sm text-gray-500">5.2MB · PDF文档</p>
+                            </div>
+                        </a>
+                        <a href="#" class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-blue-50 transition-colors">
+                            <img src="https://unpkg.com/lucide-static/icons/file-digit.svg" class="w-5 h-5 mr-3 text-green-600" alt="Spreadsheet">
+                            <div>
+                                <p class="font-medium text-gray-800">数据分析结果.xlsx</p>
+                                <p class="text-sm text-gray-500">1.8MB · Excel表格</p>
+                            </div>
+                        </a>
+                        <a href="#" class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-blue-50 transition-colors">
+                            <img src="https://unpkg.com/lucide-static/icons/file-image.svg" class="w-5 h-5 mr-3 text-amber-600" alt="Presentation">
+                            <div>
+                                <p class="font-medium text-gray-800">教学课件.pptx</p>
+                                <p class="text-sm text-gray-500">3.5MB · PowerPoint演示文稿</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 操作按钮 -->
+        <div class="flex justify-between mt-6">
+            <div>
+                <a href="advisor_main1-chengzhangdanganku.html" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 inline-flex items-center">
+                    <img src="https://unpkg.com/lucide-static/icons/arrow-left.svg" class="w-4 h-4 mr-2" alt="Back">
+                    返回列表
+                </a>
+            </div>
+            <div class="flex space-x-3">
+                <button class="edit-btn px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 inline-flex items-center">
+                    <img src="images/EditEdit.svg" class="w-4 h-4 mr-2" alt="Edit">
+                    编辑
+                </button>
+                <button class="share-btn px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 inline-flex items-center">
+                    <img src="https://unpkg.com/lucide-static/icons/share.svg" class="w-4 h-4 mr-2" alt="Share" stroke="white">
+                    分享
+                </button>
+                <button class="download-btn px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 inline-flex items-center">
+                    <img src="https://unpkg.com/lucide-static/icons/download.svg" class="w-4 h-4 mr-2" alt="Download" stroke="white">
+                    下载
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 分享模态框 -->
+    <div id="share-modal" class="fixed inset-0 z-50 hidden">
+        <div class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm"></div>
+        <div class="fixed inset-0 flex items-center justify-center p-4">
+            <div class="bg-white rounded-xl w-full max-w-md mx-auto shadow-2xl">
+                <div class="flex items-center justify-between p-4 border-b border-gray-200">
+                    <h3 class="text-xl font-semibold text-gray-800">分享档案</h3>
+                    <button id="share-close-btn" class="p-1 rounded-full hover:bg-gray-100">
+                        <img src="https://unpkg.com/lucide-static/icons/x.svg" class="w-6 h-6" alt="Close">
+                    </button>
+                </div>
+                <div class="p-4">
+                    <div class="mb-6">
+                        <p class="text-gray-600 mb-4">通过以下方式分享此档案：</p>
+                        <div class="flex flex-wrap gap-3 justify-center mb-6">
+                            <button class="flex items-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                                <img src="https://unpkg.com/lucide-static/icons/mail.svg" class="w-5 h-5 mr-2" alt="Email" stroke="white">
+                                邮件
+                            </button>
+                            <button class="flex items-center px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                                <img src="https://unpkg.com/lucide-static/icons/message-circle.svg" class="w-5 h-5 mr-2" alt="WeChat" stroke="white">
+                                微信
+                            </button>
+                            <button class="flex items-center px-3 py-2 bg-blue-400 text-white rounded-lg hover:bg-blue-500">
+                                <img src="https://unpkg.com/lucide-static/icons/share-2.svg" class="w-5 h-5 mr-2" alt="QQ" stroke="white">
+                                QQ
+                            </button>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <label class="block text-gray-700 text-sm font-medium mb-2">分享链接</label>
+                            <div class="flex">
+                                <input type="text" value="https://xiaowo.edu/archive/view/12345" class="flex-grow border border-gray-300 rounded-l-lg py-2 px-3 bg-gray-50" readonly>
+                                <button class="bg-blue-600 text-white px-4 rounded-r-lg hover:bg-blue-700">复制</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取URL参数
+            const urlParams = new URLSearchParams(window.location.search);
+            const archiveId = urlParams.get('id');
+            
+            // 档案数据（在实际应用中应该通过API获取）
+            const archiveData = {
+                1: {
+                    title: "基于深度学习的小学数学思维培养方案",
+                    category: "教学设计",
+                    subject: "数学",
+                    author: "张明",
+                    date: "2023-06-15",
+                    image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1000",
+                    description: "通过引入深度学习模型，设计了一套针对小学生数学思维培养的教学方案。本方案结合认知科学和人工智能技术，分析学生的学习行为和思维模式，提供个性化的数学思维训练。教学实践证明，该方案能显著提高学生的逻辑思维能力、空间想象力和数学问题解决能力。"
+                },
+                2: {
+                    title: "中学语文跨学科阅读教学的实践研究",
+                    category: "教研成果",
+                    subject: "语文",
+                    author: "李华",
+                    date: "2023-09-22",
+                    image: "https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?q=80&w=1000",
+                    description: "本研究结合历史、科学等学科知识，设计了一套跨学科的语文阅读教学方案。通过主题式阅读教学，引导学生从多学科视角理解文本，培养学生的综合思维能力和多元文化素养。研究成果表明，跨学科阅读能有效提升学生的阅读理解深度和批判性思维水平。"
+                },
+                3: {
+                    title: "市级优秀教师教学技能竞赛一等奖",
+                    category: "获奖证书",
+                    subject: "英语",
+                    author: "王芳",
+                    date: "2023-11-05",
+                    image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1000",
+                    description: "在市级教师教学技能竞赛中荣获一等奖，展示了创新的英语教学方法。此次竞赛中，我设计的主题为"沉浸式英语学习环境的构建"的教学方案，通过虚拟现实技术和情景模拟，创造真实的语言环境，被评委一致认为具有创新性和实用价值。"
+                },
+                4: {
+                    title: "基于PBL的初中科学探究教学研究",
+                    category: "论文成果",
+                    subject: "科学",
+                    author: "刘强",
+                    date: "2023-08-12",
+                    image: "https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=1000",
+                    description: "探讨了以项目为基础的学习方法在初中科学教学中的应用与效果评估。通过设计真实世界的科学探究项目，引导学生主动发现问题、设计实验、分析数据和得出结论，培养科学思维和实践能力。研究结果显示，PBL教学模式能显著提高学生的科学素养和解决问题的能力。"
+                },
+                5: {
+                    title: "小学语文经典诗文情境化教学设计",
+                    category: "教学设计",
+                    subject: "语文",
+                    author: "陈梅",
+                    date: "2023-07-18",
+                    image: "https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=1000",
+                    description: "通过创设真实情境，让学生在体验中理解古典诗文的意境与内涵。本教学设计结合多媒体技术、戏剧表演和情景再现等方式，帮助学生跨越时空，感受古典文学的魅力。实践证明，情境化教学能有效提高学生对经典诗文的理解和记忆，培养文学鉴赏能力。"
+                },
+                6: {
+                    title: "高中数学思维导图教学法应用研究",
+                    category: "教研成果",
+                    subject: "数学",
+                    author: "赵伟",
+                    date: "2023-10-05",
+                    image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1000",
+                    description: "研究思维导图在高中数学教学中的应用，提高学生的数学思维能力与学习效率。通过系统化的思维导图训练，帮助学生构建数学知识网络，理解概念间的联系，培养发散思维和系统思维。实验表明，思维导图教学法能有效提升学生的数学成绩和解题能力。"
+                },
+                7: {
+                    title: "全国教育创新实践优秀成果奖",
+                    category: "获奖证书",
+                    subject: "综合",
+                    author: "林明",
+                    date: "2023-12-10",
+                    image: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?q=80&w=1000",
+                    description: "凭借"数字化学习空间构建与应用"项目，获得全国教育创新实践优秀成果奖。该项目整合线上线下学习资源，构建个性化学习平台，通过数据分析优化教学过程，实现了教与学方式的创新变革，为未来教育发展提供了实践参考。"
+                },
+                8: {
+                    title: "中小学生心理健康教育方法创新研究",
+                    category: "论文成果",
+                    subject: "心理",
+                    author: "孙丽",
+                    date: "2023-09-28",
+                    image: "https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?q=80&w=1000",
+                    description: "探索结合积极心理学和游戏化教学的心理健康教育模式，促进学生全面发展。本研究设计了一套系统的心理健康教育课程和活动，通过游戏、艺术表达和团体辅导等形式，帮助学生认识自我、管理情绪和建立积极的人际关系，提升心理韧性。"
+                },
+                9: {
+                    title: "初中英语多模态教学资源开发与应用",
+                    category: "教学设计",
+                    subject: "英语",
+                    author: "吴佳",
+                    date: "2023-05-19",
+                    image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=1000",
+                    description: "整合视频、音频、图像等多模态资源，创新初中英语教学方式，提高学习兴趣。本教学设计构建了丰富的多模态教学资源库，通过多感官刺激和多渠道输入，为学生创造真实的语言环境，提升英语听说读写能力和跨文化交际能力。"
+                }
+            };
+            
+            // 分类颜色映射
+            const categoryColors = {
+                "教学设计": "blue-600",
+                "教研成果": "purple-600",
+                "获奖证书": "pink-500",
+                "论文成果": "green-500"
+            };
+            
+            // 学科颜色映射
+            const subjectColors = {
+                "数学": "blue-500",
+                "语文": "pink-500",
+                "英语": "indigo-500",
+                "科学": "green-600",
+                "综合": "purple-500",
+                "心理": "amber-500"
+            };
+            
+            // 根据ID加载对应的档案数据
+            if(archiveId && archiveData[archiveId]) {
+                const data = archiveData[archiveId];
+                
+                // 更新标题和元数据
+                document.getElementById('archive-title').textContent = data.title;
+                document.getElementById('archive-category').textContent = data.category;
+                document.getElementById('archive-subject').textContent = data.subject;
+                document.getElementById('archive-author').textContent = data.author;
+                document.getElementById('archive-date').textContent = data.date;
+                document.getElementById('archive-description').textContent = data.description;
+                document.getElementById('archive-image').src = data.image;
+                document.title = data.title + " - 档案详情 - 小沃AI助手";
+                
+                // 应用分类和学科标签颜色
+                const categoryBadge = document.getElementById('archive-category');
+                const subjectBadge = document.getElementById('archive-subject');
+                
+                if (categoryColors[data.category]) {
+                    categoryBadge.className = `bg-${categoryColors[data.category]} bg-opacity-90 text-xs font-semibold px-2 py-1 rounded-full text-white`;
+                }
+                
+                if (subjectColors[data.subject]) {
+                    subjectBadge.className = `bg-${subjectColors[data.subject]} bg-opacity-90 text-xs font-semibold px-2 py-1 rounded-full text-white`;
+                }
+                
+                // 根据档案类型自定义内容
+                const archiveContent = document.getElementById('archive-content');
+                if (data.category === "获奖证书") {
+                    archiveContent.innerHTML = `
+                        <h3>1. 获奖情况</h3>
+                        <p>奖项名称：${data.title}</p>
+                        <p>颁发单位：市教育局</p>
+                        <p>获奖时间：${data.date}</p>
+                        <p>获奖级别：市级</p>
+                        
+                        <h3>2. 获奖理由</h3>
+                        <p>${data.description}</p>
+                        
+                        <h3>3. 参赛内容简介</h3>
+                        <p>在比赛中，我展示了创新的教学方法和教学设计，主要包括：</p>
+                        <ul>
+                            <li>创新的教学理念和方法</li>
+                            <li>精心设计的教学流程</li>
+                            <li>丰富多样的教学资源</li>
+                            <li>有效的课堂互动策略</li>
+                        </ul>
+                        
+                        <h3>4. 教学反思</h3>
+                        <p>通过此次比赛，我深刻认识到教学设计的重要性，以及如何更好地激发学生的学习兴趣和主动性。未来我将继续完善教学方法，更加注重学生的核心素养培养。</p>
+                    `;
+                } else if (data.category === "论文成果") {
+                    archiveContent.innerHTML = `
+                        <h3>1. 研究背景</h3>
+                        <p>近年来，${data.subject}学科教学面临诸多挑战，传统教学方法已难以满足新时代学生的学习需求和核心素养培养要求。</p>
+                        
+                        <h3>2. 研究目的</h3>
+                        <p>本研究旨在探索创新教学方法在${data.subject}学科中的应用，提高教学效果，培养学生的综合能力。</p>
+                        
+                        <h3>3. 研究方法</h3>
+                        <p>本研究采用行动研究法，通过教学实践、数据收集和分析、反思调整等环节，不断优化教学策略。研究对象为某中学X年级学生，共计120人。</p>
+                        
+                        <h3>4. 研究过程</h3>
+                        <p>${data.description}</p>
+                        
+                        <h3>5. 研究结论</h3>
+                        <p>研究结果表明，创新教学方法能显著提高学生的学习兴趣和学习效果，促进学生核心素养的全面发展。建议在更广泛的教学实践中推广应用。</p>
+                    `;
+                }
+            }
+            
+            // 分享模态框
+            const shareModal = document.getElementById('share-modal');
+            const shareBtn = document.querySelector('.share-btn');
+            const shareCloseBtn = document.getElementById('share-close-btn');
+            
+            shareBtn.addEventListener('click', function() {
+                shareModal.classList.remove('hidden');
+            });
+            
+            shareCloseBtn.addEventListener('click', function() {
+                shareModal.classList.add('hidden');
+            });
+            
+            // 点击模态框外部关闭
+            window.addEventListener('click', function(event) {
+                if (event.target === shareModal.querySelector('.fixed.inset-0.bg-black')) {
+                    shareModal.classList.add('hidden');
+                }
+            });
+            
+            // 编辑按钮跳转回主页面并打开编辑模态框
+            document.querySelector('.edit-btn').addEventListener('click', function() {
+                window.location.href = 'advisor_main1-chengzhangdanganku.html?edit=' + archiveId;
+            });
+            
+            // 复制分享链接
+            const copyBtn = document.querySelector('.share-modal .bg-blue-600');
+            if (copyBtn) {
+                copyBtn.addEventListener('click', function() {
+                    const linkInput = document.querySelector('.share-modal input[type="text"]');
+                    linkInput.select();
+                    document.execCommand('copy');
+                    alert('链接已复制到剪贴板');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

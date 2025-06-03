@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教学创新能力提升方案</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-text: #a9bfe6;
+            --bg-color: #f8f9fa;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            background-image: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1920');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .header h1 {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(90deg, rgb(229, 219, 247), rgba(146, 151, 215, 0.865)); /* 修改为更浅的渐变色 */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: inline-block;
+}
+        
+        .header p {
+            
+            color: var(--light-text);
+            font-size: 1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .report-container {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .toc {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            position: sticky;
+            top: 2rem;
+        }
+        
+        .toc h2 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .toc h2 img {
+            width: 24px;
+            height: 24px;
+            margin-right: 0.5rem;
+        }
+        
+        .toc-list {
+            list-style: none;
+        }
+        
+        .toc-item {
+            margin-bottom: 0.5rem;
+        }
+        
+        .toc-link {
+            display: flex;
+            align-items: center;
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .toc-link:hover {
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .toc-link.active {
+            background: rgba(67, 97, 238, 0.15);
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .toc-link img {
+            width: 16px;
+            height: 16px;
+            margin-right: 0.5rem;
+            opacity: 0.7;
+        }
+        
+        .section {
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid rgba(67, 97, 238, 0.2);
+        }
+        
+        .section-title img {
+            width: 28px;
+            height: 28px;
+            margin-right: 0.8rem;
+        }
+        
+        .subsection {
+            margin-bottom: 2rem;
+        }
+        
+        .subsection-title {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+        
+        p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .highlight-box {
+            background: rgba(76, 201, 240, 0.1);
+            border-left: 4px solid var(--accent-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .highlight-box h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+        
+        .chart-container {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .chart-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            text-align: center;
+        }
+        
+        .chart {
+            width: 100%;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .chart img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .image-container {
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .image-container img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .image-caption {
+            margin-top: 0.8rem;
+            color: var(--light-text);
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin: 2rem 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        th {
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .list-container {
+            margin: 1.5rem 0;
+        }
+        
+        .custom-list {
+            list-style: none;
+            padding-left: 1rem;
+        }
+        
+        .custom-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+        }
+        
+        .custom-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primary-color);
+        }
+        
+        .action-buttons {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 100;
+        }
+        
+        .action-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .action-btn img {
+            width: 24px;
+            height: 24px;
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn:hover img {
+            transform: scale(1.1);
+        }
+        
+        .action-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            right: 70px;
+            background: rgba(43, 45, 66, 0.9);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .action-btn:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .edit-btn {
+            background: linear-gradient(135deg, #4361ee, #3a0ca3);
+        }
+        
+        .edit-btn img {
+            filter: brightness(0) invert(1);
+        }
+        
+        .share-btn {
+            background: linear-gradient(135deg, #4cc9f0, #4361ee);
+        }
+        
+        .share-btn img {
+            filter: brightness(0) invert(1);
+        }
+        
+        .download-btn {
+            background: linear-gradient(135deg, #3a0ca3, #4361ee);
+        }
+        
+        .download-btn img {
+            filter: brightness(0) invert(1);
+        }
+        
+        .print-btn {
+            background: linear-gradient(135deg, #4361ee, #4cc9f0);
+        }
+        
+        .print-btn img {
+            filter: brightness(0) invert(1);
+        }
+        
+        .two-column {
+            display: flex;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .column {
+            flex: 1;
+        }
+        
+        @media (max-width: 1024px) {
+            .two-column {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .subsection-title {
+                font-size: 1.2rem;
+            }
+            
+            .action-buttons {
+                right: 1rem;
+            }
+            
+            .action-btn {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .action-btn img {
+                width: 20px;
+                height: 20px;
+            }
+            
+            .action-btn::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>教学创新能力提升方案</h1>
+            <p>基于教师专业发展需求，提供系统化、个性化的教学创新能力提升路径</p>
+        </header>
+        
+        <div class="two-column">
+            <div class="column" style="flex: 0.3;">
+                <div class="toc">
+                    <h2><img src="https://unpkg.com/lucide-static@latest/icons/list.svg" alt="目录">目录</h2>
+                    <ul class="toc-list">
+                        <li class="toc-item">
+                            <a href="#section1" class="toc-link active">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/info.svg" alt="概述">
+                                1. 方案概述
+                            </a>
+                        </li>
+                        <li class="toc-item">
+                            <a href="#section2" class="toc-link">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/target.svg" alt="目标">
+                                2. 能力目标与评估
+                            </a>
+                        </li>
+                        <li class="toc-item">
+                            <a href="#section3" class="toc-link">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/layers.svg" alt="框架">
+                                3. 创新思维培养
+                            </a>
+                        </li>
+                        <li class="toc-item">
+                            <a href="#section4" class="toc-link">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/map.svg" alt="路径">
+                                4. 提升路径设计
+                            </a>
+                        </li>
+                        <li class="toc-item">
+                            <a href="#section5" class="toc-link">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/book-open.svg" alt="资源">
+                                5. 推荐资源与工具
+                            </a>
+                        </li>
+                        <li class="toc-item">
+                            <a href="#section6" class="toc-link">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/check.svg" alt="评价">
+                                6. 成效评价方案
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="column" style="flex: 0.7;">
+                <div class="report-container">
+                    <section id="section1" class="section">
+                        <h2 class="section-title">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/info.svg" alt="概述">
+                            方案概述
+                        </h2>
+                        
+                        <p>教学ABILITY_Fangan-look.html 文件的剩余部分，添加更多内容以完善教学创新思维培养方案。</p>
+                        
+                        <div class="highlight-box">
+                            <h3>方案特色</h3>
+                            <div class="list-container">
+                                <ul class="custom-list">
+                                    <li><strong>个性化定制：</strong>基于教师个人特点和发展需求，提供差异化的提升路径</li>
+                                    <li><strong>系统化设计：</strong>构建完整的教学创新思维培养方案，覆盖理念、方法、技术等多个维度</li>
+                                    <li><strong>实践导向：</strong>强调在教学实践中培养创新思维，注重理论与实践的结合</li>
+                                    <li><strong>数据驱动：</strong>通过数据分析和反馈，持续优化提升方案</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="image-container">
+                            <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1000" alt="教学创新思维概念图">
+                            <p class="image-caption">图1：教学创新思维发展的多维度视角</p>
+                        </div>
+                    </section>
+                    
+                    <section id="section2" class="section">
+                        <h2 class="section-title">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/target.svg" alt="目标">
+                            能力目标与评估
+                        </h2>
+                        
+                        <div class="subsection">
+                            <h3 class="subsection-title">2.1 核心能力目标</h3>
+                            <p>教学创新思维包含以下五个核心维度，每个维度设定了明确的能力目标：</p>
+                            
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>能力维度</th>
+                                            <th>能力描述</th>
+                                            <th>目标水平</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>创新思维</td>
+                                            <td>能够突破常规思维模式，产生新颖、有价值的教学理念和方法</td>
+                                            <td>熟练</td>
+                                        </tr>
+                                        <tr>
+                                            <td>教学设计创新</td>
+                                            <td>能够设计创新性的教学活动和学习体验，激发学生学习动机</td>
+                                            <td>精通</td>
+                                        </tr>
+                                        <tr>
+                                            <td>教学方法创新</td>
+                                            <td>能够灵活运用多种教学方法，创造性地解决教学问题</td>
+                                            <td>熟练</td>
+                                        </tr>
+                                        <tr>
+                                            <td>教育技术应用</td>
+                                            <td>能够有效整合现代教育技术，创新教学模式和学习方式</td>
+                                            <td>熟练</td>
+                                        </tr>
+                                        <tr>
+                                            <td>教学评价创新</td>
+                                            <td>能够设计和实施多元化、过程性的评价方式，促进学生发展</td>
+                                            <td>发展中</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div class="subsection">
+                            <h3 class="subsection-title">2.2 能力现状评估</h3>
+                            <p>基于教师自评、同行评价和学生反馈，对教师当前的教学创新思维进行了全面评估：</p>
+                            
+                            <div class="chart-container">
+                                <h4 class="chart-title">教学创新思维现状雷达图</h4>
+                                <div class="chart">
+                                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000" alt="教学创新思维雷达图">
+                                </div>
+                            </div>
+                            
+                            <div class="highlight-box">
+                                <h3>评估结论</h3>
+                                <p>教师在教学设计创新和创新思维方面表现较好，教育技术应用和教学方法创新处于中等水平，教学评价创新有待提升。建议重点加强教学评价创新能力的培养，同时进一步提升教育技术应用能力。</p>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <section id="section3" class="section">
+                        <h2 class="section-title">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/layers.svg" alt="框架">
+                            创新思维框架
+                        </h2>
+                        
+                        <p>教学创新思维框架是教师提升创新能力的理论基础和行动指南，包含以下核心要素：</p>
+                        
+                        <div class="chart-container">
+                            <h4 class="chart-title">教学创新思维框架图</h4>
+                            <div class="chart">
+                                <img src="https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?q=80&w=1000" alt="教学创新思维框架图">
+                            </div>
+                        </div>
+                        
+                        <div class="subsection">
+                            <h3 class="subsection-title">3.1 创新思维培养</h3>
+                            <p>创新思维是教学创新的基础，包括发散思维、批判性思维、设计思维等多种思维方式。通过以下途径培养创新思维：</p>
+                            
+                            <div class="list-container">
+                                <ul class="custom-list">
+                                    <li><strong>思维训练：</strong>参与创新思维工作坊，学习思维导图、六顶思考帽等思维工具</li>
+                                    <li><strong>跨界学习：</strong>接触不同学科领域的知识和方法，拓展思维视野</li>
+                                    <li><strong>问题挑战：</strong>主动发现和解决教学中的复杂问题，锻炼创新思维能力</li>
+                                    <li><strong>反思习惯：</strong>建立教学反思日志，定期分析教学中的创新点和改进空间</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="subsection">
+                            <h3 class="subsection-title">3.2 教学设计创新</h3>
+                            <p>教学设计创新是将创新理念转化为教学实践的关键环节，包括以下核心要素：</p>
+                            
+                            <div class="highlight-box">
+                                <h3>教学设计创新模型</h3>
+                                <p>基于"设计思维"(Design Thinking)的教学设计创新模型，包含五个阶段：</p>
+                                <div class="list-container">
+                                    <ul class="custom-list">
+                                        <li><strong>共情理解：</strong>深入了解学生需求和学习特点</li>
+                                        <li><strong>问题定义：</strong>明确教学挑战和创新目标</li>
+                                        <li><strong>创意生成：</strong>产生多种教学设计方案</li>
+                                        <li><strong>原型开发：</strong>将创意转化为具体教学活动</li>
+                                        <li><strong>测试优化：</strong>实施教学并基于反馈持续改进</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <section id="section4" class="section">
+                        <h2 class="section-title">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/map.svg" alt="路径">
+                            提升路径设计
+                        </h2>
+                        
+                        <p>基于教师当前能力水平和发展需求，设计个性化的教学创新思维培养路径：</p>
+                        
+                        <div class="subsection">
+                            <h3 class="subsection-title">4.1 短期提升计划（3个月）</h3>
+                            
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>提升目标</th>
+                                            <th>具体行动</th>
+                                            <th>时间安排</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>掌握教学评价创新方法</td>
+                                            <td>参加"多元化教学评价"专题培训，学习形成性评价工具</td>
+                                            <td>第1-4周</td>
+                                        </tr>
+                                        <tr>
+                                            <td>提升教育技术应用能力</td>
+                                            <td>学习并在教学中应用3种新型教育技术工具</td>
+                                            <td>第5-8周</td>
+                                        </tr>
+                                        <tr>
+                                            <td>开展一次创新教学实践</td>
+                                            <td>设计并实施一个创新教学案例，并进行反思总结</td>
+                                            <td>第9-12周</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div class="subsection">
+                            <h3 class="subsection-title">4.2 中长期发展规划（1-2年）</h3>
+                            
+                            <div class="image-container">
+                                <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1000" alt="教学创新思维发展路径图">
+                                <p class="image-caption">图2：教学创新思维中长期发展路径</p>
+                            </div>
+                            
+                            <p>中长期发展规划包括以下几个关键阶段：</p>
+                            
+                            <div class="list-container">
+                                <ul class="custom-list">
+                                    <li><strong>第一阶段（1-6个月）：</strong>夯实基础，系统学习教学创新理论和方法</li>
+                                    <li><strong>第二阶段（7-12个月）：</strong>实践探索，在教学中尝试多种创新方法</li>
+                                    <li><strong>第三阶段（13-18个月）：</strong>深度研究，聚焦某一创新领域进行专项研究</li>
+                                    <li><strong>第四阶段（19-24个月）：</strong>引领示范，形成个人特色的创新教学模式</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <section id="section5" class="section">
+                        <h2 class="section-title">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/book-open.svg" alt="资源">
+                            推荐资源与工具
+                        </h2>
+                        
+                        <div class="subsection">
+                            <h3 class="subsection-title">5.1 学习资源</h3>
+                            
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>资源类型</th>
+                                            <th>资源名称</th>
+                                            <th>推荐指数</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>专业书籍</td>
+                                            <td>《创新教学设计：理论与实践》、《教育创新思维》</td>
+                                            <td>★★★★★</td>
+                                        </tr>
+                                        <tr>
+                                            <td>在线课程</td>
+                                            <td>MOOC"教学创新与设计思维"、"未来教育创新"系列课程</td>
+                                            <td>★★★★☆</td>
+                                        </tr>
+                                        <tr>
+                                            <td>学术期刊</td>
+                                            <td>《教育研究》、《课程·教材·教法》创新教学专栏</td>
+                                            <td>★★★★☆</td>
+                                        </tr>
+                                        <tr>
+                                            <td>案例库</td>
+                                            <td>全国教学创新优秀案例库、学科教学创新案例集</td>
+                                            <td>★★★★★</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div class="subsection">
+                            <h3 class="subsection-title">5.2 创新教学工具</h3>
+                            
+                            <div class="highlight-box">
+                                <h3>数字工具推荐</h3>
+                                <div class="list-container">
+                                    <ul class="custom-list">
+                                        <li><strong>教学设计工具：</strong>Canva教育版、MindMeister思维导图</li>
+                                        <li><strong>课堂互动工具：</strong>ClassPoint、Mentimeter、Padlet</li>
+                                        <li><strong>创意表达工具：</strong>Powtoon、Adobe Express、Prezi</li>
+                                        <li><strong>评价反馈工具：</strong>Formative、Quizizz、ClassDojo</li>
+                                        <li><strong>AI辅助工具：</strong>教学助手AI、智能备课系统</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="chart-container">
+                                <h4 class="chart-title">教学创新工具分类图</h4>
+                                <div class="chart">
+                                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1000" alt="教学创新工具分类图">
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <section id="section6" class="section">
+                        <h2 class="section-title">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/check.svg" alt="评价">
+                            成效评价方案
+                        </h2>
+                        
+                        <p>为了科学评估教学创新思维提升的成效，设计了多元化的评价方案：</p>
+                        
+                        <div class="subsection">
+                            <h3 class="subsection-title">6.1 评价维度与指标</h3>
+                            
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>评价维度</th>
+                                            <th>评价指标</th>
+                                            <th>评价方法</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>创新理念</td>
+                                            <td>教育理念更新度、创新意识提升度</td>
+                                            <td>访谈、问卷</td>
+                                        </tr>
+                                        <tr>
+                                            <td>创新实践</td>
+                                            <td>创新教学案例数量、创新方法应用频率</td>
+                                            <td>教学观察、案例分析</td>
+                                        </tr>
+                                        <tr>
+                                            <td>学生发展</td>
+                                            <td>学生学习兴趣、创新思维、学习成效</td>
+                                            <td>学生问卷、学习成果分析</td>
+                                        </tr>
+                                        <tr>
+                                            <td>专业影响</td>
+                                            <td>创新成果分享、同伴影响力</td>
+                                            <td>同行评价、成果统计</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div class="subsection">
+                            <h3 class="subsection-title">6.2 评价实施流程</h3>
+                            
+                            <div class="image-container">
+                                <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=1000" alt="评价实施流程图">
+                                <p class="image-caption">图3：教学创新思维提升成效评价流程</p>
+                            </div>
+                            
+                            <p>评价实施采用"前测-过程性评价-后测"的模式，具体流程如下：</p>
+                            
+                            <div class="list-container">
+                                <ul class="custom-list">
+                                    <li><strong>前测评价：</strong>在提升计划开始前，对教师当前创新思维进行基线评估</li>
+                                    <li><strong>过程性评价：</strong>在提升过程中，定期收集反馈数据，及时调整提升策略</li>
+                                    <li><strong>后测评价：</strong>在提升计划结束后，全面评估能力提升成效</li>
+                                    <li><strong>跟踪评价：</strong>长期跟踪教师创新能力的持续发展情况</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="highlight-box">
+                                <h3>评价结果应用</h3>
+                                <p>评价结果将用于以下几个方面：</p>
+                                <div class="list-container">
+                                    <ul class="custom-list">
+                                        <li>调整和优化个人提升计划</li>
+                                        <li>形成教学创新思维发展档案</li>
+                                        <li>为教师专业发展决策提供依据</li>
+                                        <li>总结推广优秀创新经验</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="action-btn edit-btn" data-tooltip="修改方案">
+                <img src="images/edit.svg" alt="修改">
+            </button>
+            <button class="action-btn share-btn" data-tooltip="分享方案">
+                <img src="https://unpkg.com/lucide-static@latest/icons/share-2.svg" alt="分享">
+            </button>
+            <button class="action-btn download-btn" data-tooltip="下载方案">
+                <img src="https://unpkg.com/lucide-static@latest/icons/download.svg" alt="下载">
+            </button>
+            <button class="action-btn print-btn" data-tooltip="打印方案">
+                <img src="https://unpkg.com/lucide-static@latest/icons/printer.svg" alt="打印">
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        // 目录导航交互
+        const tocLinks = document.querySelectorAll('.toc-link');
+        const sections = document.querySelectorAll('.section');
+        
+        // 点击目录项滚动到对应部分
+        tocLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetSection.offsetTop - 20,
+                    behavior: 'smooth'
+                });
+                
+                // 更新活动状态
+                tocLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+            });
+        });
+        
+        // 滚动时更新目录活动状态
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (pageYOffset >= sectionTop - 100) {
+                    current = '#' + section.getAttribute('id');
+                }
+            });
+            
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        
+        // 按钮交互
+        const editBtn = document.querySelector('.edit-btn');
+        const shareBtn = document.querySelector('.share-btn');
+        const downloadBtn = document.querySelector('.download-btn');
+        const printBtn = document.querySelector('.print-btn');
+        
+        editBtn.addEventListener('click', () => {
+            alert('进入方案编辑模式');
+        });
+        
+        shareBtn.addEventListener('click', () => {
+            alert('分享方案功能启动');
+        });
+        
+        downloadBtn.addEventListener('click', () => {
+            alert('方案下载中...');
+        });
+        
+        printBtn.addEventListener('click', () => {
+            window.print();
+        });
+    </script>
+</body>
+</html>

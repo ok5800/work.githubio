@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新教师成长加速营 - 小沃AI助手</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        pink: {
+                            50: '#fdf2f8',
+                            100: '#fce7f3',
+                            200: '#fbcfe8',
+                            300: '#f9a8d4',
+                            400: '#f472b6',
+                            500: '#ec4899',
+                            600: '#db2777',
+                            700: '#be185d',
+                            800: '#9d174d',
+                            900: '#831843',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="max-w-[360px] mx-auto p-6">
+        <!-- 顶部导航 -->
+        <div class="flex items-center justify-between mb-6">
+            <a href="training_activities.html" class="flex items-center text-pink-600">
+                <img src="https://unpkg.com/lucide-static@latest/icons/arrow-left.svg" class="w-5 h-5 mr-2" alt="Back">
+                <span>返回</span>
+            </a>
+            <h2 class="text-lg font-semibold text-gray-900">活动详情</h2>
+            <div class="w-5"></div> <!-- 占位 -->
+        </div>
+        
+        <!-- 活动封面 -->
+        <div class="rounded-xl overflow-hidden mb-5 shadow-sm relative">
+            <div class="h-40 bg-gradient-to-r from-pink-400 to-purple-500">
+                <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover mix-blend-overlay" alt="Training">
+            </div>
+            <div class="absolute top-3 left-3 px-2 py-1 bg-white bg-opacity-90 rounded text-xs font-medium text-pink-600">入门级</div>
+            <div class="absolute top-3 right-3 px-2 py-1 bg-white bg-opacity-90 rounded text-xs font-medium text-pink-600">热门</div>
+        </div>
+        
+        <!-- 活动标题 -->
+        <h1 class="text-2xl font-bold text-gray-900 mb-2">新教师成长加速营</h1>
+        
+        <!-- 活动基本信息 -->
+        <div class="bg-white rounded-xl p-4 shadow-sm mb-4">
+            <div class="flex items-center mb-3">
+                <img src="https://unpkg.com/lucide-static@latest/icons/calendar.svg" class="w-5 h-5 text-pink-600 mr-3" alt="Date">
+                <div>
+                    <p class="text-sm text-gray-500">活动时间</p>
+                    <p class="text-gray-800">2023.07.10-2023.07.25</p>
+                </div>
+            </div>
+            <div class="flex items-center mb-3">
+                <img src="https://unpkg.com/lucide-static@latest/icons/map-pin.svg" class="w-5 h-5 text-pink-600 mr-3" alt="Location">
+                <div>
+                    <p class="text-sm text-gray-500">活动地点</p>
+                    <p class="text-gray-800">线上（腾讯会议）</p>
+                </div>
+            </div>
+            <div class="flex items-center mb-3">
+                <img src="https://unpkg.com/lucide-static@latest/icons/users.svg" class="w-5 h-5 text-pink-600 mr-3" alt="Target">
+                <div>
+                    <p class="text-sm text-gray-500">适合对象</p>
+                    <p class="text-gray-800">新入职教师（0-3年教龄）</p>
+                </div>
+            </div>
+            <div class="flex items-center">
+                <img src="https://unpkg.com/lucide-static@latest/icons/award.svg" class="w-5 h-5 text-pink-600 mr-3" alt="Credit">
+                <div>
+                    <p class="text-sm text-gray-500">学时认证</p>
+                    <p class="text-gray-800">30学时</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 活动介绍 -->
+        <div class="bg-white rounded-xl p-4 shadow-sm mb-4">
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">活动介绍</h3>
+            <p class="text-gray-700 mb-3">新教师成长加速营是专为新入职教师设计的综合培训项目，旨在帮助新教师快速适应教学工作，掌握必要的教学技能和教育理念。</p>
+            <p class="text-gray-700">通过系统的线上培训、实践指导和同伴互助，帮助新教师在职业生涯起步阶段打下坚实基础，实现从"新手"到"熟手"的快速转变。</p>
+        </div>
+        
+        <!-- 课程内容 -->
+        <div class="bg-white rounded-xl p-4 shadow-sm mb-4">
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">课程内容</h3>
+            
+            <div class="mb-3">
+                <h4 class="font-medium text-gray-900 mb-1">模块一：课堂管理与教学技巧</h4>
+                <ul class="list-disc list-inside text-gray-700 text-sm ml-2">
+                    <li>有效的课堂管理策略</li>
+                    <li>教学常规建立与维护</li>
+                    <li>课堂互动技巧与方法</li>
+                </ul>
+            </div>
+            
+            <div class="mb-3">
+                <h4 class="font-medium text-gray-900 mb-1">模块二：教学设计与实施</h4>
+                <ul class="list-disc list-inside text-gray-700 text-sm ml-2">
+                    <li>教学目标设定与分解</li>
+                    <li>课程单元设计方法</li>
+                    <li>多样化教学策略应用</li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="font-medium text-gray-900 mb-1">模块三：师生关系与沟通</h4>
+                <ul class="list-disc list-inside text-gray-700 text-sm ml-2">
+                    <li>理解学生心理特点</li>
+                    <li>有效的师生沟通方法</li>
+                    <li>处理常见班级问题</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- 日程安排 -->
+        <div class="bg-white rounded-xl p-4 shadow-sm mb-4">
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">日程安排</h3>
+            
+            <div class="relative mb-4">
+                <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-pink-200"></div>
+                
+                <div class="relative pl-10 mb-3">
+                    <div class="absolute left-2.5 top-1 h-5 w-5 rounded-full bg-pink-500 border-2 border-white"></div>
+                    <p class="font-medium text-gray-900">第一周（7月10日-7月14日）</p>
+                    <p class="text-sm text-gray-600">理论学习与基础培训</p>
+                </div>
+                
+                <div class="relative pl-10 mb-3">
+                    <div class="absolute left-2.5 top-1 h-5 w-5 rounded-full bg-pink-500 border-2 border-white"></div>
+                    <p class="font-medium text-gray-900">第二周（7月17日-7月21日）</p>
+                    <p class="text-sm text-gray-600">实践演练与案例分析</p>
+                </div>
+                
+                <div class="relative pl-10">
+                    <div class="absolute left-2.5 top-1 h-5 w-5 rounded-full bg-pink-500 border-2 border-white"></div>
+                    <p class="font-medium text-gray-900">7月25日</p>
+                    <p class="text-sm text-gray-600">结业汇报与分享交流</p>
+                </div>
+            </div>
+            
+            <a href="activity_schedule.html" class="text-pink-600 text-sm font-medium flex items-center">
+                查看完整日程安排
+                <img src="https://unpkg.com/lucide-static@latest/icons/chevron-right.svg" class="w-4 h-4 ml-1" alt="Arrow">
+            </a>
+        </div>
+        
+        <!-- 讲师介绍 -->
+        <div class="bg-white rounded-xl p-4 shadow-sm mb-4">
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">讲师介绍</h3>
+            
+            <div class="flex items-center mb-3">
+                <div class="w-12 h-12 rounded-full bg-gray-200 overflow-hidden mr-3">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover" alt="Instructor">
+                </div>
+                <div>
+                    <p class="font-medium text-gray-900">王丽华</p>
+                    <p class="text-sm text-gray-600">特级教师 | 20年教学经验</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center">
+                <div class="w-12 h-12 rounded-full bg-gray-200 overflow-hidden mr-3">
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover" alt="Instructor">
+                </div>
+                <div>
+                    <p class="font-medium text-gray-900">张明</p>
+                    <p class="text-sm text-gray-600">教育学博士 | 教师发展专家</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 报名信息 -->
+        <div class="flex space-x-3 mb-6">
+            <div class="flex-1 bg-white rounded-xl p-4 shadow-sm">
+                <p class="text-sm text-gray-500 mb-1">活动名额</p>
+                <p class="text-2xl font-bold text-gray-900">100<span class="text-sm font-normal text-gray-500 ml-1">人</span></p>
+            </div>
+            <div class="flex-1 bg-white rounded-xl p-4 shadow-sm">
+                <p class="text-sm text-gray-500 mb-1">已报名</p>
+                <p class="text-2xl font-bold text-pink-600">78<span class="text-sm font-normal text-gray-500 ml-1">人</span></p>
+            </div>
+        </div>
+        
+        <!-- 报名按钮 -->
+        <button class="w-full py-3 bg-pink-600 text-white rounded-lg text-base font-medium mb-3">
+            立即报名
+        </button>
+        
+        <button class="w-full py-3 border border-pink-600 text-pink-600 bg-white rounded-lg text-base font-medium">
+            添加到日历
+        </button>
+    </div>
+</body>
+</html> 

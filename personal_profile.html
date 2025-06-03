@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人成长档案 - 小沃AI助手</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        pink: {
+                            50: '#fdf2f8',
+                            100: '#fce7f3',
+                            200: '#fbcfe8',
+                            300: '#f9a8d4',
+                            400: '#f472b6',
+                            500: '#ec4899',
+                            600: '#db2777',
+                            700: '#be185d',
+                            800: '#9d174d',
+                            900: '#831843',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        
+        [x-cloak] {
+            display: none !important;
+        }
+
+        /* AI Button Animation */
+        .ai-button {
+            position: fixed;
+            right: 30px;
+            bottom: 30px;
+            z-index: 100;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .ai-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5);
+        }
+        
+        .ai-button::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                from 0deg at 50% 50%,
+                rgba(59, 130, 246, 0.1) 0deg,
+                rgba(236, 72, 153, 0.1) 120deg,
+                rgba(139, 92, 246, 0.1) 240deg,
+                rgba(59, 130, 246, 0.1) 360deg
+            );
+            animation: ai-button-rotate 4s linear infinite;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .ai-button:hover::before {
+            opacity: 1;
+        }
+        
+        @keyframes ai-button-rotate {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        /* AI Dialog */
+        .ai-dialog {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            width: 80%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            background: rgba(17, 24, 39, 0.95);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            backdrop-filter: blur(8px);
+            animation: dialog-appear 0.3s ease forwards;
+        }
+        
+        @keyframes dialog-appear {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -45%);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+        
+        .ai-dialog-header {
+            position: relative;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .ai-dialog-header::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 1px;
+            width: 100%;
+            background: linear-gradient(to right, transparent, rgba(99, 102, 241, 0.5), transparent);
+        }
+        
+        .ai-chat-bubble {
+            position: relative;
+            margin-bottom: 16px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            max-width: 80%;
+        }
+        
+        .user-bubble {
+            margin-left: auto;
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+        
+        .ai-bubble {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .ai-bubble::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(99, 102, 241, 0.05), transparent);
+            z-index: -1;
+            border-radius: 12px;
+        }
+        
+        /* Overlay */
+        .dialog-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(3px);
+            z-index: 999;
+            animation: overlay-appear 0.3s ease forwards;
+        }
+        
+        @keyframes overlay-appear {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        
+        /* Input glow effect */
+        .ai-input {
+            transition: box-shadow 0.3s ease;
+        }
+        
+        .ai-input:focus {
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3), 0 0 15px rgba(99, 102, 241, 0.2);
+        }
+    </style>
+</head>
+
+
+
+
+
+
+<body class="bg-gray-50 min-h-screen">
+    <div class="max-w-[800px] mx-auto p-6">
+        <!-- 顶部导航 -->
+        <div class="flex items-center justify-between mb-6">
+            <a href="advisor_main.html" class="flex items-center text-blue-600">
+                <img src="https://unpkg.com/lucide-static@latest/icons/arrow-left.svg" class="w-5 h-5 mr-2" alt="Back">
+                <span>返回</span>
+            </a>
+            <h2 class="text-lg font-semibold text-gray-900">个人成长档案</h2>
+            <button class="p-1.5 rounded-full text-gray-500 hover:bg-gray-100">
+                <img src="https://unpkg.com/lucide-static@latest/icons/calendar.svg" class="w-5 h-5" alt="Edit">
+            </button>
+        </div>
+
+        
+        
+        <!-- 个人基本信息 -->
+        <div class="flex items-center mb-6">
+            <div class="h-12 w-12 rounded-full bg-pink-100 flex items-center justify-center">
+                <img src="https://unpkg.com/lucide-static@latest/icons/award.svg" class="h-6 w-6 text-pink-600" alt="Professional">
+            </div>
+            <h1 class="ml-3 text-2xl font-bold text-gray-900">个人基本信息</h1>
+        </div>
+        <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+            <div class="flex items-center mb-4">
+                <div class="h-16 w-16 rounded-full bg-green-100 flex items-center justify-center">
+                    <span class="text-2xl font-bold text-green-700">李</span>
+                </div>
+                <div class="ml-3">
+                    <h1 class="text-xl font-bold text-gray-900">李明</h1>
+                    <p class="text-sm text-gray-500">高中数学教师 | 一级教师</p>
+                    <p class="text-sm text-gray-500">信沃学校</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-300 pt-3" style="margin-top: 20px;"></div>
+            <h3 class="font-semibold text-gray-900 mb-3">➤&nbsp;基础信息</h3>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">姓名</p>
+                        <p class="text-sm font-medium text-gray-900">李明</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">曾用名</p>
+                        <p class="text-sm font-medium text-gray-900">无</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">性别</p>
+                        <p class="text-sm font-medium text-gray-900">男</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">籍贯</p>
+                        <p class="text-sm font-medium text-gray-900">北京市海淀区中关村街道</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">民族</p>
+                        <p class="text-sm font-medium text-gray-900">汉</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">国籍</p>
+                        <p class="text-sm font-medium text-gray-900">中国</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">婚姻状况</p>
+                        <p class="text-sm font-medium text-gray-900">未婚</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">政治面貌</p>
+                        <p class="text-sm font-medium text-gray-900">群众</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">婚姻状况</p>
+                        <p class="text-sm font-medium text-gray-900">未婚</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">出生日期（年龄）</p>
+                        <p class="text-sm font-medium text-gray-900">1986-03-01(39)</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">身份证号</p>
+                        <p class="text-sm font-medium text-gray-900">12345198603011234</p>
+                    </div>
+                    
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">所在地</p>
+                        <p class="text-sm font-medium text-gray-900">湖北省 武汉市 蔡甸区</p>
+                    </div>
+
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">所属学校</p>
+                        <p class="text-sm font-medium text-gray-900">信沃学校</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">学校下级组织</p>
+                        <p class="text-sm font-medium text-gray-900">海淀中关村校区-初中部</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">班级</p>
+                        <p class="text-sm font-medium text-gray-900">高一2301班</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">联系电话</p>
+                        <p class="text-sm font-medium text-gray-900">139****1234</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">邮箱</p>
+                        <p class="text-sm font-medium text-gray-900">name@website.com</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">联系地址</p>
+                        <p class="text-sm font-medium text-gray-900">中关村6号院6001室</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">参加工作日期</p>
+                        <p class="text-sm font-medium text-gray-900">2009-08-01</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">从教起始年月</p>
+                        <p class="text-sm font-medium text-gray-900">2019-08</p>
+                    </div>
+              </div> 
+
+
+              <div class="border-t border-gray-300 pt-3" style="margin-top: 20px;"></div>
+                <h3 class="font-semibold text-gray-900 mb-3">➤&nbsp;职称信息</h3>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">教龄</p>
+                        <p class="text-sm font-medium text-gray-900">5年</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">教龄</p>
+                        <p class="text-sm font-medium text-gray-900">5年</p>
+                    </div>
+            </div>
+            
+            
+
+
+              <div class="border-t border-gray-300 pt-3" style="margin-top: 20px;"></div>
+                <h3 class="font-semibold text-gray-900 mb-3">➤&nbsp;在校信息</h3>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">进校日期</p>
+                        <p class="text-sm font-medium text-gray-900">2019-08-01</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">教工号</p>
+                        <p class="text-sm font-medium text-gray-900">L131612200916135525</p>
+                    </div>
+            </div>
+                
+               
+
+              <div class="border-t border-gray-300 pt-3" style="margin-top: 20px;"></div>
+              <h3 class="font-semibold text-gray-900 mb-3">➤&nbsp;扩展信息</h3>
+              <div class="grid grid-cols-2 gap-3">
+                  <div>
+                      <p class="text-xs text-gray-500 mb-1">最高学历</p>
+                      <p class="text-sm font-medium text-gray-900">硕士</p>
+                  </div>
+                  <div>
+                      <p class="text-xs text-gray-500 mb-1">最高学历专业</p>
+                      <p class="text-sm font-medium text-gray-900">应用数学</p>
+                  </div>
+          </div>
+
+
+            <div class="border-t border-gray-300 pt-3" style="margin-top: 20px;"></div>
+                <h3 class="font-semibold text-gray-900 mb-3">➤&nbsp;扩展信息</h3>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">最高学历</p>
+                        <p class="text-sm font-medium text-gray-900">硕士</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">最高学历专业</p>
+                        <p class="text-sm font-medium text-gray-900">应用数学</p>
+                    </div>
+            </div>
+          
+          
+
+              <div class="border-t border-gray-300 pt-3" style="margin-top: 20px;"></div>
+                <h3 class="font-semibold text-gray-900 mb-3">➤&nbsp;职称信息</h3>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">教龄</p>
+                        <p class="text-sm font-medium text-gray-900">5年</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">教龄</p>
+                        <p class="text-sm font-medium text-gray-900">5年</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">专业等级</p>
+                        <p class="text-sm font-medium text-gray-900">一级教师</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">学历</p>
+                        <p class="text-sm ont-medium text-gray-900">硕士研究生</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">专业方向</p>
+                        <p class="text-sm font-medium text-gray-900">数学教育</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">任教学段</p>
+                        <p class="text-sm font-medium text-gray-900">高中</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">任教学科</p>
+                        <p class="text-sm font-medium text-gray-900">数学</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">职务岗位</p>
+                        <p class="text-sm font-medium text-gray-900">班主任</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">教龄</p>
+                        <p class="text-sm font-medium text-gray-900">10年</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 mb-1">本校工作年限</p>
+                        <p class="text-sm font-medium text-gray-900">8年</p>
+                    </div>
+            </div>
+        </div>
+
+
+
+
+        
+        <!-- 能力雷达图 -->
+        <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+            <h3 class="font-semibold text-gray-900 mb-3">专业能力评估</h3>
+            <div class="flex justify-center mb-3">
+                <img src="https://via.placeholder.com/280x180/f9a8d4/ffffff?text=能力雷达图" class="rounded-lg" alt="Radar Chart">
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+                <div class="flex items-center">
+                    <div class="h-3 w-3 rounded-full bg-pink-500 mr-2"></div>
+                    <span class="text-xs text-gray-700">教学设计: 85分</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="h-3 w-3 rounded-full bg-blue-500 mr-2"></div>
+                    <span class="text-xs text-gray-700">课堂管理: 90分</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="h-3 w-3 rounded-full bg-green-500 mr-2"></div>
+                    <span class="text-xs text-gray-700">学科知识: 92分</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="h-3 w-3 rounded-full bg-yellow-500 mr-2"></div>
+                    <span class="text-xs text-gray-700">教育科研: 75分</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="h-3 w-3 rounded-full bg-purple-500 mr-2"></div>
+                    <span class="text-xs text-gray-700">信息技术: 78分</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="h-3 w-3 rounded-full bg-orange-500 mr-2"></div>
+                    <span class="text-xs text-gray-700">沟通能力: 88分</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 专业活动记录 -->
+        <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+            <h3 class="font-semibold text-gray-900 mb-3">专业活动记录</h3>
+            
+            <!-- 教育教学管理常规工作记录分析 -->
+            <div class="mb-4">
+                <div class="flex items-center mb-2">
+                    <div class="h-6 w-6 rounded-full bg-blue-100 flex items-center justify-center mr-2">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/clipboard-list.svg" class="h-3.5 w-3.5 text-blue-600" alt="Work">
+                    </div>
+                    <h4 class="text-sm font-medium text-gray-800">教育教学管理常规工作记录分析</h4>
+                </div>
+                <div class="ml-8 space-y-2">
+                    <div class="bg-gray-50 rounded-lg p-3">
+                        <div class="flex justify-between items-center mb-1">
+                            <h5 class="text-xs font-medium text-gray-700">期中考试质量分析会</h5>
+                            <span class="text-xs text-gray-500">2024-03-15</span>
+                        </div>
+                        <p class="text-xs text-gray-600">负责高一年级数学学科期中考试分析报告，针对学生在函数与三角函数部分的薄弱环节提出了有针对性的教学调整方案。</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-3">
+                        <div class="flex justify-between items-center mb-1">
+                            <h5 class="text-xs font-medium text-gray-700">班主任工作例会</h5>
+                            <span class="text-xs text-gray-500">2024-02-25</span>
+                        </div>
+                        <p class="text-xs text-gray-600">分享了《如何提高高中生自主学习能力》的班级管理经验，获得同行好评并在校内推广实施。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 教育教学研活动 -->
+            <div class="mb-4">
+                <div class="flex items-center mb-2">
+                    <div class="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mr-2">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/book-open.svg" class="h-3.5 w-3.5 text-green-600" alt="Research">
+                    </div>
+                    <h4 class="text-sm font-medium text-gray-800">教育教学研活动</h4>
+                </div>
+                <div class="ml-8 space-y-2">
+                    <div class="bg-gray-50 rounded-lg p-3">
+                        <div class="flex justify-between items-center mb-1">
+                            <h5 class="text-xs font-medium text-gray-700">市级数学教学研讨会</h5>
+                            <span class="text-xs text-gray-500">2024-04-12</span>
+                        </div>
+                        <p class="text-xs text-gray-600">作为主讲人分享《数学思维可视化教学方法》，介绍了个人在高中数学教学中的创新实践与成果。</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-3">
+                        <div class="flex justify-between items-center mb-1">
+                            <h5 class="text-xs font-medium text-gray-700">校本课程开发项目</h5>
+                            <span class="text-xs text-gray-500">2024-01-10 至 2024-05-30</span>
+                        </div>
+                        <p class="text-xs text-gray-600">牵头开发《数学建模与实践》校本课程，结合学生实际需求，融入科技创新元素，培养学生应用数学解决实际问题的能力。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 个人和部门的心得与感悟 -->
+            <div>
+                <div class="flex items-center mb-2">
+                    <div class="h-6 w-6 rounded-full bg-purple-100 flex items-center justify-center mr-2">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/lightbulb.svg" class="h-3.5 w-3.5 text-purple-600" alt="Insights">
+                    </div>
+                    <h4 class="text-sm font-medium text-gray-800">个人和部门的心得与感悟</h4>
+                </div>
+                <div class="ml-8 space-y-2">
+                    <div class="bg-gray-50 rounded-lg p-3">
+                        <div class="flex justify-between items-center mb-1">
+                            <h5 class="text-xs font-medium text-gray-700">教学反思日志</h5>
+                            <span class="text-xs text-gray-500">2024-04-25</span>
+                        </div>
+                        <p class="text-xs text-gray-600">"在本学期教学中，我逐渐认识到数学教育不仅是知识传授，更是思维方式的培养。通过引导学生自主探索、合作研究，学生的学习积极性有了明显提高。教师应做引导者而非灌输者，这是我对教育理念的重要转变。"</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-3">
+                        <div class="flex justify-between items-center mb-1">
+                            <h5 class="text-xs font-medium text-gray-700">数学教研组集体总结</h5>
+                            <span class="text-xs text-gray-500">2024-03-30</span>
+                        </div>
+                        <p class="text-xs text-gray-600">"我们数学教研组通过定期的教学研讨和案例分享，形成了'以学生为中心，以能力为导向'的教学共识。每位教师在教学实践中各有所长，形成了互补优势。下一阶段我们将更加注重跨学科整合，拓展数学教学边界。"</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 自主发展说明 -->
+            <div class="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-100">
+                <div class="flex items-start">
+                    <div class="h-5 w-5 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/info.svg" class="h-3 w-3 text-blue-600" alt="Info">
+                    </div>
+                    <p class="ml-2 text-xs text-gray-700">本记录由教师自主填写，旨在促进教师专业发展的自觉性与自主性，结合个人发展需求与国家及学校对教师队伍的活动发展要求，形成个人专业成长轨迹。</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 成长轨迹 -->
+        <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+            <h3 class="font-semibold text-gray-900 mb-3">成长轨迹</h3>
+            <div class="relative">
+                <div class="absolute left-3 top-0 bottom-0 w-0.5 bg-gray-200"></div>
+                
+                <div class="relative z-10 mb-4 pl-8">
+                    <div class="absolute left-1.5 top-1.5 h-3 w-3 rounded-full bg-pink-600"></div>
+                    <div class="bg-gray-50 rounded-lg p-3">
+                        <div class="flex justify-between items-center mb-1">
+                            <h4 class="font-medium text-gray-900">获得一级教师资格</h4>
+                            <span class="text-xs text-gray-500">2024年</span>
+                        </div>
+                        <p class="text-sm text-gray-600">通过一级教师资格评定，专业能力得到认可</p>
+                    </div>
+                </div>
+                
+                <div class="relative z-10 mb-4 pl-8">
+                    <div class="absolute left-1.5 top-1.5 h-3 w-3 rounded-full bg-pink-600"></div>
+                    <div class="bg-gray-50 rounded-lg p-3">
+                        <div class="flex justify-between items-center mb-1">
+                            <h4 class="font-medium text-gray-900">市级优秀教师</h4>
+                            <span class="text-xs text-gray-500">2023年</span>
+                        </div>
+                        <p class="text-sm text-gray-600">被评为市级优秀教师，教学成果获得肯定</p>
+                    </div>
+                </div>
+                
+                <div class="relative z-10 pl-8">
+                    <div class="absolute left-1.5 top-1.5 h-3 w-3 rounded-full bg-pink-600"></div>
+                    <div class="bg-gray-50 rounded-lg p-3">
+                        <div class="flex justify-between items-center mb-1">
+                            <h4 class="font-medium text-gray-900">教育硕士学位</h4>
+                            <span class="text-xs text-gray-500">2020年</span>
+                        </div>
+                        <p class="text-sm text-gray-600">获得教育学硕士学位，专业理论基础更加扎实</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 发展建议 -->
+        <div class="bg-pink-50 rounded-xl p-4 border border-pink-100">
+            <div class="flex items-start">
+                <div class="h-8 w-8 rounded-full bg-pink-100 flex items-center justify-center flex-shrink-0">
+                    <img src="images/aire.svg" class="h-8 w-8 text-pink-600" alt="Tip">
+                </div>
+                <div class="ml-3">
+                    <h3 class="font-medium text-gray-900 mb-1">发展建议</h3>
+                    <div class="space-y-2 text-sm text-gray-700">
+                        <p>1. 建议加强教育科研能力，可参加"教育科研方法与实践"课程</p>
+                        <p>2. 尝试开展跨学科教学实践，拓展教学视野</p>
+                        <p>3. 参与市级教研活动，提升专业影响力</p>
+                        <p>4. 准备高级教师资格评定材料，规划下一阶段职业发展</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        
+        <div class="rounded-xl p-2 shadow-sm mb-0">
+            <p class="text-gray-000"></p>
+        </div>
+
+        <!-- AI智能解读按钮 -->
+        <button id="ai-button" class="ai-button flex items-center justify-center bg-gradient-to-l from-blue-300 to-indigo-600 text-white font-medium rounded-full p-4 shadow-lg">
+            <span class="flex items-center px-2">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                          ></path>
+                          <img src="images/AI001.png" class="h-8 w-8 text-pink-600" alt="Tip"></svg>&nbsp;智能解读&nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
+        </button>
+
+        <!-- 对话框遮罩层 -->
+        <div id="dialog-overlay" class="dialog-overlay"></div>
+
+        <!-- AI对话框 -->
+        <div id="ai-dialog" class="ai-dialog">
+            <div class="ai-dialog-header">
+                <div class="h-8 w-8 rounded-full bg-indigo-600 flex items-center justify-center mr-3">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714a2.25 2.25 0 001.5 2.25m0 0v2.018m0 0a2.25 2.25 0 001.5 2.25M3 14.25v-8.25a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 6v8.25m-18 0v3.75a2.25 2.25 0 002.25 2.25h13.5A2.25 2.25 0 0021 18v-3.75"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-white">AI智能解读助手</h3>
+                <button id="close-dialog" class="ml-auto text-gray-400 hover:text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="p-4 max-h-[60vh] overflow-y-auto" id="ai-chat-content">
+                <div class="ai-chat-bubble ai-bubble">
+                    <p class="text-white">欢迎使用AI智能解读助手，您可以询问关于李明老师的任何信息，我将为您提供专业分析。</p>
+                </div>
+                <!-- 聊天内容会动态添加在这里 -->
+            </div>
+            
+            <div class="p-4 border-t border-gray-800">
+                <div class="relative">
+                    <input id="ai-input" type="text" class="ai-input w-full bg-gray-900 text-white rounded-lg border border-gray-700 p-3 pr-12 placeholder-gray-500 focus:outline-none" placeholder="输入您想了解的内容...">
+                    <button id="send-message" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-indigo-400 hover:text-indigo-300 p-1.5">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 添加Alpine.js和页面脚本 -->
+        <script src="//unpkg.com/alpinejs" defer></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const aiButton = document.getElementById('ai-button');
+                const aiDialog = document.getElementById('ai-dialog');
+                const dialogOverlay = document.getElementById('dialog-overlay');
+                const closeDialog = document.getElementById('close-dialog');
+                const aiInput = document.getElementById('ai-input');
+                const sendMessage = document.getElementById('send-message');
+                const aiChatContent = document.getElementById('ai-chat-content');
+                
+                // 打开对话框
+                aiButton.addEventListener('click', function() {
+                    aiDialog.style.display = 'block';
+                    dialogOverlay.style.display = 'block';
+                });
+                
+                // 关闭对话框
+                closeDialog.addEventListener('click', function() {
+                    aiDialog.style.display = 'none';
+                    dialogOverlay.style.display = 'none';
+                });
+                
+                dialogOverlay.addEventListener('click', function() {
+                    aiDialog.style.display = 'none';
+                    dialogOverlay.style.display = 'none';
+                });
+                
+                // 发送消息
+                function sendUserMessage() {
+                    const message = aiInput.value.trim();
+                    if (message) {
+                        // 添加用户消息
+                        const userBubble = document.createElement('div');
+                        userBubble.className = 'ai-chat-bubble user-bubble';
+                        userBubble.innerHTML = `<p class="text-white">${message}</p>`;
+                        aiChatContent.appendChild(userBubble);
+                        
+                        // 清空输入框
+                        aiInput.value = '';
+                        
+                        // 滚动到底部
+                        aiChatContent.scrollTop = aiChatContent.scrollHeight;
+                        
+                        // 模拟AI回复
+                        setTimeout(function() {
+                            generateAIResponse(message);
+                        }, 600);
+                    }
+                }
+                
+                sendMessage.addEventListener('click', sendUserMessage);
+                
+                aiInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        sendUserMessage();
+                    }
+                });
+                
+                // 生成AI回复
+                function generateAIResponse(userMessage) {
+                    // 模拟加载状态
+                    const loadingBubble = document.createElement('div');
+                    loadingBubble.className = 'ai-chat-bubble ai-bubble';
+                    loadingBubble.innerHTML = `<p class="text-white">思考中<span class="typing-dots">...</span></p>`;
+                    aiChatContent.appendChild(loadingBubble);
+                    
+                    // 滚动到底部
+                    aiChatContent.scrollTop = aiChatContent.scrollHeight;
+                    
+                    // 模拟延迟后替换为实际回复
+                    setTimeout(function() {
+                        // 根据用户输入关键词生成不同的回复
+                        let aiResponse = '';
+                        
+                        if (userMessage.includes('教学能力') || userMessage.includes('能力评估')) {
+                            aiResponse = `
+                                <p class="text-white mb-3">根据李明老师的专业能力评估数据分析，我发现以下几个关键点：</p>
+                                <div class="mb-3">
+                                    <div class="flex items-center mb-1">
+                                        <div class="h-3 w-3 rounded-full bg-blue-500 mr-2"></div>
+                                        <span class="text-blue-300 font-medium">优势领域</span>
+                                    </div>
+                                    <p class="text-gray-300 ml-5">李明老师在学科知识(92分)和课堂管理(90分)方面表现突出，这是他教学实践的核心优势。</p>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="flex items-center mb-1">
+                                        <div class="h-3 w-3 rounded-full bg-yellow-500 mr-2"></div>
+                                        <span class="text-yellow-300 font-medium">发展机会</span>
+                                    </div>
+                                    <p class="text-gray-300 ml-5">教育科研(75分)是相对薄弱环节，建议参加"教育科研方法与实践"课程进行提升。</p>
+                                </div>
+                                <img src="https://via.placeholder.com/400x200/0a0f2a/ffffff?text=能力评估图表" class="rounded-lg my-3 w-full" alt="能力评估图表">
+                            `;
+                        } else if (userMessage.includes('成长轨迹') || userMessage.includes('职业发展')) {
+                            aiResponse = `
+                                <p class="text-white mb-3">分析李明老师的职业发展历程，呈现出清晰的专业成长路径：</p>
+                                <div class="relative mb-3 border-l-2 border-indigo-500 pl-4">
+                                    <div class="absolute left-[-8px] top-0 h-3 w-3 rounded-full bg-indigo-500"></div>
+                                    <p class="text-gray-200 font-medium">2020-2024: 专业能力稳步提升期</p>
+                                    <p class="text-gray-400">完成教育硕士学位到获得一级教师资格，教学专业水平得到认可。</p>
+                                </div>
+                                <div class="border border-gray-700 rounded-lg p-3 mb-3 bg-gray-800/30">
+                                    <p class="text-gray-300">未来发展预测：基于当前能力构成和成长速度，李明老师在未来2-3年内有望获得高级教师资格，并可能在课程开发领域取得突破。</p>
+                                </div>
+                                <div class="flex items-center text-sm text-indigo-300">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    建议关注市级教研活动，提升专业影响力
+                                </div>
+                            `;
+                        } else if (userMessage.includes('建议') || userMessage.includes('提升')) {
+                            aiResponse = `
+                                <p class="text-white mb-3">基于李明老师的档案分析，我提供以下个性化发展建议：</p>
+                                <div class="grid grid-cols-1 gap-3 mb-3">
+                                    <div class="bg-gradient-to-r from-indigo-900/50 to-purple-900/50 rounded-lg p-3 border border-indigo-700/30">
+                                        <div class="flex items-center mb-2">
+                                            <div class="bg-indigo-600 rounded-full p-1 mr-2">
+                                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                                                </svg>
+                                            </div>
+                                            <h4 class="text-indigo-300 font-medium">核心发展路径</h4>
+                                        </div>
+                                        <p class="text-gray-300 ml-7">参加"教育科研方法与实践"课程，提升研究能力，对接李明老师在学科教学与科研结合方面的发展需求。</p>
+                                    </div>
+                                </div>
+                                <p class="text-gray-300 mb-2">根据李明老师的专业能力分布，推荐以下成长计划：</p>
+                                <ol class="list-decimal list-inside text-gray-300 space-y-1 ml-2">
+                                    <li>尝试开展跨学科教学实践，拓展教学视野</li>
+                                    <li>参与市级教研活动，提升专业影响力</li>
+                                    <li>准备高级教师资格评定材料，规划下一阶段职业发展</li>
+                                </ol>
+                            `;
+                        } else {
+                            aiResponse = `
+                                <p class="text-white mb-3">根据李明老师的成长档案分析，我提取了以下核心信息：</p>
+                                <div class="grid grid-cols-2 gap-2 mb-3">
+                                    <div class="bg-gray-800/70 rounded-lg p-2">
+                                        <p class="text-sm text-gray-400">教学经验</p>
+                                        <p class="text-base text-gray-200 font-medium">5年</p>
+                                    </div>
+                                    <div class="bg-gray-800/70 rounded-lg p-2">
+                                        <p class="text-sm text-gray-400">职称等级</p>
+                                        <p class="text-base text-gray-200 font-medium">一级教师</p>
+                                    </div>
+                                    <div class="bg-gray-800/70 rounded-lg p-2">
+                                        <p class="text-sm text-gray-400">专业能力均分</p>
+                                        <p class="text-base text-gray-200 font-medium">84.7分</p>
+                                    </div>
+                                    <div class="bg-gray-800/70 rounded-lg p-2">
+                                        <p class="text-sm text-gray-400">学历背景</p>
+                                        <p class="text-base text-gray-200 font-medium">教育学硕士</p>
+                                    </div>
+                                </div>
+                                <p class="text-gray-300">李明老师的专业特点是学科知识扎实，课堂管理能力突出，但教育科研能力有待提升。建议关注教研活动参与，提升教育科研能力，为后续高级教师资格评定做准备。</p>
+                            `;
+                        }
+                        
+                        // 替换加载消息
+                        loadingBubble.innerHTML = aiResponse;
+                        
+                        // 滚动到底部
+                        aiChatContent.scrollTop = aiChatContent.scrollHeight;
+                    }, 1500);
+                }
+            });
+        </script>
+
+        <!-- AI输入区域 -->
+        <div class="p-3 border-t border-gray-100">
+            <div class="relative">
+                <textarea rows="2" class="w-full p-2 pl-3 pr-10 text-sm text-gray-700 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-300 focus:border-purple-300 resize-none" placeholder="输入您的问题，小沃AI助手来分析..."></textarea>
+                <button type="submit" class="absolute right-2.5 bottom-2.5 bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 text-white transition-colors">            <img src="https://unpkg.com/lucide-static@latest/icons/send.svg" class="w-4 h-4" alt="Send">
+            </button>
+        </div>
+        
+        <div class="flex justify-between items-center mt-2 text-xs text-gray-500">
+            <div class="flex items-center space-x-2">
+                <button class="p-1 hover:bg-gray-100 rounded">
+                    <img src="https://unpkg.com/lucide-static@latest/icons/plus.svg" class="w-4 h-4" alt="Add">
+                </button>
+                <button class="p-1 hover:bg-gray-100 rounded">
+                    <img src="https://unpkg.com/lucide-static@latest/icons/mic.svg" class="w-4 h-4" alt="Voice">
+                </button>
+                <!-- 或仅水平居中 -->
+                <div class="text-right">
+                    <span class="inline-block px-2 py-0 bg-green-100 rounded-lg">已接入AI大模型</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</body>
+</html> 

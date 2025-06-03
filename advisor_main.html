@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+
+
+
+
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数智化评价解决方案 - TeachSeek</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        pink: {
+                            50: '#fdf2f8',
+                            100: '#fce7f3',
+                            200: '#fbcfe8',
+                            300: '#f9a8d4',
+                            400: '#f472b6',
+                            500: '#ec4899',
+                            600: '#db2777',
+                            700: '#be185d',
+                            800: '#9d174d',
+                            900: '#831843',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'spin-slow': 'spin 3s linear infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+
+        /* AI Button Animation */
+        .ai-button {
+            position: fixed;
+            right: 100px;
+            bottom: 380px;
+            z-index: 999;
+        }
+
+        .ai-button-inner {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0c76a7, #541b69, #3e3f8d,#268e06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 4px 8px 20px rgba(59, 130, 246, 0.5);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .ai-button-inner:hover {
+            transform: scale(1.05);
+            box-shadow: 4p 8px 25px rgba(59, 130, 246, 0.6);
+        }
+
+        .ai-button-pulse {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(59, 130, 246, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+            70% {
+                transform: scale(1.3);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1.3);
+                opacity: 0;
+            }
+        }
+
+        /* AI Dialog Styles */
+        .ai-dialog {
+            position: fixed;
+            right: 180px;
+            bottom: 100px;
+            width: 450px;
+            max-height: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(59, 130, 246, 0.1);
+            backdrop-filter: blur(10px);
+            display: none;
+            flex-direction: column;
+            z-index: 998;
+            overflow: hidden;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .ai-dialog-header {
+            padding: 25px;
+            background: linear-gradient(135deg, #075376, #763ad6, #0c7d35);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .ai-dialog-body {
+            padding: 25px;
+            overflow-y: auto;
+            max-height: 300px;
+            background: rgba(223, 235, 246, 0.8);
+        }
+
+        .ai-dialog-input {
+            padding: 15px;
+            border-top: 1px solid rgba(59, 130, 246, 0.1);
+            display: flex;
+        }
+
+        .typing-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 14px;
+            background-color: #3b82f6;
+            margin-left: 2px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Tech-inspired decoration elements */
+        .tech-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px dashed rgba(59, 130, 246, 0.3);
+        }
+
+        .tech-circle-1 {
+            width: 30px;
+            height: 30px;
+            top: 70px;
+            right: 20px;
+            animation: spin 20s linear infinite;
+        }
+
+        .tech-circle-2 {
+            width: 15px;
+            height: 15px;
+            top: 40px;
+            right: 50px;
+            animation: spin 15s linear infinite reverse;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Message styles */
+        .ai-message, .user-message {
+            margin-bottom: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            max-width: 85%;
+        }
+
+        .ai-message {
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(59, 130, 246, 0.1));
+            border-left: 3px solid #3b82f6;
+            color: #444;
+            align-self: flex-start;
+        }
+
+        .user-message {
+            background: rgba(236, 72, 153, 0.1);
+            border-right: 3px solid #ec4899;
+            color: #444;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+
+        .messages-container {
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="max-w-[800px] mx-auto p-6">
+        <!-- 返回按钮 -->
+        <div class="flex items-center mb-6">
+            <a href="index1-planning.html" class="flex items-center text-blue-600">
+                <img src="https://unpkg.com/lucide-static@latest/icons/arrow-left.svg" class="w-5 h-5 mr-2" alt="Back">
+                <span>返回</span>
+            </a>
+        </div>
+
+
+
+
+
+
+
+        
+        <!-- AI Button -->
+        <div class="ai-button">
+            <div class="ai-button-inner" id="aiButton">
+                <div class="ai-button-pulse"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="24" viewBox="0 0  24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="0" cy="12" r="19"></circle>
+                    <circle cx="15" cy="19" r="12"></circle>
+                    <path d="M12 15v-20"></path>
+                    <path d="M12 22h.20"></path>
+                </svg>
+            </div>
+            <div class="text-center mt-2 text-sm font-medium text-blue-600">小沃AI助手</div>
+        </div>
+
+        <!-- AI Dialog 弹层-->
+        <div class="ai-dialog" id="aiDialog">
+            <div class="ai-dialog-header">
+                <div class="flex items-center">
+                    <div class="w-6 h-6 rounded-full bg-blue-400 flex items-center justify-center mr-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2a10 10 0 0 1 10 10c0 5.5-4.5 10-10 10S2 17.5 2 12S6.5 2 12 2"></path>
+                            <path d="M12 16v-4"></path>
+                            <path d="M12 8h.01"></path>
+                        </svg>
+                    </div>
+                    <div class="font-medium">小沃AI助手</div>
+                </div>
+                <button id="aiCloseBtn" class="text-white opacity-70 hover:opacity-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Tech decoration elements -->
+            <div class="tech-circle tech-circle-1"></div>
+            <div class="tech-circle tech-circle-2"></div>
+            
+            <div class="ai-dialog-body" id="aiDialogBody">
+                <div class="messages-container" id="messagesContainer">
+                    <div class="ai-message">
+                        <p>您好，我是小沃AI专业发展助手。您可以询问我关于教师专业发展的任何问题，例如：</p>
+                        <ul class="mt-2 text-sm text-gray-600 list-disc pl-4">
+                            <li>如何提升数学教学能力？</li>
+                            <li>发展期教师应该重点关注什么？</li>
+                            <li>如何准备高级教师评定？</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="ai-dialog-input">
+                <input type="text" id="aiInput" placeholder="请输入您想了解的内容..." 
+                    class="w-full border rounded-lg border-gray-300 px-3 py-2 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                <button id="aiSendBtn" class="ml-2 px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+
+        
+        <!-- 工具标题 -->
+        <div class="flex items-center mb-6">
+            <div class="h-12 w-12 rounded-full bg-pink-100 flex items-center justify-center">
+                <img src="https://unpkg.com/lucide-static@latest/icons/award.svg" class="h-6 w-6 text-pink-600" alt="Professional">
+            </div>
+            <h1 class="ml-3 text-2xl font-bold text-gray-900">以评促改进解决方案</h1>
+        </div>
+
+
+
+
+        
+        <!-- 专业发展规划功能描述 -->
+        <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+            <p class="text-gray-700">根据党中央、国务院《关于全面深化新时代教师队伍建设改革的意见》，《信沃学校教师业务档案的管理制度》、《信沃教研和校本培训一体化制度》、《信沃学校优秀教师标准》、《信沃学校教书育人的师德评价制度》等，学校根据当前形势和教师队伍的具体实际，通过制订2025年-2027年三年教师专业发展目标、教师个人发展规划和和学校评定标准，建设"分学科、分层次、分主题"的教师终身学习和发展体系，促进教师专业发展指标体系建设，促进教师队伍整体水平的提高，基于教师个人特点，推荐专业发展路径、课程学习、培训活动与教师智慧工具，构建成果积累和全息画像报告，为不同发展阶段的教师提供针对性提升措施，提升教师的师德修养、教育教学能力和综合素质，助力教师专业成长。</p></br>
+            <div class="flex justify-end">
+                <button class="px-2 py-1 bg-blue-300 text-gray-900 text-xs rounded-full 
+                            hover:bg-blue-500 transition-colors duration-200
+                            focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                  《学校三年专业发展规划》
+                </button>&nbsp;
+                <button class="px-2 py-1 bg-blue-300 text-gray-900 text-xs rounded-full 
+                            hover:bg-blue-500 transition-colors duration-200
+                            focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                  《学校教师队伍评价方案》
+                </button>&nbsp;
+                 <button class="px-2 py-1 bg-blue-300 text-gray-900 text-xs rounded-full 
+                            hover:bg-blue-500 transition-colors duration-200
+                            focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                  《学校教师培训计划》
+                </button>
+              </div>
+        </div>
+
+
+        <!-- 指标管理 -->
+
+       
+        <div class="flex justify-end">
+            <a href="zhibiao.html" 
+               target="_blank"
+               rel="noopener noreferrer"
+               class="flex items-center gap-1 px-4 py-3 text-sm transition-colors duration-200 
+                      rounded-full hover:bg-blue-400 text-gray-800
+                      focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-offset-2">
+              <img src="images/zhibiao1.svg" 
+                   class="w-5 h-5 text-gray-600"
+                   alt="指标管理图标">
+                   <span class="font-semibold">修改配置指标</span>
+                </a>
+          </div>
+          
+
+        <!-- 个人档案卡片 -->
+        <div class="bg-gradient-to-r from-blue-900 to-green-500 rounded-xl p-5 text-white mb-6 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -mr-10 -mt-10"></div>
+            <div class="relative z-10">
+                <div class="flex items-center mb-4">
+                    <div class="h-14 w-14 rounded-full bg-white flex items-center justify-center">
+                        <span class="text-xl font-bold text-green-600">李</span>
+                    </div>
+                    <div class="ml-3">
+                        <h2 class="text-xl"> <span class="text-gray-100 bg-teal-700"> 李明 </span></h2>
+                        <p class="text-pink-100">高中数学教师 | 5年教龄</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-2 mb-3">
+                    <div class="bg-white bg-opacity-20 rounded-lg p-2 text-center">
+                        <p class="text-xs text-pink-100">专业等级</p>
+                        <p class="font-medium">一级教师</p>
+                    </div>
+                    <div class="bg-white bg-opacity-20 rounded-lg p-2 text-center">
+                        <p class="text-xs text-pink-100">培训学时</p>
+                        <p class="font-medium">360学时</p>
+                    </div>
+                    <div class="bg-white bg-opacity-20 rounded-lg p-2 text-center">
+                        <p class="text-xs text-pink-100">发展阶段</p>
+                        <p class="font-medium">成长期</p>
+                    </div>
+                </div>
+                <a href="personal_profile.html" class="block w-full py-2 bg-white text-blue-800 rounded-lg text-sm font-medium text-center">个人成长档案袋</a>
+            </div>
+        </div>
+    
+        
+        <!-- 发展路径 -->
+      
+      
+        <div class="mb-6">
+            <h2 class="text-lg font-semibold text-gray-900 mb-3">⚐ 推荐专业发展路径</h2>
+          
+            <div class="relative">
+                <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-blue-200"></div>
+                
+
+                      
+                <div class="relative z-10 mb-4 pl-10">
+                    <div class="absolute left-2 top-1 h-4 w-4 rounded-full bg-gray-300 border-2 border-white"></div>
+                    <div class="bg-white rounded-lg p-3 shadow-sm">
+                        <h3 class="font-medium text-gray-900">适应期</h3>
+                        <p class="text-sm text-gray-600 mb-2">预计时间：1-3年</p>
+                        
+                        <div class="flex">
+                            <button id="development-goal" class="px-2 py-1 bg-blue-300 text-grey text-xs rounded-tl rounded-tr focus:outline-none">发展目标</button>
+                            <button id="evaluation-standard" class="px-2 py-1 bg-blue-000 text-grey text-xs rounded-tl rounded-tr focus:outline-none">评定标准</button>
+                          </div>
+
+
+
+
+                          
+                          <div class="border-b border-gray-300"></div>
+                          <div id="content">
+                              <span id="development-goal-content" class="px-1 py-1 bg-pink-000 text-grey text-xs rounded-bl rounded-br">⚑&nbsp; 逐步适应教育教学工作，成为一名合格教师</span>
+                              <span id="evaluation-standard-content" class="px-1 py-1 bg-pink-000 text-grey text-xs rounded-bl rounded-br hidden">
+                                ✓&nbsp; 熟悉教师职业特点，爱岗敬业，树立育人力本的教育思想和素质教育理念，秉承附中优良传统，虚心向老教师、同行学习，吃苦耐劳。能得到学生、同事的认可</br>
+                                ✓&nbsp; 熟悉并遵循本校的教学常规与各种规章制度，能认真履行各种职责</br>
+                                ✓&nbsp; 逐步熟悉本学科各年级课标或大纲及任课年级的教材，能独立完成备课、讲课、命题、课外辅导等任务，具有较好的教学基本功以及规范的实验操作</br>
+                                ✓&nbsp; 在教学能力上，初步具有独立处理教材的能力、组织课堂教学的能力、独立组题命题的能力、辅导困难生的能力以及独立完成教学工作总结的能力</br>
+                                ✓&nbsp; 能写出一定质量的工作总结或教育教学案例
+                              </span>
+                              <!-- <div><img id="evaluation-standard-content1" src="images/evaluation.png" alt="评定标准" class="hidden"></div> -->
+                          </div>
+                          
+                          <script>
+                              const developmentGoalButton = document.getElementById('development-goal');
+                              const evaluationStandardButton = document.getElementById('evaluation-standard');
+                              const developmentGoalContent = document.getElementById('development-goal-content');
+                              const evaluationStandardContent = document.getElementById('evaluation-standard-content');
+                          
+                              // 初始化时显示发展目标，隐藏评定标准
+                              developmentGoalContent.classList.remove('hidden');
+                              evaluationStandardContent.classList.add('hidden');
+                          
+                              developmentGoalButton.addEventListener('click', () => {
+                                  developmentGoalContent.classList.remove('hidden');
+                                  evaluationStandardContent.classList.add('hidden');
+                                  // 高亮当前活跃的按钮
+                                  developmentGoalButton.classList.add('bg-blue-500', 'text-white');
+                                  evaluationStandardButton.classList.remove('bg-blue-500', 'text-white');
+                              });
+                          
+                              evaluationStandardButton.addEventListener('click', () => {
+                                  developmentGoalContent.classList.add('hidden');
+                                  evaluationStandardContent.classList.remove('hidden');
+                                  // 高亮当前活跃的按钮
+                                  evaluationStandardButton.classList.add('bg-blue-500', 'text-white');
+                                  developmentGoalButton.classList.remove('bg-blue-500', 'text-white');
+                              });
+                          </script>
+
+
+
+
+                        <div></br></div>
+
+                        <div class="flex justify-end items-center">
+                            <a href="training_quanxihuaxiang.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center">
+                            <img src="images/AI001.png" class="w-8 h-8 mr-1" alt="小沃AI建议" title="点击查看小沃AI提供的分析报告">
+                            <button class="px-2 py-1 bg-blue-400 text-white text-xs rounded-full hover:bg-blue-800">查看分析报告</button>
+                        </a>
+                        </div>
+
+                        
+                    </div>
+                </div>
+
+                    <div class="flex justify-end">
+                     </div>
+
+
+
+
+
+
+
+                     
+
+
+    
+                     <div class="relative z-10 mb-4 pl-10">
+                        <div class="absolute left-2 top-1 h-4 w-4 rounded-full bg-green-500 border-2 border-white"></div>
+                        <div class="bg-white rounded-lg p-3 shadow-sm">
+                          <h3 class="font-medium text-gray-900">发展期                             
+                                <span class="px-1.5 py-0.5 bg-red-400 text-gray-100 text-[10px] leading-none rounded-full">当前阶段</span>
+    
+                            </h3>
+                            <p class="text-sm text-gray-600 mb-2">预计时间：4-6年</p>                        
+                       
+                            <div class="flex">
+                                <button id="development-goal1" class="px-2 py-1 bg-blue-300 text-grey text-xs rounded-tl rounded-tr focus:outline-none">发展目标</button>
+                                <button id="evaluation-standard1" class="px-2 py-1 bg-blue-000 text-grey text-xs rounded-tl rounded-tr focus:outline-none">评定标准</button>
+                              </div>
+    
+    
+
+                              
+                              <div class="border-b border-gray-300"></div>
+                              <div id="content">
+                                  <span id="development-goal1-content" class="px-1 py-1 bg-pink-000 text-grey text-xs rounded-bl rounded-br">⚑&nbsp; 弥补专业弱项，全面胜任教育、教学工作</span>
+                                  <span id="evaluation-standard1-content" class="px-1 py-1 bg-pink-000 text-grey text-xs rounded-bl rounded-br hidden">
+                                    ✓&nbsp; </br>
+                                    ✓&nbsp; </br>
+                                    ✓&nbsp; </br>
+                                    ✓&nbsp; </br>
+                                    ✓&nbsp; 
+                                  </span>
+                                  <!-- <div><img id="evaluation-standard-content1" src="images/evaluation.png" alt="评定标准" class="hidden"></div> -->
+                              </div>
+                              
+                              <script>
+                                  const developmentGoalButton = document.getElementById('development-goal1');
+                                  const evaluationStandardButton = document.getElementById('evaluation-standard');
+                                  const developmentGoalContent = document.getElementById('development-goal1-content');
+                                  const evaluationStandardContent = document.getElementById('evaluation-standard1-content');
+                              
+                                  // 初始化时显示发展目标，隐藏评定标准
+                                  developmentGoalContent.classList.remove('hidden');
+                                  evaluationStandardContent.classList.add('hidden');
+                              
+                                  developmentGoalButton.addEventListener('click', () => {
+                                      developmentGoalContent.classList.remove('hidden');
+                                      evaluationStandardContent.classList.add('hidden');
+                                      // 高亮当前活跃的按钮
+                                      developmentGoalButton.classList.add('bg-blue-500', 'text-white');
+                                      evaluationStandardButton.classList.remove('bg-blue-500', 'text-white');
+                                  });
+                              
+                                  evaluationStandardButton.addEventListener('click', () => {
+                                      developmentGoalContent.classList.add('hidden');
+                                      evaluationStandardContent.classList.remove('hidden');
+                                      // 高亮当前活跃的按钮
+                                      evaluationStandardButton.classList.add('bg-blue-500', 'text-white');
+                                      developmentGoalButton.classList.remove('bg-blue-500', 'text-white');
+                                  });
+                              </script>
+    
+    
+    
+    
+                            <div></br></div>
+    
+                            <div class="flex justify-end items-center">
+                                <a href="training_quanxihuaxiang.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center">
+                                <img src="images/AI001.png" class="w-8 h-8 mr-1" alt="小沃AI建议" title="点击查看小沃AI提供的分析报告">
+                                <button class="px-2 py-1 bg-blue-600 text-white text-base rounded-full hover:bg-blue-800">查看方案报告</button>
+                            </a>
+                            </div>
+    
+                            
+                        </div>
+                    </div>
+    
+                        <div class="flex justify-end">
+                         </div>
+    
+
+                         
+
+
+
+
+
+
+
+
+
+
+    
+                         <div class="relative z-10 mb-4 pl-10">
+                            <div class="absolute left-2 top-1 h-4 w-4 rounded-full bg-gray-300 border-2 border-white"></div>
+                            <div class="bg-white rounded-lg p-3 shadow-sm">
+                                <h3 class="font-medium text-gray-900">成熟期</h3>
+                                <p class="text-sm text-gray-600 mb-2">预计时间：7-11年</p>
+                                
+                                <div class="flex">
+                                    <button id="development-goal" class="px-2 py-1 bg-blue-300 text-grey text-xs rounded-tl rounded-tr focus:outline-none">发展目标</button>
+                                    <button id="evaluation-standard" class="px-2 py-1 bg-blue-000 text-grey text-xs rounded-tl rounded-tr focus:outline-none">评定标准</button>
+                                  </div>
+        
+        
+        
+        
+                                  
+                                  <div class="border-b border-gray-300"></div>
+                                  <div id="content">
+                                      <span id="development-goal-content" class="px-1 py-1 bg-pink-000 text-grey text-xs rounded-bl rounded-br">⚑&nbsp; 努力发展自身的教师专业特长，逐步成为校、区的骨干力量</span>
+                                      <span id="evaluation-standard-content" class="px-1 py-1 bg-pink-000 text-grey text-xs rounded-bl rounded-br hidden">
+                                        ✓&nbsp; 熟悉教师职业特点，爱岗敬业，树立育人力本的教育思想和素质教育理念，秉承附中优良传统，虚心向老教师、同行学习，吃苦耐劳。能得到学生、同事的认可</br>
+                                        ✓&nbsp; 熟悉并遵循本校的教学常规与各种规章制度，能认真履行各种职责</br>
+                                        ✓&nbsp; 逐步熟悉本学科各年级课标或大纲及任课年级的教材，能独立完成备课、讲课、命题、课外辅导等任务，具有较好的教学基本功以及规范的实验操作</br>
+                                        ✓&nbsp; 在教学能力上，初步具有独立处理教材的能力、组织课堂教学的能力、独立组题命题的能力、辅导困难生的能力以及独立完成教学工作总结的能力</br>
+                                        ✓&nbsp; 能写出一定质量的工作总结或教育教学案例
+                                      </span>
+                                      <!-- <div><img id="evaluation-standard-content1" src="images/evaluation.png" alt="评定标准" class="hidden"></div> -->
+                                  </div>
+                                  
+                                  <script>
+                                      const developmentGoalButton = document.getElementById('development-goal');
+                                      const evaluationStandardButton = document.getElementById('evaluation-standard');
+                                      const developmentGoalContent = document.getElementById('development-goal-content');
+                                      const evaluationStandardContent = document.getElementById('evaluation-standard-content');
+                                  
+                                      // 初始化时显示发展目标，隐藏评定标准
+                                      developmentGoalContent.classList.remove('hidden');
+                                      evaluationStandardContent.classList.add('hidden');
+                                  
+                                      developmentGoalButton.addEventListener('click', () => {
+                                          developmentGoalContent.classList.remove('hidden');
+                                          evaluationStandardContent.classList.add('hidden');
+                                          // 高亮当前活跃的按钮
+                                          developmentGoalButton.classList.add('bg-blue-500', 'text-white');
+                                          evaluationStandardButton.classList.remove('bg-blue-500', 'text-white');
+                                      });
+                                  
+                                      evaluationStandardButton.addEventListener('click', () => {
+                                          developmentGoalContent.classList.add('hidden');
+                                          evaluationStandardContent.classList.remove('hidden');
+                                          // 高亮当前活跃的按钮
+                                          evaluationStandardButton.classList.add('bg-blue-500', 'text-white');
+                                          developmentGoalButton.classList.remove('bg-blue-500', 'text-white');
+                                      });
+                                  </script>
+        
+        
+        
+        
+                                <div></br></div>
+        
+                                <div class="flex justify-end items-center">
+                                    <a href="training_quanxihuaxiang.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center">
+                                    <img src="images/AI001.png" class="w-8 h-8 mr-1" alt="小沃AI建议" title="点击查看小沃AI提供的分析报告">
+                                    <button class="px-2 py-1 bg-blue-400 text-white text-xs rounded-full hover:bg-blue-800">查看发展报告</button>
+                                </a>
+                                </div>
+        
+                                
+                            </div>
+                        </div>
+        
+                            <div class="flex justify-end">
+                             </div>
+        
+        
+        
+
+                             
+
+
+
+
+
+
+
+
+
+
+    
+                         <div class="relative z-10 mb-4 pl-10">
+                            <div class="absolute left-2 top-1 h-4 w-4 rounded-full bg-gray-300 border-2 border-white"></div>
+                            <div class="bg-white rounded-lg p-3 shadow-sm">
+                                <h3 class="font-medium text-gray-900">稳定期</h3>
+                                <p class="text-sm text-gray-600 mb-2">预计时间：11-20年</p>
+                                
+                                <div class="flex">
+                                    <button id="development-goal" class="px-2 py-1 bg-blue-300 text-grey text-xs rounded-tl rounded-tr focus:outline-none">发展目标</button>
+                                    <button id="evaluation-standard" class="px-2 py-1 bg-blue-000 text-grey text-xs rounded-tl rounded-tr focus:outline-none">评定标准</button>
+                                  </div>
+        
+        
+        
+        
+                                  
+                                  <div class="border-b border-gray-300"></div>
+                                  <div id="content">
+                                      <span id="development-goal-content" class="px-1 py-1 bg-pink-000 text-grey text-xs rounded-bl rounded-br">⚑&nbsp; 突破平台期，教有所长；努力成为市、区级骨干教师、带头人</span>
+                                      <span id="evaluation-standard-content" class="px-1 py-1 bg-pink-000 text-grey text-xs rounded-bl rounded-br hidden">
+                                        ✓&nbsp; 熟悉教师职业特点，爱岗敬业，树立育人力本的教育思想和素质教育理念，秉承附中优良传统，虚心向老教师、同行学习，吃苦耐劳。能得到学生、同事的认可</br>
+                                        ✓&nbsp; 熟悉并遵循本校的教学常规与各种规章制度，能认真履行各种职责</br>
+                                        ✓&nbsp; 逐步熟悉本学科各年级课标或大纲及任课年级的教材，能独立完成备课、讲课、命题、课外辅导等任务，具有较好的教学基本功以及规范的实验操作</br>
+                                        ✓&nbsp; 在教学能力上，初步具有独立处理教材的能力、组织课堂教学的能力、独立组题命题的能力、辅导困难生的能力以及独立完成教学工作总结的能力</br>
+                                        ✓&nbsp; 能写出一定质量的工作总结或教育教学案例
+                                      </span>
+                                      <!-- <div><img id="evaluation-standard-content1" src="images/evaluation.png" alt="评定标准" class="hidden"></div> -->
+                                  </div>
+                                  
+                                  <script>
+                                      const developmentGoalButton = document.getElementById('development-goal');
+                                      const evaluationStandardButton = document.getElementById('evaluation-standard');
+                                      const developmentGoalContent = document.getElementById('development-goal-content');
+                                      const evaluationStandardContent = document.getElementById('evaluation-standard-content');
+                                  
+                                      // 初始化时显示发展目标，隐藏评定标准
+                                      developmentGoalContent.classList.remove('hidden');
+                                      evaluationStandardContent.classList.add('hidden');
+                                  
+                                      developmentGoalButton.addEventListener('click', () => {
+                                          developmentGoalContent.classList.remove('hidden');
+                                          evaluationStandardContent.classList.add('hidden');
+                                          // 高亮当前活跃的按钮
+                                          developmentGoalButton.classList.add('bg-blue-500', 'text-white');
+                                          evaluationStandardButton.classList.remove('bg-blue-500', 'text-white');
+                                      });
+                                  
+                                      evaluationStandardButton.addEventListener('click', () => {
+                                          developmentGoalContent.classList.add('hidden');
+                                          evaluationStandardContent.classList.remove('hidden');
+                                          // 高亮当前活跃的按钮
+                                          evaluationStandardButton.classList.add('bg-blue-500', 'text-white');
+                                          developmentGoalButton.classList.remove('bg-blue-500', 'text-white');
+                                      });
+                                  </script>
+        
+        
+        
+        
+                                <div></br></div>
+        
+                                <div class="flex justify-end items-center">
+                                    <a href="training_quanxihuaxiang.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center">
+                                    <img src="images/AI001.png" class="w-8 h-8 mr-1" alt="小沃AI建议" title="点击查看小沃AI提供的分析报告">
+                                    <button class="px-2 py-1 bg-blue-400 text-white text-xs rounded-full hover:bg-blue-800">查看发展报告</button>
+                                </a>
+                                </div>
+        
+                                
+                            </div>
+                        </div>
+        
+                            <div class="flex justify-end">
+                             </div>
+        
+        
+        
+
+                             
+
+
+
+
+               
+
+
+
+
+
+
+
+
+
+
+    
+                             <div class="relative z-10 mb-4 pl-10">
+                                <div class="absolute left-2 top-1 h-4 w-4 rounded-full bg-gray-300 border-2 border-white"></div>
+                                <div class="bg-white rounded-lg p-3 shadow-sm">
+                                    <h3 class="font-medium text-gray-900">创造期</h3>
+                                    <p class="text-sm text-gray-600 mb-2">预计时间：21年以上</p>
+                                    
+                                    <div class="flex">
+                                        <button id="development-goal" class="px-2 py-1 bg-blue-300 text-grey text-xs rounded-tl rounded-tr focus:outline-none">发展目标</button>
+                                        <button id="evaluation-standard" class="px-2 py-1 bg-blue-000 text-grey text-xs rounded-tl rounded-tr focus:outline-none">评定标准</button>
+                                      </div>
+            
+            
+            
+            
+                                      
+                                      <div class="border-b border-gray-300"></div>
+                                      <div id="content">
+                                          <span id="development-goal-content" class="px-1 py-1 bg-pink-000 text-grey text-xs rounded-bl rounded-br">⚑&nbsp; 形成鲜明的教学风格；努力成为市级骨干、带头人、特级教师</span>
+                                          <span id="evaluation-standard-content" class="px-1 py-1 bg-pink-000 text-grey text-xs rounded-bl rounded-br hidden">
+                                            ✓&nbsp; 熟悉教师职业特点，爱岗敬业，树立育人力本的教育思想和素质教育理念，秉承附中优良传统，虚心向老教师、同行学习，吃苦耐劳。能得到学生、同事的认可</br>
+                                            ✓&nbsp; 熟悉并遵循本校的教学常规与各种规章制度，能认真履行各种职责</br>
+                                            ✓&nbsp; 逐步熟悉本学科各年级课标或大纲及任课年级的教材，能独立完成备课、讲课、命题、课外辅导等任务，具有较好的教学基本功以及规范的实验操作</br>
+                                            ✓&nbsp; 在教学能力上，初步具有独立处理教材的能力、组织课堂教学的能力、独立组题命题的能力、辅导困难生的能力以及独立完成教学工作总结的能力</br>
+                                            ✓&nbsp; 能写出一定质量的工作总结或教育教学案例
+                                          </span>
+                                          <!-- <div><img id="evaluation-standard-content1" src="images/evaluation.png" alt="评定标准" class="hidden"></div> -->
+                                      </div>
+                                      
+                                      <script>
+                                          const developmentGoalButton = document.getElementById('development-goal');
+                                          const evaluationStandardButton = document.getElementById('evaluation-standard');
+                                          const developmentGoalContent = document.getElementById('development-goal-content');
+                                          const evaluationStandardContent = document.getElementById('evaluation-standard-content');
+                                      
+                                          // 初始化时显示发展目标，隐藏评定标准
+                                          developmentGoalContent.classList.remove('hidden');
+                                          evaluationStandardContent.classList.add('hidden');
+                                      
+                                          developmentGoalButton.addEventListener('click', () => {
+                                              developmentGoalContent.classList.remove('hidden');
+                                              evaluationStandardContent.classList.add('hidden');
+                                              // 高亮当前活跃的按钮
+                                              developmentGoalButton.classList.add('bg-blue-500', 'text-white');
+                                              evaluationStandardButton.classList.remove('bg-blue-500', 'text-white');
+                                          });
+                                      
+                                          evaluationStandardButton.addEventListener('click', () => {
+                                              developmentGoalContent.classList.add('hidden');
+                                              evaluationStandardContent.classList.remove('hidden');
+                                              // 高亮当前活跃的按钮
+                                              evaluationStandardButton.classList.add('bg-blue-500', 'text-white');
+                                              developmentGoalButton.classList.remove('bg-blue-500', 'text-white');
+                                          });
+                                      </script>
+            
+            
+            
+            
+                                    <div></br></div>
+            
+                                    <div class="flex justify-end items-center">
+                                        <a href="training_quanxihuaxiang.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center">
+                                        <img src="images/AI001.png" class="w-8 h-8 mr-1" alt="小沃AI建议" title="点击查看小沃AI提供的分析报告">
+                                        <button class="px-2 py-1 bg-blue-400 text-white text-xs rounded-full hover:bg-blue-800">查看发展报告</button>
+                                    </a>
+                                    </div>
+            
+                                    
+                                </div>
+                            </div>
+            
+                                <div class="flex justify-end">
+                                 </div>
+            
+            
+            
+    
+                                 
+               
+                
+
+
+            </div>
+        </div>
+        
+        <!-- 快速入口 -->
+
+       
+        <h2 class="text-lg font-semibold texttext-gray-900 mb-3">⚐ 以评促提升 ⦁ 以评促培优</h2>
+
+
+ <!-- 发展建议 -->
+        <div class="bg-pink-50 rounded-xl p-4 border border-pink-100">
+            <div class="flex items-start">
+                <div class="h-8 w-8 rounded-full bg-pink-100 flex items-center justify-center flex-shrink-0">
+                    <img src="https://unpkg.com/lucide-static@latest/icons/lightbulb.svg" class="h-4 w-4 text-pink-600" alt="Tip">
+                </div>
+                <div class="ml-3">
+                    <h3 class="font-medium text-gray-900 mb-1">对应措施</h3>
+                    <div class="space-y-2 text-sm text-gray-700">
+                        <p>1. 建议加强教育科研能力，可参加"教育科研方法与实践"课程</p>
+                        <p>2. 尝试开展跨学科教学实践，拓展教学视野</p>
+                        <p>3. 参与市级教研活动，提升专业影响力</p>
+                        <p>4. 准备高级教师资格评定材料，规划下一阶段职业发展</p>
+                    </div>
+                </div>
+            </div>
+        </div>        
+
+       
+        <div class="rounded-xl p-4 shadow-sm mb-0">
+            <p class="text-gray-000"></p>
+        </div>
+
+
+ <!-- 培优方案-->
+
+
+        <div class="bg-blue-50 rounded-xl p-4 border border-pink-100">
+            
+            
+                <div class="flex items-start">
+                    <div class="ml-3">
+                        <h3 class="font-medium text-gray-900 mb-1">▹ 教师成长服务内容</h3></br>
+                        
+            
+
+
+                <div class="grid grid-cols-3 gap-8 mb-6">
+                    <a href="recommended_courses.html"
+                    class="flex flex-col items-center justify-center bg-white border border-gray-200 rounded-xl p-4 shadow-sm transition-all duration-300 ease-in-out hover:border-gray-400 hover:shadow-lg hover:shadow-gray-400/50"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onmouseover="this.querySelector('span').style.color='blue'; this.querySelector('span').style.fontWeight='bold'; this.querySelector('span').style.textDecoration='underline'; this.querySelector('img').style.filter='drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3)) brightness(0) saturate(100%) invert(50%) sepia(100%) saturate(1000%) hue-rotate(200deg)';" 
+                    onmouseout="this.querySelector('span').style.color=''; this.querySelector('span').style.fontWeight=''; this.querySelector('span').style.textDecoration='none'; this.querySelector('img').style.filter='';">
+                        <img src="images/courses.svg" class="w-6 h-6 text-pink-600 mb-2 transition-all duration-300 ease-in-out" alt="Courses">
+                        <span class="text-sm font-medium text-gray-900">智能荐课 自主选学</span>
+                    </a>
+
+                    <a href="training_activities.html" 
+                    class="flex flex-col items-center justify-center bg-white border border-gray-200 rounded-xl p-4 shadow-sm transition-all duration-300 ease-in-out hover:border-gray-400 hover:shadow-lg hover:shadow-gray-400/50"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onmouseover="this.querySelector('span').style.color='blue'; this.querySelector('span').style.fontWeight='bold'; this.querySelector('span').style.textDecoration='underline'; this.querySelector('img').style.filter='drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3)) brightness(0) saturate(100%) invert(50%) sepia(100%) saturate(1000%) hue-rotate(200deg)';" 
+                    onmouseout="this.querySelector('span').style.color=''; this.querySelector('span').style.fontWeight=''; this.querySelector('span').style.textDecoration='none'; this.querySelector('img').style.filter='';">
+                    <img src="images/activity.svg" class="w-6 h-6 text-pink-600 mb-2 transition-all duration-300 ease-in-out" alt="Courses">
+                    <span class="text-sm font-medium text-gray-900">优质培训活动</span>
+                </a>
+
+                <a href="index.html" 
+                class="flex flex-col items-center justify-center bg-white border border-gray-200 rounded-xl p-4 shadow-sm transition-all duration-300 ease-in-out hover:border-gray-400 hover:shadow-lg hover:shadow-gray-400/50"
+                target="_blank"
+                rel="noopener noreferrer"
+                onmouseover="this.querySelector('span').style.color='blue'; this.querySelector('span').style.fontWeight='bold'; this.querySelector('span').style.textDecoration='underline'; this.querySelector('img').style.filter='drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3)) brightness(0) saturate(100%) invert(50%) sepia(100%) saturate(1000%) hue-rotate(200deg)';" 
+                onmouseout="this.querySelector('span').style.color=''; this.querySelector('span').style.fontWeight=''; this.querySelector('span').style.textDecoration='none'; this.querySelector('img').style.filter='';">
+                <img src="images/aitools.svg" class="w-6 h-6 text-pink-600 mb-2 transition-all duration-300 ease-in-out" alt="Courses">
+                <span class="text-sm font-medium text-gray-900">教师智慧工具</span>
+                </a>
+
+                <a href="training_quanxihuaxiang.html" 
+                class="flex flex-col items-center justify-center bg-white border border-gray-200 rounded-xl p-4 shadow-sm transition-all duration-300 ease-in-out hover:border-gray-400 hover:shadow-lg hover:shadow-gray-400/50"
+                target="_blank"
+                rel="noopener noreferrer"
+                onmouseover="this.querySelector('span').style.color='blue'; this.querySelector('span').style.fontWeight='bold'; this.querySelector('span').style.textDecoration='underline'; this.querySelector('img').style.filter='drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3)) brightness(0) saturate(100%) invert(50%) sepia(100%) saturate(1000%) hue-rotate(200deg)';" 
+                onmouseout="this.querySelector('span').style.color=''; this.querySelector('span').style.fontWeight=''; this.querySelector('span').style.textDecoration='none'; this.querySelector('img').style.filter='';">
+                <img src="https://unpkg.com/lucide-static@latest/icons/file-text.svg" class="w-6 h-6 text-pink-600 mb-2 transition-all duration-300 ease-in-out" alt="Courses">
+                <span class="text-sm font-medium text-gray-900">教师个人全息画像报告</span>
+                </a>
+
+                </div>
+                </div>
+            </div>
+        </div>  
+
+
+
+
+        <div class="rounded-xl p-4 shadow-sm mb-0">
+            <p class="text-gray-000"></p>
+        </div>
+       
+
+        
+        
+
+
+        <div class="bg-blue-100 rounded-xl p-6 border border-pink-100">
+            <div class="flex items-start">
+        
+                <div class="ml-3">
+                    <h3 class="font-medium text-gray-900 mb-1">▹ 学校成果展示</h3>
+                </div>
+            </div>
+        </br>
+            <div class="grid-responsive">
+                <a href="https://www.kechengguan.com/#/practicalCase/practicalCaseDeatil?id=2" 
+                class="card transition-all duration-300 ease-in-out hover:shadow-lg hover:shadow-gray-400/50"
+                target="_blank"
+                rel="noopener noreferrer"
+                onmouseover="this.querySelector('span').style.color='blue'; this.querySelector('span').style.fontWeight='bold'; this.querySelector('span').style.textDecoration='underline'; this.querySelector('img').style.filter='drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3)) brightness(0) saturate(100%) invert(50%) sepia(100%) saturate(1000%) hue-rotate(200deg)';" 
+                onmouseout="this.querySelector('span').style.color=''; this.querySelector('span').style.fontWeight=''; this.querySelector('span').style.textDecoration='none'; this.querySelector('img').style.filter='';">
+                    <img src="images/courses.svg" class="w-6 h-6 text-pink-600 mb-2 transition-all duration-300 ease-in-out" alt="Courses">
+                    <span class="text-sm font-medium text-gray-900">基地校课程馆</span>
+                </a>
+        
+                <a href="advisor_main1-xiaobentesetixi.html" 
+                class="card transition-all duration-300 ease-in-out hover:shadow-lg hover:shadow-gray-400/50"
+                target="_blank"
+                rel="noopener noreferrer"
+                onmouseover="this.querySelector('span').style.color='blue'; this.querySelector('span').style.fontWeight='bold'; this.querySelector('span').style.textDecoration='underline'; this.querySelector('img').style.filter='drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3)) brightness(0) saturate(100%) invert(50%) sepia(100%) saturate(1000%) hue-rotate(200deg)';" 
+                onmouseout="this.querySelector('span').style.color=''; this.querySelector('span').style.fontWeight=''; this.querySelector('span').style.textDecoration='none'; this.querySelector('img').style.filter='';">
+                    <img src="images/activity.svg" class="w-6 h-6 text-pink-600 mb-2 transition-all duration-300 ease-in-out" alt="Courses">
+                    <span class="text-sm font-medium text-gray-900">校本特色成长体系</span>
+                </a>
+        
+                <a href="index-AI.html" 
+                class="card transition-all duration-300 ease-in-out hover:shadow-lg hover:shadow-gray-400/50"
+                target="_blank"
+                rel="noopener noreferrer"
+                onmouseover="this.querySelector('span').style.color='blue'; this.querySelector('span').style.fontWeight='bold'; this.querySelector('span').style.textDecoration='underline'; this.querySelector('img').style.filter='drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3)) brightness(0) saturate(100%) invert(50%) sepia(100%) saturate(1000%) hue-rotate(200deg)';" 
+                onmouseout="this.querySelector('span').style.color=''; this.querySelector('span').style.fontWeight=''; this.querySelector('span').style.textDecoration='none'; this.querySelector('img').style.filter='';">
+                    <img src="images/aitools.svg" class="w-6 h-6 text-pink-600 mb-2 transition-all duration-300 ease-in-out" alt="Courses">
+                    <span class="text-sm font-medium text-gray-900">校本智慧工具集</span>
+                </a>
+        
+        
+                <a href="zhibiao.html" 
+                class="card transition-all duration-300 ease-in-out hover:shadow-lg hover:shadow-gray-400/50"
+                target="_blank"
+                rel="noopener noreferrer"
+                onmouseover="this.querySelector('span').style.color='blue'; this.querySelector('span').style.fontWeight='bold'; this.querySelector('span').style.textDecoration='underline'; this.querySelector('img').style.filter='drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3)) brightness(0) saturate(100%) invert(50%) sepia(100%) saturate(1000%) hue-rotate(200deg)';" 
+                onmouseout="this.querySelector('span').style.color=''; this.querySelector('span').style.fontWeight=''; this.querySelector('span').style.textDecoration='none'; this.querySelector('img').style.filter='';">
+                    <img src="images/Indicator.svg" class="w-6 h-6 text-pink-600 mb-2 transition-all duration-300 ease-in-out" alt="Courses">
+                    <span class="text-sm font-medium text-gray-900">校本评价指标库</span>
+                </a>
+        
+                <a href="advisor_main1-chengzhangdanganku.html" 
+                class="card transition-all duration-300 ease-in-out hover:shadow-lg hover:shadow-gray-400/50"
+                target="_blank"
+                rel="noopener noreferrer"
+                onmouseover="this.querySelector('span').style.color='blue'; this.querySelector('span').style.fontWeight='bold'; this.querySelector('span').style.textDecoration='underline'; this.querySelector('img').style.filter='drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3)) brightness(0) saturate(100%) invert(50%) sepia(100%) saturate(1000%) hue-rotate(200deg)';" 
+                onmouseout="this.querySelector('span').style.color=''; this.querySelector('span').style.fontWeight=''; this.querySelector('span').style.textDecoration='none'; this.querySelector('img').style.filter='';">
+                    <img src="images/archives.svg" class="w-6 h-6 text-pink-600 mb-2 transition-all duration-300 ease-in-out" alt="Courses">
+                    <span class="text-sm font-medium text-gray-900">专业成长档案库</span>
+                </a>
+        
+                <a href="advisor_main1-chengzhangdanganku.html" 
+                class="card transition-all duration-300 ease-in-out hover:shadow-lg hover:shadow-gray-400/50"
+                target="_blank"
+                rel="noopener noreferrer"
+                onmouseover="this.querySelector('span').style.color='blue'; this.querySelector('span').style.fontWeight='bold'; this.querySelector('span').style.textDecoration='underline'; this.querySelector('img').style.filter='drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3)) brightness(0) saturate(100%) invert(50%) sepia(100%) saturate(1000%) hue-rotate(200deg)';" 
+                onmouseout="this.querySelector('span').style.color=''; this.querySelector('span').style.fontWeight=''; this.querySelector('span').style.textDecoration='none'; this.querySelector('img').style.filter='';">
+                    <img src="images/results.svg" class="w-6 h-6 text-pink-600 mb-2 transition-all duration-300 ease-in-out" alt="Courses">
+                    <span class="text-sm font-medium text-gray-900">数字化评价成果库</span>
+                </a>
+
+                <a href="https://htpj.veducloud.cn:53001/shareTransfer/4E4F707A64767072484C794A7937686C766C73693636614E2B6F746C664A587832486233634A5A6B63584A57634B63534B35736774764C39524D4A442F6646366F67445A514D6E3532656F79536B612F5633745262415633796F554C68652F747077764C68363333674D63397A74586559724134436933703036592F4C7475575054736B504A6B497A33374E4B6543765948486A70685A3533574142714A743265314E716D3943466639664C346B346F426858645731456D76552F4948305849566E663458325749397A415A6A655033447A334D2B705168" 
+                class="card transition-all duration-300 ease-in-out hover:shadow-lg hover:shadow-gray-400/50"
+                target="_blank"
+                rel="noopener noreferrer"
+                onmouseover="this.querySelector('span').style.color='blue'; this.querySelector('span').style.fontWeight='bold'; this.querySelector('span').style.textDecoration='underline'; this.querySelector('img').style.filter='drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3)) brightness(0) saturate(100%) invert(50%) sepia(100%) saturate(1000%) hue-rotate(200deg)';" 
+                onmouseout="this.querySelector('span').style.color=''; this.querySelector('span').style.fontWeight=''; this.querySelector('span').style.textDecoration='none'; this.querySelector('img').style.filter='';">
+                    <img src="images/results.svg" class="w-6 h-6 text-pink-600 mb-2 transition-all duration-300 ease-in-out" alt="Courses">
+                    <span class="text-sm font-medium text-gray-900">教师管理数据大屏</span>
+                </a>
+
+                <a href="https://htpj.veducloud.cn:53001/shareTransfer/4E4F707A64767072484C794A7937686C766C73693636614E2B6F686C644A58783248443366355A6D63584A57634B63534B35736774764C39524D4A442F6646366F67445A514D6E3532656F79536B612F5633745261675635796F414C6A2B2F697077444C674B3378674D49397739585959724134436933703036592F4C7475575054736B504A6B497A33374E4B6543765948486A70685A3533574142714A743265314E716D3943466639664C346B346F426858645731456D76552F4948305849566E666A2B6D2B49776F496A6B6456574E524C777261734137674F4953513D3D" 
+                class="card transition-all duration-300 ease-in-out hover:shadow-lg hover:shadow-gray-400/50"
+                target="_blank"
+                rel="noopener noreferrer"
+                onmouseover="this.querySelector('span').style.color='blue'; this.querySelector('span').style.fontWeight='bold'; this.querySelector('span').style.textDecoration='underline'; this.querySelector('img').style.filter='drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3)) brightness(0) saturate(100%) invert(50%) sepia(100%) saturate(1000%) hue-rotate(200deg)';" 
+                onmouseout="this.querySelector('span').style.color=''; this.querySelector('span').style.fontWeight=''; this.querySelector('span').style.textDecoration='none'; this.querySelector('img').style.filter='';">
+                    <img src="images/results.svg" class="w-6 h-6 text-pink-600 mb-2 transition-all duration-300 ease-in-out" alt="Courses">
+                    <span class="text-sm font-medium text-gray-900">学校发展数据大屏</span>
+                </a>
+            </div> </br>
+            </div> 
+        
+        </div>
+        
+        <style>
+            .bg-blue-50 {
+                background-color: #e0f7fa; /* A light blue color */
+            }
+        
+            .border-pink-000 {
+                border-color: #ff69b4; /* A pink color */
+            }
+        
+            .grid-responsive {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(150px, 100fr)); /* Responsive grid columns */
+                gap: 20px;
+            }
+        
+            .card {
+                background-color: #f6f9f9; /* A light blue color */
+                bg: white;
+                border: 1px solid #e0e0e0;
+                border-radius: 8px;
+                padding: 16px;
+                transition: all 0.3s ease;
+            }
+        
+            .card:hover {
+                border-color: #c0c0c0;
+            }
+        </style>
+        
+
+
+
+        
+
+        </div>
+        
+        <style>
+            .border-container {
+                border: 1px solid #e0e0e0; /* 浅灰色边框 */
+                background-color: #f9f9f9; /* 浅粉色背景 */
+                padding: 20px; /* 内边距 */
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 边框阴影 */
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 20px;
+            }
+        </style>
+    </div>
+    
+    
+
+
+
+
+
+
+
+
+
+
+</body>
+
+<script>
+    // Initialize AI chat functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const aiButton = document.getElementById('aiButton');
+        const aiDialog = document.getElementById('aiDialog');
+        const aiCloseBtn = document.getElementById('aiCloseBtn');
+        const aiInput = document.getElementById('aiInput');
+        const aiSendBtn = document.getElementById('aiSendBtn');
+        const messagesContainer = document.getElementById('messagesContainer');
+
+        // Toggle AI dialog
+        aiButton.addEventListener('click', function() {
+            aiDialog.style.display = aiDialog.style.display === 'flex' ? 'none' : 'flex';
+            if (aiDialog.style.display === 'flex') {
+                aiInput.focus();
+            }
+        });
+
+        // Close AI dialog
+        aiCloseBtn.addEventListener('click', function() {
+            aiDialog.style.display = 'none';
+        });
+
+        // Send message on Enter key
+        aiInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Send message on button click
+        aiSendBtn.addEventListener('click', sendMessage);
+
+        function sendMessage() {
+            const userInput = aiInput.value.trim();
+            if (!userInput) return;
+
+            // Add user message
+            const userMessageElement = document.createElement('div');
+            userMessageElement.className = 'user-message';
+            userMessageElement.textContent = userInput;
+            messagesContainer.appendChild(userMessageElement);
+
+            // Clear input
+            aiInput.value = '';
+
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            // Generate AI response
+            setTimeout(() => {
+                const aiMessageElement = document.createElement('div');
+                aiMessageElement.className = 'ai-message';
+                messagesContainer.appendChild(aiMessageElement);
+
+                // Sample responses based on keywords
+                let response = getAIResponse(userInput);
+
+                // Create a span for the typing animation
+                const typingElement = document.createElement('span');
+                typingElement.id = 'typing-text';
+                aiMessageElement.appendChild(typingElement);
+
+                // Initialize Typed.js
+                new Typed('#typing-text', {
+                    strings: [response],
+                    typeSpeed: 30,
+                    showCursor: true,
+                    cursorChar: '|',
+                    onComplete: function() {
+                        // Scroll to bottom when typing is complete
+                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    }
+                });
+
+                // Scroll while typing starts
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 500);
+        }
+
+        function getAIResponse(input) {
+            // Simple keyword-based response system
+            input = input.toLowerCase();
+            
+            if (input.includes('数学') || input.includes('教学')) {
+                return `<strong class="text-blue-600">数学教学能力提升分析：</strong><br><br>
+                根据您当前处于<strong class="text-pink-600">发展期</strong>，我建议您重点关注以下几个方面：<br><br>
+                <img src="https://unpkg.com/lucide-static@latest/icons/check-circle.svg" class="inline w-4 h-4 text-green-500"> <strong>教学设计创新：</strong>尝试探究式、问题导向的教学模式<br>
+                <img src="https://unpkg.com/lucide-static@latest/icons/check-circle.svg" class="inline w-4 h-4 text-green-500"> <strong>数字化教学工具：</strong>建议使用GeoGebra等动态几何软件<br>
+                <img src="https://unpkg.com/lucide-static@latest/icons/check-circle.svg" class="inline w-4 h-4 text-green-500"> <strong>学科核心素养培养：</strong>设计培养数学思维的课堂活动<br><br>
+                <div class="p-2 bg-blue-50 rounded-md">
+                推荐课程：《高中数学教学中的深度学习设计》，市级骨干教师研修班
+                </div>`;
+            } else if (input.includes('发展期') || input.includes('阶段')) {
+                return `<strong class="text-blue-600">发展期教师成长路径分析：</strong><br><br>
+                发展期（4-6年教龄）是教师专业化的重要阶段。分析您的成长数据，建议：<br><br>
+                <div class="flex items-center mb-2">
+                    <div class="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
+                    <div><strong>教学能力：</strong>从"会教"到"教好"的转变</div>
+                </div>
+                <div class="flex items-center mb-2">
+                    <div class="w-2 h-2 bg-pink-500 rounded-full mr-2"></div>
+                    <div><strong>教研能力：</strong>积极参与校级教研，形成教学特色</div>
+                </div>
+                <div class="flex items-center mb-2">
+                    <div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                    <div><strong>专业素养：</strong>系统学习学科前沿理论和方法</div>
+                </div><br>
+                <div class="p-2 bg-blue-50 rounded-md">
+                💡 数据显示：主动参与教研活动的发展期教师，晋升速度提高约36%
+                </div>`;
+            } else if (input.includes('高级教师') || input.includes('评定')) {
+                return `<strong class="text-blue-600">高级教师评定准备指南：</strong><br><br>
+                基于《信沃学校教师业务档案的管理制度》，高级教师评定需重点准备：<br><br>
+                <img src="https://unpkg.com/lucide-static@latest/icons/file-text.svg" class="inline w-4 h-4 text-blue-500"> <strong>教学业绩材料：</strong>近三年教学质量评估、学生成绩提升数据<br>
+                <img src="https://unpkg.com/lucide-static@latest/icons/award.svg" class="inline w-4 h-4 text-orange-500"> <strong>教研成果：</strong>校级以上公开课、教研论文、课题研究<br>
+                <img src="https://unpkg.com/lucide-static@latest/icons/users.svg" class="inline w-4 h-4 text-green-500"> <strong>专业发展：</strong>培训证书、指导青年教师记录<br><br>
+                <div class="p-2 bg-blue-50 rounded-md">
+                建议即刻开始准备个人教学叙事和案例分析，这是评定中的关键因素。
+                </div>`;
+            } else {
+                return `感谢您的提问，根据您当前的专业发展阶段（发展期），我推荐：<br><br>
+                <div class="p-2 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-md">
+                <strong>专业成长建议：</strong><br>
+                1. 系统学习现代教育理论，加强教育科研能力<br>
+                2. 打造1-2个教学特色或优势领域<br>
+                3. 积极参与校级及区级教研活动<br>
+                4. 建立个人教学案例库，积累优秀实践经验
+                </div><br>
+                您可以询问更多关于"数学教学能力提升"、"发展期教师规划"或"高级教师评定"的具体问题。`;
+            }
+        }
+    });
+
+    // 修复之前脚本中的变量重复声明问题
+    document.addEventListener('DOMContentLoaded', function() {
+        // 适应期按钮
+        const adaptPeriodDevGoalBtn = document.getElementById('development-goal');
+        const adaptPeriodEvalStdBtn = document.getElementById('evaluation-standard');
+        const adaptPeriodDevGoalContent = document.getElementById('development-goal-content');
+        const adaptPeriodEvalStdContent = document.getElementById('evaluation-standard-content');
+        
+        if(adaptPeriodDevGoalBtn && adaptPeriodEvalStdBtn) {
+            adaptPeriodDevGoalBtn.addEventListener('click', () => {
+                adaptPeriodDevGoalContent.classList.remove('hidden');
+                adaptPeriodEvalStdContent.classList.add('hidden');
+                adaptPeriodDevGoalBtn.classList.add('bg-blue-500', 'text-white');
+                adaptPeriodEvalStdBtn.classList.remove('bg-blue-500', 'text-white');
+            });
+            
+            adaptPeriodEvalStdBtn.addEventListener('click', () => {
+                adaptPeriodDevGoalContent.classList.add('hidden');
+                adaptPeriodEvalStdContent.classList.remove('hidden');
+                adaptPeriodEvalStdBtn.classList.add('bg-blue-500', 'text-white');
+                adaptPeriodDevGoalBtn.classList.remove('bg-blue-500', 'text-white');
+            });
+        }
+        
+        // 发展期按钮
+        const developPeriodDevGoalBtn = document.getElementById('development-goal1');
+        const developPeriodEvalStdBtn = document.getElementById('evaluation-standard1');
+        const developPeriodDevGoalContent = document.getElementById('development-goal1-content');
+        const developPeriodEvalStdContent = document.getElementById('evaluation-standard1-content');
+        
+        if(developPeriodDevGoalBtn && developPeriodEvalStdBtn) {
+            developPeriodDevGoalBtn.addEventListener('click', () => {
+                developPeriodDevGoalContent.classList.remove('hidden');
+                developPeriodEvalStdContent.classList.add('hidden');
+                developPeriodDevGoalBtn.classList.add('bg-blue-500', 'text-white');
+                developPeriodEvalStdBtn.classList.remove('bg-blue-500', 'text-white');
+            });
+            
+            developPeriodEvalStdBtn.addEventListener('click', () => {
+                developPeriodDevGoalContent.classList.add('hidden');
+                developPeriodEvalStdContent.classList.remove('hidden');
+                developPeriodEvalStdBtn.classList.add('bg-blue-500', 'text-white');
+                developPeriodDevGoalBtn.classList.remove('bg-blue-500', 'text-white');
+            });
+        }
+        
+        // 其他期按钮的事件处理可以根据需要继续添加
+    });
+</script>
+
+</html> 
