@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学情数据分析 - 小沃AI助手</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        secondary: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            200: '#ddd6fe',
+                            300: '#c4b5fd',
+                            400: '#a78bfa',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            800: '#5b21b6',
+                            900: '#4c1d95',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    backdropBlur: {
+                        xs: '2px',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .mockup-border {
+            border: 2px dashed #e5e7eb;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="flex flex-row space-x-4 p-4 overflow-x-auto">
+        <!-- 主页面 - 学情数据分析首页 -->
+        <div class="mockup-border p-6 min-w-[360px] max-w-[360px]">
+            <div class="mx-auto">
+                <!-- 返回按钮 -->
+                <div class="flex items-center mb-6">
+                    <a href="index.html" class="flex items-center text-primary-600">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/arrow-left.svg" class="w-5 h-5 mr-2" alt="Back">
+                        <span>返回首页</span>
+                    </a>
+                </div>
+                
+                <!-- 工具标题 -->
+                <div class="flex items-center mb-6">
+                    <div class="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/bar-chart-2.svg" class="h-6 w-6 text-green-600" alt="Data Analysis">
+                    </div>
+                    <h1 class="ml-3 text-2xl font-bold text-gray-900">学情数据分析</h1>
+                </div>
+                
+                <!-- 功能描述 -->
+                <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                    <p class="text-gray-700">分析学生学习数据，生成可视化报告，帮助教师精准把握班级学习状况，制定个性化教学策略。</p>
+                </div>
+                
+                <!-- 选择分析对象 -->
+                <div class="bg-green-50 rounded-xl p-5 border border-green-100 mb-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-3">选择分析对象</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">班级</label>
+                            <select class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 bg-white p-2.5 text-sm border">
+                                <option>高二(1)班</option>
+                                <option>高二(2)班</option>
+                                <option>高二(3)班</option>
+                                <option>高二(4)班</option>
+                                <option>高二(5)班</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">学科</label>
+                            <select class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 bg-white p-2.5 text-sm border">
+                                <option>数学</option>
+                                <option>语文</option>
+                                <option>英语</option>
+                                <option>物理</option>
+                                <option>化学</option>
+                                <option>生物</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">时间范围</label>
+                            <select class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 bg-white p-2.5 text-sm border">
+                                <option>本学期</option>
+                                <option>近一个月</option>
+                                <option>近两周</option>
+                                <option>自定义...</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">分析维度</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <label class="inline-flex items-center p-2 rounded-lg border border-gray-200 bg-white">
+                                    <input type="checkbox" class="rounded text-green-600 focus:ring-green-500" checked>
+                                    <span class="ml-2 text-sm text-gray-700">成绩分布</span>
+                                </label>
+                                <label class="inline-flex items-center p-2 rounded-lg border border-gray-200 bg-white">
+                                    <input type="checkbox" class="rounded text-green-600 focus:ring-green-500" checked>
+                                    <span class="ml-2 text-sm text-gray-700">知识点掌握</span>
+                                </label>
+                                <label class="inline-flex items-center p-2 rounded-lg border border-gray-200 bg-white">
+                                    <input type="checkbox" class="rounded text-green-600 focus:ring-green-500" checked>
+                                    <span class="ml-2 text-sm text-gray-700">学习进度</span>
+                                </label>
+                                <label class="inline-flex items-center p-2 rounded-lg border border-gray-200 bg-white">
+                                    <input type="checkbox" class="rounded text-green-600 focus:ring-green-500">
+                                    <span class="ml-2 text-sm text-gray-700">错题分析</span>
+                                </label>
+                            </div>
+                        </div>
+                        <button class="w-full bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-colors">生成分析报告</button>
+                    </div>
+                </div>
+                
+                <!-- 最近报告 -->
+                <div class="mb-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-3">最近报告</h2>
+                    <div class="space-y-3">
+                        <div class="bg-white p-3 rounded-lg shadow-sm flex justify-between items-center">
+                            <div>
+                                <h3 class="font-medium text-gray-900">高二(3)班 - 数学期中考试分析</h3>
+                                <p class="text-xs text-gray-500">2025-03-15 生成</p>
+                            </div>
+                            <button class="text-green-600">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/eye.svg" class="w-4 h-4" alt="View">
+                            </button>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg shadow-sm flex justify-between items-center">
+                            <div>
+                                <h3 class="font-medium text-gray-900">高二(1)班 - 英语单元测试分析</h3>
+                                <p class="text-xs text-gray-500">2025-03-10 生成</p>
+                            </div>
+                            <button class="text-green-600">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/eye.svg" class="w-4 h-4" alt="View">
+                            </button>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg shadow-sm flex justify-between items-center">
+                            <div>
+                                <h3 class="font-medium text-gray-900">高二年级 - 物理月考分析</h3>
+                                <p class="text-xs text-gray-500">2025-03-05 生成</p>
+                            </div>
+                            <button class="text-green-600">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/eye.svg" class="w-4 h-4" alt="View">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 第二个页面 - 数据分析报告概览 -->
+        <div class="mockup-border p-6 min-w-[360px] max-w-[360px]">
+            <div class="mx-auto">
+                <!-- 顶部导航 -->
+                <div class="flex items-center justify-between mb-6">
+                    <a href="#" class="flex items-center text-green-600">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/arrow-left.svg" class="w-5 h-5 mr-2" alt="Back">
+                        <span>返回</span>
+                    </a>
+                    <div class="flex space-x-2">
+                        <button class="p-1.5 rounded-full text-gray-500 hover:bg-gray-100">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/share.svg" class="w-5 h-5" alt="Share">
+                        </button>
+                        <button class="p-1.5 rounded-full text-gray-500 hover:bg-gray-100">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/download.svg" class="w-5 h-5" alt="Download">
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 报告标题 -->
+                <div class="mb-6">
+                    <h1 class="text-xl font-bold text-gray-900">高二(3)班 - 数学学情分析</h1>
+                    <p class="text-gray-500 text-sm">分析周期: 2025年春季学期 | 生成于 2025-03-19</p>
+                </div>
+                
+                <!-- 报告概览 -->
+                <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                    <h2 class="font-semibold text-gray-900 mb-3">班级概览</h2>
+                    <div class="grid grid-cols-2 gap-3 mb-4">
+                        <div class="bg-gray-50 p-3 rounded-lg">
+                            <p class="text-xs text-gray-500 mb-1">班级平均分</p>
+                            <div class="flex items-end">
+                                <span class="text-2xl font-bold text-gray-900">86.5</span>
+                                <span class="text-xs text-green-600 ml-2">+3.2</span>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-lg">
+                            <p class="text-xs text-gray-500 mb-1">优秀率</p>
+                            <div class="flex items-end">
+                                <span class="text-2xl font-bold text-gray-900">42%</span>
+                                <span class="text-xs text-green-600 ml-2">+5%</span>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-lg">
+                            <p class="text-xs text-gray-500 mb-1">及格率</p>
+                            <div class="flex items-end">
+                                <span class="text-2xl font-bold text-gray-900">92%</span>
+                                <span class="text-xs text-green-600 ml-2">+2%</span>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-lg">
+                            <p class="text-xs text-gray-500 mb-1">班级排名</p>
+                            <div class="flex items-end">
+                                <span class="text-2xl font-bold text-gray-900">2</span>
+                                <span class="text-xs text-green-600 ml-2">+1</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h3 class="text-sm font-medium text-gray-700 mb-2">成绩分布</h3>
+                        <div class="h-40 w-full">
+                            <canvas id="scoreDistribution"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-center">
+                        <button class="text-green-600 text-sm font-medium">
+                            查看详细报告
+                            <img src="https://unpkg.com/lucide-static@latest/icons/chevron-right.svg" class="w-4 h-4 inline ml-1" alt="View">
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- AI洞察 -->
+                <div class="bg-green-50 rounded-xl p-4 border border-green-100 mb-6">
+                    <div class="flex items-start">
+                        <div class="h-8 w-8 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/lightbulb.svg" class="h-4 w-4 text-green-600" alt="Insight">
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="font-medium text-gray-900 mb-1">AI洞察</h3>
+                            <div class="space-y-2 text-sm text-gray-700">
+                                <p>• 班级整体数学成绩呈上升趋势，较上月提升3.2分</p>
+                                <p>• 函数与导数单元掌握较好，几何证明题仍有提升空间</p>
+                                <p>• 5名学生在近期测验中进步显著，建议给予表扬</p>
+                                <p>• 8名学生在解析几何部分存在困难，建议加强辅导</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 报告导航 -->
+                <div class="flex justify-between">
+                    <button class="flex items-center text-gray-700 bg-white rounded-lg px-3 py-2 shadow-sm text-sm">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/users.svg" class="w-4 h-4 mr-1" alt="Students">
+                        学生个体分析
+                    </button>
+                    <button class="flex items-center text-gray-700 bg-white rounded-lg px-3 py-2 shadow-sm text-sm">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/book-open.svg" class="w-4 h-4 mr-1" alt="Knowledge">
+                        知识点分析
+                    </button>
+                </div>
+            </div>
+            
+            <script>
+                // 成绩分布图表
+                const ctx = document.getElementById('scoreDistribution').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['<60', '60-70', '70-80', '80-90', '90-100'],
+                        datasets: [{
+                            label: '学生人数',
+                            data: [2, 3, 12, 18, 10],
+                            backgroundColor: [
+                                'rgba(239, 68, 68, 0.7)',
+                                'rgba(249, 115, 22, 0.7)',
+                                'rgba(234, 179, 8, 0.7)',
+                                'rgba(16, 185, 129, 0.7)',
+                                'rgba(14, 165, 233, 0.7)'
+                            ],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 5
+                                }
+                            }
+                        }
+                    }
+                });
+            </script>
+        </div>
+        
+        <!-- 第三个页面 - 知识点分析详情 -->
+        <div class="mockup-border p-6 min-w-[360px] max-w-[360px]">
+            <div class="mx-auto">
+                <!-- 顶部导航 -->
+                <div class="flex items-center justify-between mb-6">
+                    <a href="#" class="flex items-center text-green-600">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/arrow-left.svg" class="w-5 h-5 mr-2" alt="Back">
+                        <span>返回</span>
+                    </a>
+                    <span class="text-sm text-gray-500">高二(3)班 - 数学</span>
+                </div>
+                
+                <!-- 页面标题 -->
+                <div class="mb-6">
+                    <h1 class="text-xl font-bold text-gray-900">知识点掌握分析</h1>
+                    <p class="text-gray-500 text-sm">基于近期测验与作业数据</p>
+                </div>
+                
+                <!-- 知识点雷达图 -->
+                <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                    <h2 class="font-semibold text-gray-900 mb-3">知识点掌握概览</h2>
+                    <div class="h-60 w-full mb-4">
+                        <canvas id="knowledgeRadar"></canvas>
+                    </div>
+                </div>
+                
+                <!-- 知识点详情列表 -->
+                <div class="space-y-4 mb-6">
+                    <div class="bg-white rounded-xl p-4 shadow-sm">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="font-medium text-gray-900">函数与导数</h3>
+                            <span class="text-sm font-medium text-green-600">92%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-green-600 h-2 rounded-full" style="width: 92%"></div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2">班级整体掌握良好，重点关注导数应用题</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-4 shadow-sm">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="font-medium text-gray-900">三角函数</h3>
+                            <span class="text-sm font-medium text-green-600">85%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-green-600 h-2 rounded-full" style="width: 85%"></div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2">基础题掌握良好，复杂变换题型需加强</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-4 shadow-sm">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="font-medium text-gray-900">解析几何</h3>
+                            <span class="text-sm font-medium text-yellow-600">68%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-yellow-500 h-2 rounded-full" style="width: 68%"></div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2">圆锥曲线部分掌握薄弱，建议加强练习</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-4 shadow-sm">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="font-medium text-gray-900">概率统计</h3>
+                            <span class="text-sm font-medium text-green-600">78%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-green-600 h-2 rounded-full" style="width: 78%"></div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2">基础概念理解到位，复杂概率计算需提升</p>
+                    </div>
+                </div>
+                
+                <!-- 教学建议 -->
+                <div class="bg-green-50 rounded-xl p-4 border border-green-100">
+                    <h3 class="font-medium text-gray-900 mb-2 flex items-center">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/clipboard-list.svg" class="w-4 h-4 mr-2" alt="Suggestions">
+                        教学建议
+                    </h3>
+                    <div class="space-y-2 text-sm text-gray-700">
+                        <p>1. 针对解析几何单元，建议增加小组讨论和实例分析</p>
+                        <p>2. 可组织针对性辅导，重点关注8名学生的薄弱环节</p>
+                        <p>3. 设计分层次作业，满足不同学生的学习需求</p>
+                        <p>4. 利用错题集功能，帮助学生建立个性化复习计划</p>
+                    </div>
+                </div>
+            </div>
+            
+            <script>
+                // 知识点雷达图
+                const radarCtx = document.getElementById('knowledgeRadar').getContext('2d');
+                new Chart(radarCtx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['函数与导数', '三角函数', '数列', '解析几何', '立体几何', '概率统计'],
+                        datasets: [{
+                            label: '掌握程度',
+                            data: [92, 85, 88, 68, 75, 78],
+                            backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                            borderColor: 'rgba(16, 185, 129, 0.8)',
+                            pointBackgroundColor: 'rgba(16, 185, 129, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(16, 185, 129, 1)'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            r: {
+                                angleLines: {
+                                    display: true
+                                },
+                                suggestedMin: 0,
+                                suggestedMax: 100
+                            }
+                        }
+                    }
+                });
+            </script>
+        </div>
+    </div>
+</body>
+</html>

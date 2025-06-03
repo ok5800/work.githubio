@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课件制作工具  小沃AI助手</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eef6ff',
+                            100: '#d8edff',
+                            200: '#b8dfff',
+                            300: '#8aceff',
+                            400: '#54b4ff',
+                            500: '#2b96fc',
+                            600: '#1a7ff2',
+                            700: '#1467df',
+                            800: '#1654b5',
+                            900: '#18488f',
+                        },
+                        secondary: {
+                            50: '#f4f4ff',
+                            100: '#ebecff',
+                            200: '#d9daff',
+                            300: '#bcbdff',
+                            400: '#9b97ff',
+                            500: '#7a70fc',
+                            600: '#6a53f2',
+                            700: '#5c40df',
+                            800: '#4c36b5',
+                            900: '#40338f',
+                        },
+                        accent: {
+                            50: '#fdf2f8',
+                            100: '#fce7f3',
+                            200: '#fbcfe8',
+                            300: '#f9a8d4',
+                            400: '#f472b6',
+                            500: '#ec4899',
+                            600: '#db2777',
+                            700: '#be185d',
+                            800: '#9d174d',
+                            900: '#831843',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    backdropBlur: {
+                        xs: '2px',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: #f8fafc;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%232b96fc' fill-opacity='0.05'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0H5v5H0v1h5v94h1V6h94V5H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+        
+        .mockup-border {
+            border: 2px dashed #e5e7eb;
+            border-radius: 16px;
+            background-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .mockup-border:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.07), 0 10px 15px -6px rgba(0, 0, 0, 0.03);
+        }
+        
+        /* Fix for SVG icons */
+        [class*="lucide-"] {
+            stroke-width: 1.5;
+            stroke: currentColor;
+            fill: none;
+        }
+        
+        /* Make SVG icons inherit the text color */
+        img.text-primary-600, img.text-blue-600, img.text-purple-600, 
+        img.text-red-600, img.text-green-600, img.text-indigo-600, 
+        img.text-pink-600, img.text-teal-600 {
+            filter: invert(26%) sepia(97%) saturate(1582%) hue-rotate(197deg) brightness(96%) contrast(101%);
+        }
+        
+        /* Improve hover effects */
+        .hover-lift {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        
+        /* Card design improvements */
+        .card {
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+        
+        .card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+        }
+        
+        /* Button animations */
+        .btn-animated {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-animated::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.4);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%, -50%);
+            transform-origin: 50% 50%;
+        }
+        
+        .btn-animated:hover::after {
+            animation: ripple 0.6s ease-out;
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="flex flex-row space-x-6 p-6 overflow-x-auto">
+        <!-- Subtle background pattern with grid lines -->
+        <div class="fixed inset-0 z-0 opacity-10 pointer-events-none">
+            <div class="absolute inset-0 bg-grid-pattern"></div>
+        </div>
+        <!-- 主页面 - 课件制作工具首页 -->
+        <div class="mockup-border p-6 min-w-[360px] max-w-[360px] glass-effect">
+            <div class="mx-auto">
+                <!-- 返回按钮 -->
+                <div class="flex items-center mb-6">
+                    <a href="index.html" class="flex items-center text-primary-600 hover:text-primary-700 transition-colors">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/arrow-left.svg" class="w-5 h-5 mr-2 text-primary-600" alt="Back">
+                        <span>返回首页</span>
+                    </a>
+                </div>
+                
+                <!-- 工具标题 -->
+                <div class="flex items-center mb-6">
+                    <div class="h-12 w-12 rounded-full bg-primary-100 flex items-center justify-center">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/presentation.svg" class="h-6 w-6 text-primary-600" alt="Presentation">
+                    </div>
+                    <h1 class="ml-3 text-2xl font-bold text-gray-900">课件制作工具</h1>
+                </div>
+                
+                <!-- 功能描述 -->
+                <div class="bg-white rounded-xl p-4 shadow-sm mb-6 card">
+                    <p class="text-gray-700">智能生成精美课件，支持多种模板与主题，一键导入教学内容，帮助教师高效制作专业课件。</p>
+                </div>
+                
+                <!-- 创建新课件 -->
+                <div class="bg-primary-50 rounded-xl p-5 border border-primary-100 mb-6 shadow-sm">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-3">创建新课件</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">课件标题</label>
+                            <input type="text" placeholder="输入课件标题" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white p-2.5 text-sm border">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">学科</label>
+                            <select class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white p-2.5 text-sm border">
+                                <option>数学</option>
+                                <option>语文</option>
+                                <option>英语</option>
+                                <option>物理</option>
+                                <option>化学</option>
+                                <option>生物</option>
+                                <option>历史</option>
+                                <option>地理</option>
+                                <option>政治</option>
+                                <option>其他</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">年级</label>
+                            <select class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white p-2.5 text-sm border">
+                                <option>小学</option>
+                                <option>初中</option>
+                                <option>高中</option>
+                                <option>大学</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">模板风格</label>
+                            <div class="grid grid-cols-3 gap-2">
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="template" class="sr-only peer">
+                                    <div class="rounded-lg border-2 border-gray-200 peer-checked:border-blue-500 p-2">
+                                        <div class="aspect-video bg-blue-100 rounded-md mb-1"></div>
+                                        <p class="text-xs text-center">简约</p>
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="template" class="sr-only peer" checked>
+                                    <div class="rounded-lg border-2 border-gray-200 peer-checked:border-blue-500 p-2">
+                                        <div class="aspect-video bg-purple-100 rounded-md mb-1"></div>
+                                        <p class="text-xs text-center">活泼</p>
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="template" class="sr-only peer">
+                                    <div class="rounded-lg border-2 border-gray-200 peer-checked:border-blue-500 p-2">
+                                        <div class="aspect-video bg-green-100 rounded-md mb-1"></div>
+                                        <p class="text-xs text-center">自然</p>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <button class="w-full bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-colors hover-lift btn-animated">创建课件</button>
+                    </div>
+                </div>
+                
+                <!-- 最近课件 -->
+                <div class="mb-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-3">最近课件</h2>
+                    <div class="space-y-3">
+                        <div class="bg-white p-3 rounded-lg shadow-sm flex justify-between items-center card hover:bg-primary-50 transition-colors">
+                            <div>
+                                <h3 class="font-medium text-gray-900">二次函数及其图像</h3>
+                                <p class="text-xs text-gray-500">数学 · 2025-03-18 创建</p>
+                            </div>
+                            <div class="flex space-x-2">
+                                <button class="text-blue-600">
+                                    <img src="https://unpkg.com/lucide-static@latest/icons/play.svg" class="w-4 h-4" alt="Edit">
+                                </button>
+                                <button class="text-blue-600">
+                                    <img src="https://unpkg.com/lucide-static@latest/icons/download.svg" class="w-4 h-4" alt="Download">
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg shadow-sm flex justify-between items-center card hover:bg-primary-50 transition-colors">
+                            <div>
+                                <h3 class="font-medium text-gray-900">古诗词鉴赏</h3>
+                                <p class="text-xs text-gray-500">语文 · 2025-03-15 创建</p>
+                            </div>
+                            <div class="flex space-x-2">
+                                <button class="text-blue-600">
+                                    <img src="https://unpkg.com/lucide-static@latest/icons/play.svg" class="w-4 h-4" alt="Edit">
+                                </button>
+                                <button class="text-blue-600">
+                                    <img src="https://unpkg.com/lucide-static@latest/icons/download.svg" class="w-4 h-4" alt="Download">
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg shadow-sm flex justify-between items-center card hover:bg-primary-50 transition-colors">
+                            <div>
+                                <h3 class="font-medium text-gray-900">牛顿运动定律</h3>
+                                <p class="text-xs text-gray-500">物理 · 2025-03-10 创建</p>
+                            </div>
+                            <div class="flex space-x-2">
+                                <button class="text-blue-600">
+                                    <img src="https://unpkg.com/lucide-static@latest/icons/play.svg" class="w-4 h-4" alt="Edit">
+                                </button>
+                                <button class="text-blue-600">
+                                    <img src="https://unpkg.com/lucide-static@latest/icons/download.svg" class="w-4 h-4" alt="Download">
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- AI助手 -->
+                <div class="bg-gradient-to-r from-primary-50 to-secondary-50 rounded-xl p-4 border border-primary-100 shadow-sm card">
+                    <div class="flex items-start">
+                        <div class="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/sparkles.svg" class="h-4 w-4 text-blue-600" alt="AI">
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="font-medium text-gray-900">AI助手</h3>
+                            <p class="text-sm text-gray-600 mt-1">输入教学内容，AI将自动生成课件大纲和内容建议</p>
+                            <button class="mt-2 text-sm text-primary-600 font-medium hover:text-primary-700 transition-colors">立即体验</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 第二个页面 - 课件编辑器 -->
+        <div class="mockup-border p-6 min-w-[360px] max-w-[360px] glass-effect">
+            <div class="mx-auto">
+                <!-- 顶部导航 -->
+                <div class="flex items-center justify-between mb-6">
+                    <a href="#" class="flex items-center text-primary-600 hover:text-primary-700 transition-colors">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/arrow-left.svg" class="w-5 h-5 mr-2" alt="Back">
+                        <span>返回</span>
+                    </a>
+                    <div class="flex space-x-3">
+                        <button class="text-primary-600 hover:text-primary-700 transition-colors flex items-center">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/save.svg" class="w-5 h-5 mr-1" alt="Save">
+                            <span>保存</span>
+                        </button>
+                        <button class="text-primary-600 hover:text-primary-700 transition-colors flex items-center">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/play.svg" class="w-5 h-5 mr-1" alt="Preview">
+                            <span>预览</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 课件标题 -->
+                <div class="mb-6">
+                    <input type="text" value="二次函数及其图像" class="w-full text-xl font-bold text-gray-900 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-blue-500 px-0 py-2 bg-transparent">
+                </div>
+                
+                <!-- 编辑工具栏 -->
+                <div class="bg-white rounded-lg shadow-sm p-2 flex items-center space-x-1 mb-6 overflow-x-auto sticky top-0 z-10 glass-effect">
+                    <button class="p-1.5 rounded hover:bg-primary-50 transition-colors">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/type.svg" class="w-4 h-4" alt="Text">
+                    </button>
+                    <button class="p-1.5 rounded hover:bg-primary-50 transition-colors">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/image.svg" class="w-4 h-4" alt="Image">
+                    </button>
+                    <button class="p-1.5 rounded hover:bg-primary-50 transition-colors">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/Image.svg" class="w-4 h-4" alt="Chart">
+                    </button>
+                    <button class="p-1.5 rounded hover:bg-primary-50 transition-colors">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/table.svg" class="w-4 h-4" alt="Table">
+                    </button>
+                    <button class="p-1.5 rounded hover:bg-primary-50 transition-colors">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/list.svg" class="w-4 h-4" alt="List">
+                    </button>
+                    <button class="p-1.5 rounded hover:bg-primary-50 transition-colors">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/list.svg" class="w-4 h-4" alt="Layout">
+                    </button>
+                    <button class="p-1.5 rounded hover:bg-primary-50 transition-colors">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/shapes.svg" class="w-4 h-4" alt="Shapes">
+                    </button>
+                    <button class="p-1.5 rounded hover:bg-primary-50 transition-colors">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/video.svg" class="w-4 h-4" alt="Video">
+                    </button>
+                    <button class="p-1.5 rounded hover:bg-primary-50 transition-colors">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/link.svg" class="w-4 h-4" alt="Link">
+                    </button>
+                    <div class="h-6 border-l border-gray-200 mx-1"></div>
+                    <button class="p-1.5 rounded hover:bg-primary-50 transition-colors">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/palette.svg" class="w-4 h-4" alt="Theme">
+                    </button>
+                    <button class="p-1.5 rounded hover:bg-primary-50 transition-colors">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/settings.svg" class="w-4 h-4" alt="Settings">
+                    </button>
+                </div>
+                
+                <!-- 幻灯片缩略图 -->
+                <div class="flex mb-6 space-x-2 overflow-x-auto pb-2">
+                    <div class="flex-shrink-0 w-20 rounded-md overflow-hidden border-2 border-primary-500 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="aspect-[4/3] bg-white flex items-center justify-center text-xs text-gray-500">
+                            封面
+                        </div>
+                    </div>
+                    <div class="flex-shrink-0 w-20 rounded-md overflow-hidden border border-gray-200 hover:border-primary-300 transition-colors">
+                        <div class="aspect-[4/3] bg-white flex items-center justify-center text-xs text-gray-500">
+                            目录
+                        </div>
+                    </div>
+                    <div class="flex-shrink-0 w-20 rounded-md overflow-hidden border border-gray-200 hover:border-primary-300 transition-colors">
+                        <div class="aspect-[4/3] bg-white flex items-center justify-center text-xs text-gray-500">
+                            幻灯片 3
+                        </div>
+                    </div>
+                    <div class="flex-shrink-0 w-20 rounded-md overflow-hidden border border-gray-200 hover:border-primary-300 transition-colors">
+                        <div class="aspect-[4/3] bg-white flex items-center justify-center text-xs text-gray-500">
+                            幻灯片 4
+                        </div>
+                    </div>
+                    <div class="flex-shrink-0 w-20 rounded-md overflow-hidden border border-gray-200 hover:border-primary-300 transition-colors">
+                        <div class="aspect-[4/3] bg-white flex items-center justify-center text-xs text-gray-500">
+                            + 新增
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 当前编辑幻灯片 -->
+                <div class="mb-6">
+                    <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                        <div class="aspect-[4/3] p-4 flex flex-col items-center justify-center">
+                            <h2 class="text-2xl font-bold text-center text-gray-900 mb-4">二次函数及其图像</h2>
+                            <p class="text-sm text-gray-600 text-center mb-6">高中数学必修一</p>
+                            <div class="w-16 h-1 bg-primary-500 rounded-full mb-4"></div>
+                            <p class="text-sm text-gray-500 text-center">张老师 · 高二(3)班</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 智能建议 -->
+                <div class="bg-gradient-to-r from-primary-50 to-secondary-50 rounded-xl p-4 border border-primary-100 shadow-sm card">
+                    <h3 class="font-medium text-gray-900 mb-2 flex items-center">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/lightbulb.svg" class="w-4 h-4 mr-2" alt="Suggestions">
+                        智能建议
+                    </h3>
+                    <p class="text-sm text-gray-600 mb-3">根据您的课件内容，AI助手提供以下建议：</p>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li class="flex items-start">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/List.svg" class="w-4 h-4 mr-2 text-primary-500 mt-0.5" alt="Check">
+                            <span>添加二次函数图像的动态演示可增强学生理解</span>
+                        </li>
+                        <li class="flex items-start">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/list.svg" class="w-4 h-4 mr-2 text-primary-500 mt-0.5" alt="Check">
+                            <span>建议增加实际应用案例，如抛物线在物理中的应用</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 第三个页面 - 课件预览 -->
+        <div class="mockup-border p-6 min-w-[360px] max-w-[360px] glass-effect">
+            <div class="mx-auto">
+                <!-- 顶部导航 -->
+                <div class="flex items-center justify-between mb-6">
+                    <a href="#" class="flex items-center text-primary-600 hover:text-primary-700 transition-colors">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/arrow-left.svg" class="w-5 h-5 mr-2" alt="Back">
+                        <span>返回编辑</span>
+                    </a>
+                    <div class="flex space-x-3">
+                        <button class="text-primary-600 hover:text-primary-700 transition-colors flex items-center">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/download.svg" class="w-5 h-5 mr-1" alt="Download">
+                            <span>导出</span>
+                        </button>
+                        <button class="text-primary-600 hover:text-primary-700 transition-colors flex items-center">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/share-2.svg" class="w-5 h-5 mr-1" alt="Share">
+                            <span>分享</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 预览标题 -->
+                <div class="mb-4 text-center">
+                    <h2 class="text-xl font-bold text-gray-900">课件预览</h2>
+                    <p class="text-sm text-gray-500">二次函数及其图像</p>
+                </div>
+                
+                <!-- 预览控制 -->
+                <div class="bg-white rounded-lg shadow-sm p-3 flex items-center justify-between mb-6 sticky top-0 z-10 glass-effect">
+                    <button class="p-1.5 rounded hover:bg-primary-50 transition-colors">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/skip-back.svg" class="w-5 h-5" alt="Previous">
+                    </button>
+                    <div class="text-sm text-gray-600">1 / 8</div>
+                    <button class="p-1.5 rounded hover:bg-primary-50 transition-colors">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/skip-forward.svg" class="w-5 h-5" alt="Next">
+                    </button>
+                </div>
+                
+                <!-- 幻灯片预览 -->
+                <div class="mb-6">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden card">
+                        <div class="aspect-[4/3] p-4 flex flex-col items-center justify-center">
+                            <h2 class="text-2xl font-bold text-center text-gray-900 mb-4">二次函数及其图像</h2>
+                            <p class="text-sm text-gray-600 text-center mb-6">高中数学必修一</p>
+                            <div class="w-16 h-1 bg-primary-500 rounded-full mb-4"></div>
+                            <p class="text-sm text-gray-500 text-center">张老师 · 高二(3)班</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 缩略图导航 -->
+                <div class="flex mb-6 space-x-2 overflow-x-auto pb-2">
+                    <div class="flex-shrink-0 w-16 rounded-md overflow-hidden border-2 border-primary-500 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="aspect-[4/3] bg-white"></div>
+                    </div>
+                    <div class="flex-shrink-0 w-16 rounded-md overflow-hidden border border-gray-200 hover:border-primary-300 transition-colors">
+                        <div class="aspect-[4/3] bg-white"></div>
+                    </div>
+                    <div class="flex-shrink-0 w-16 rounded-md overflow-hidden border border-gray-200 hover:border-primary-300 transition-colors">
+                        <div class="aspect-[4/3] bg-white"></div>
+                    </div>
+                    <div class="flex-shrink-0 w-16 rounded-md overflow-hidden border border-gray-200 hover:border-primary-300 transition-colors">
+                        <div class="aspect-[4/3] bg-white"></div>
+                    </div>
+                    <div class="flex-shrink-0 w-16 rounded-md overflow-hidden border border-gray-200 hover:border-primary-300 transition-colors">
+                        <div class="aspect-[4/3] bg-white"></div>
+                    </div>
+                    <div class="flex-shrink-0 w-16 rounded-md overflow-hidden border border-gray-200 hover:border-primary-300 transition-colors">
+                        <div class="aspect-[4/3] bg-white"></div>
+                    </div>
+                    <div class="flex-shrink-0 w-16 rounded-md overflow-hidden border border-gray-200 hover:border-primary-300 transition-colors">
+                        <div class="aspect-[4/3] bg-white"></div>
+                    </div>
+                    <div class="flex-shrink-0 w-16 rounded-md overflow-hidden border border-gray-200 hover:border-primary-300 transition-colors">
+                        <div class="aspect-[4/3] bg-white"></div>
+                    </div>
+                </div>
+                
+                <!-- 导出选项 -->
+                <div class="bg-gradient-to-r from-primary-50 to-secondary-50 rounded-xl p-4 border border-primary-100 shadow-sm card">
+                    <h3 class="font-medium text-gray-900 mb-2">导出选项</h3>
+                    <div class="grid grid-cols-2 gap-2 text-sm">
+                        <button class="bg-white p-2 rounded-lg border border-gray-200 flex flex-col items-center hover:border-primary-300 hover:bg-primary-50 transition-colors hover-lift btn-animated">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/file-powerpoint.svg" class="w-5 h-5 mb-1 text-primary-600" alt="PPT">
+                            <span>PowerPoint</span>
+                        </button>
+                        <button class="bg-white p-2 rounded-lg border border-gray-200 flex flex-col items-center hover:border-primary-300 hover:bg-primary-50 transition-colors hover-lift btn-animated">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/file-image.svg" class="w-5 h-5 mb-1 text-primary-600" alt="PDF">
+                            <span>PDF</span>
+                        </button>
+                        <button class="bg-white p-2 rounded-lg border border-gray-200 flex flex-col items-center hover:border-primary-300 hover:bg-primary-50 transition-colors hover-lift btn-animated">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/image.svg" class="w-5 h-5 mb-1 text-primary-600" alt="Images">
+                            <span>图片</span>
+                        </button>
+                        <button class="bg-white p-2 rounded-lg border border-gray-200 flex flex-col items-center hover:border-primary-300 hover:bg-primary-50 transition-colors hover-lift btn-animated">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/cloud.svg" class="w-5 h-5 mb-1 text-primary-600" alt="Cloud">
+                            <span>云端链接</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

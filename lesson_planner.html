@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能备课助手 - 小沃AI助手</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        secondary: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            200: '#ddd6fe',
+                            300: '#c4b5fd',
+                            400: '#a78bfa',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            800: '#5b21b6',
+                            900: '#4c1d95',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    backdropBlur: {
+                        xs: '2px',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .tech-bg {
+            background-image: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .mockup-border {
+            border: 2px dashed #e5e7eb;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="flex flex-row space-x-4 p-4 overflow-x-auto">
+        <!-- 主页面 - 智能备课助手首页 -->
+        <div class="mockup-border p-6 min-w-[360px] max-w-[360px]">
+            <div class="mx-auto">
+                <!-- 返回按钮 -->
+                <div class="flex items-center mb-6">
+                    <a href="index.html" class="flex items-center text-primary-600">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/arrow-left.svg" class="w-5 h-5 mr-2" alt="Back">
+                        <span>返回首页</span>
+                    </a>
+                </div>
+                
+                <!-- 工具标题 -->
+                <div class="flex items-center mb-6">
+                    <div class="h-12 w-12 rounded-full bg-primary-100 flex items-center justify-center">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/book-open.svg" class="h-6 w-6 text-primary-600" alt="Lesson Plan">
+                    </div>
+                    <h1 class="ml-3 text-2xl font-bold text-gray-900">智能备课助手</h1>
+                </div>
+                
+                <!-- 功能描述 -->
+                <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                    <p class="text-gray-700">基于教学目标智能生成教案，提供多样化教学策略与资源推荐，帮助教师高效备课。</p>
+                </div>
+                
+                <!-- 快速创建 -->
+                <div class="bg-primary-50 rounded-xl p-5 border border-primary-100 mb-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-3">快速创建</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">学科</label>
+                            <select class="w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 bg-white p-2.5 text-sm border">
+                                <option>语文</option>
+                                <option>数学</option>
+                                <option>英语</option>
+                                <option>物理</option>
+                                <option>化学</option>
+                                <option>生物</option>
+                                <option>历史</option>
+                                <option>地理</option>
+                                <option>政治</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">年级</label>
+                            <select class="w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 bg-white p-2.5 text-sm border">
+                                <option>一年级</option>
+                                <option>二年级</option>
+                                <option>三年级</option>
+                                <option>四年级</option>
+                                <option>五年级</option>
+                                <option>六年级</option>
+                                <option>初一</option>
+                                <option>初二</option>
+                                <option>初三</option>
+                                <option>高一</option>
+                                <option>高二</option>
+                                <option>高三</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">教学内容/单元</label>
+                            <input type="text" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 bg-white p-2.5 text-sm border" placeholder="例如：《春》、方程式、Unit 3...">
+                        </div>
+                        <button class="w-full bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-colors">开始智能备课</button>
+                    </div>
+                </div>
+                
+                <!-- 最近备课 -->
+                <div class="mb-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-3">最近备课</h2>
+                    <div class="space-y-3">
+                        <div class="bg-white p-3 rounded-lg shadow-sm flex justify-between items-center">
+                            <div>
+                                <h3 class="font-medium text-gray-900">高二物理 - 牛顿运动定律</h3>
+                                <p class="text-xs text-gray-500">2025-03-18 创建</p>
+                            </div>
+                            <button class="text-primary-600">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/edit.svg" class="w-4 h-4" alt="Edit">
+                            </button>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg shadow-sm flex justify-between items-center">
+                            <div>
+                                <h3 class="font-medium text-gray-900">初三语文 - 《雷雨》赏析</h3>
+                                <p class="text-xs text-gray-500">2025-03-15 创建</p>
+                            </div>
+                            <button class="text-primary-600">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/edit.svg" class="w-4 h-4" alt="Edit">
+                            </button>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg shadow-sm flex justify-between items-center">
+                            <div>
+                                <h3 class="font-medium text-gray-900">高一英语 - Unit 4 Reading</h3>
+                                <p class="text-xs text-gray-500">2025-03-10 创建</p>
+                            </div>
+                            <button class="text-primary-600">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/edit.svg" class="w-4 h-4" alt="Edit">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 第二个页面 - 备课生成中 -->
+        <div class="mockup-border p-6 min-w-[360px] max-w-[360px]">
+            <div class="mx-auto">
+                <!-- 返回按钮 -->
+                <div class="flex items-center justify-between mb-6">
+                    <a href="#" class="flex items-center text-primary-600">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/arrow-left.svg" class="w-5 h-5 mr-2" alt="Back">
+                        <span>返回</span>
+                    </a>
+                    <span class="text-sm text-gray-500">高二物理 - 牛顿运动定律</span>
+                </div>
+                
+                <!-- 生成中状态 -->
+                <div class="flex flex-col items-center justify-center py-12">
+                    <div class="w-16 h-16 border-t-4 border-primary-600 border-solid rounded-full animate-spin mb-6"></div>
+                    <h2 class="text-xl font-semibold text-gray-900 mb-2">AI正在生成教案</h2>
+                    <p class="text-gray-600 text-center mb-8">正在分析教学内容，设计教学策略，预计需要1-2分钟...</p>
+                    
+                    <div class="w-full bg-gray-200 rounded-full h-2.5 mb-2">
+                        <div class="bg-primary-600 h-2.5 rounded-full w-2/3"></div>
+                    </div>
+                    <p class="text-sm text-gray-500">67% 完成</p>
+                </div>
+                
+                <!-- 生成提示 -->
+                <div class="bg-gray-50 rounded-xl p-4 border border-gray-200 mt-8">
+                    <h3 class="font-medium text-gray-900 mb-2 flex items-center">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/lightbulb.svg" class="w-4 h-4 mr-2" alt="Tip">
+                        小贴士
+                    </h3>
+                    <p class="text-sm text-gray-600">AI助手会根据教学大纲和最佳实践生成教案，您可以在生成后进行个性化调整。</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 第三个页面 - 备课结果 -->
+        <div class="mockup-border p-6 min-w-[360px] max-w-[360px]">
+            <div class="mx-auto">
+                <!-- 顶部导航 -->
+                <div class="flex items-center justify-between mb-6">
+                    <a href="#" class="flex items-center text-primary-600">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/arrow-left.svg" class="w-5 h-5 mr-2" alt="Back">
+                        <span>返回</span>
+                    </a>
+                    <div class="flex space-x-2">
+                        <button class="p-1.5 rounded-full text-gray-500 hover:bg-gray-100">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/share.svg" class="w-5 h-5" alt="Share">
+                        </button>
+                        <button class="p-1.5 rounded-full text-gray-500 hover:bg-gray-100">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/download.svg" class="w-5 h-5" alt="Download">
+                        </button>
+                        <button class="p-1.5 rounded-full text-gray-500 hover:bg-gray-100">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/more-horizontal.svg" class="w-5 h-5" alt="More">
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 教案标题 -->
+                <div class="mb-6">
+                    <h1 class="text-xl font-bold text-gray-900">高二物理 - 牛顿运动定律</h1>
+                    <p class="text-gray-500 text-sm">生成于 2025-03-19 | 已保存</p>
+                </div>
+                
+                <!-- 教案内容导航 -->
+                <div class="flex border-b border-gray-200 mb-4 overflow-x-auto">
+                    <button class="px-4 py-2 text-sm font-medium text-primary-600 border-b-2 border-primary-600">教学目标</button>
+                    <button class="px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">教学重点</button>
+                    <button class="px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">教学流程</button>
+                    <button class="px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">教学资源</button>
+                    <button class="px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">作业设计</button>
+                </div>
+                
+                <!-- 教学目标内容 -->
+                <div class="bg-white rounded-xl p-4 shadow-sm mb-4">
+                    <h2 class="font-semibold text-gray-900 mb-3">教学目标</h2>
+                    <div class="space-y-2">
+                        <div class="flex items-start">
+                            <div class="h-5 w-5 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <span class="text-xs font-medium text-primary-600">1</span>
+                            </div>
+                            <p class="ml-2 text-gray-700 text-sm">理解牛顿三大运动定律的基本内容和物理意义</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="h-5 w-5 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <span class="text-xs font-medium text-primary-600">2</span>
+                            </div>
+                            <p class="ml-2 text-gray-700 text-sm">掌握牛顿运动定律的应用条件和适用范围</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="h-5 w-5 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <span class="text-xs font-medium text-primary-600">3</span>
+                            </div>
+                            <p class="ml-2 text-gray-700 text-sm">能够运用牛顿运动定律分析和解决实际物理问题</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="h-5 w-5 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <span class="text-xs font-medium text-primary-600">4</span>
+                            </div>
+                            <p class="ml-2 text-gray-700 text-sm">培养学生的科学思维方法和实验探究能力</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 编辑按钮 -->
+                <div class="flex justify-between">
+                    <button class="flex items-center text-primary-600 text-sm font-medium">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/edit-3.svg" class="w-4 h-4 mr-1" alt="Edit">
+                        编辑目标
+                    </button>
+                    <button class="flex items-center text-primary-600 text-sm font-medium">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/refresh-cw.svg" class="w-4 h-4 mr-1" alt="Regenerate">
+                        重新生成
+                    </button>
+                </div>
+                
+                <!-- AI建议 -->
+                <div class="mt-6 bg-secondary-50 rounded-xl p-4 border border-secondary-100">
+                    <div class="flex items-start">
+                        <div class="h-8 w-8 rounded-full bg-secondary-100 flex items-center justify-center flex-shrink-0">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/sparkles.svg" class="h-4 w-4 text-secondary-600" alt="AI">
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="font-medium text-gray-900 mb-1">AI教学建议</h3>
+                            <p class="text-sm text-gray-700">考虑增加一个关于牛顿定律在日常生活中应用的教学目标，帮助学生建立物理概念与实际生活的联系。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

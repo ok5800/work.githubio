@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作业智评系统 - 小沃AI助手</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        secondary: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            200: '#ddd6fe',
+                            300: '#c4b5fd',
+                            400: '#a78bfa',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            800: '#5b21b6',
+                            900: '#4c1d95',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    backdropBlur: {
+                        xs: '2px',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .mockup-border {
+            border: 2px dashed #e5e7eb;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="flex flex-row space-x-4 p-4 overflow-x-auto">
+        <!-- 主页面 - 作业智评系统首页 -->
+        <div class="mockup-border p-6 min-w-[360px] max-w-[360px]">
+            <div class="mx-auto">
+                <!-- 返回按钮 -->
+                <div class="flex items-center mb-6">
+                    <a href="index.html" class="flex items-center text-secondary-600">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/arrow-left.svg" class="w-5 h-5 mr-2" alt="Back">
+                        <span>返回首页</span>
+                    </a>
+                </div>
+                
+                <!-- 工具标题 -->
+                <div class="flex items-center mb-6">
+                    <div class="h-12 w-12 rounded-full bg-secondary-100 flex items-center justify-center">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/clipboard-check.svg" class="h-6 w-6 text-secondary-600" alt="Assessment">
+                    </div>
+                    <h1 class="ml-3 text-2xl font-bold text-gray-900">作业智评系统</h1>
+                </div>
+                
+                <!-- 功能描述 -->
+                <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                    <p class="text-gray-700">自动批改学生作业，提供个性化反馈和学习建议，节省教师批改时间，提高教学效率。</p>
+                </div>
+                
+                <!-- 快速操作 -->
+                <div class="grid grid-cols-2 gap-3 mb-6">
+                    <button class="flex flex-col items-center justify-center bg-secondary-50 border border-secondary-100 rounded-xl p-4 hover:bg-secondary-100 transition-colors">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/upload.svg" class="w-6 h-6 text-secondary-600 mb-2" alt="Upload">
+                        <span class="text-sm font-medium text-gray-900">上传作业</span>
+                    </button>
+                    <button class="flex flex-col items-center justify-center bg-secondary-50 border border-secondary-100 rounded-xl p-4 hover:bg-secondary-100 transition-colors">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/camera.svg" class="w-6 h-6 text-secondary-600 mb-2" alt="Scan">
+                        <span class="text-sm font-medium text-gray-900">扫描作业</span>
+                    </button>
+                    <button class="flex flex-col items-center justify-center bg-secondary-50 border border-secondary-100 rounded-xl p-4 hover:bg-secondary-100 transition-colors">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/file-text.svg" class="w-6 h-6 text-secondary-600 mb-2" alt="Template">
+                        <span class="text-sm font-medium text-gray-900">作业模板</span>
+                    </button>
+                    <button class="flex flex-col items-center justify-center bg-secondary-50 border border-secondary-100 rounded-xl p-4 hover:bg-secondary-100 transition-colors">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/bar-chart.svg" class="w-6 h-6 text-secondary-600 mb-2" alt="Reports">
+                        <span class="text-sm font-medium text-gray-900">批改报告</span>
+                    </button>
+                </div>
+                
+                <!-- 待批改作业 -->
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-3">
+                        <h2 class="text-lg font-semibold text-gray-900">待批改作业</h2>
+                        <span class="text-sm text-secondary-600">查看全部</span>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="bg-white p-3 rounded-lg shadow-sm">
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="font-medium text-gray-900">高二(3)班 - 数学作业</h3>
+                                <span class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full">待批改</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
+                                <p class="text-gray-500">45份作业 | 截止日期: 2025-03-20</p>
+                                <button class="text-secondary-600 font-medium">开始批改</button>
+                            </div>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg shadow-sm">
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="font-medium text-gray-900">初三(2)班 - 英语作文</h3>
+                                <span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">批改中</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
+                                <p class="text-gray-500">38份作业 | 已批改: 15份</p>
+                                <button class="text-secondary-600 font-medium">继续批改</button>
+                            </div>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg shadow-sm">
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="font-medium text-gray-900">高一(5)班 - 物理实验报告</h3>
+                                <span class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full">待批改</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
+                                <p class="text-gray-500">42份作业 | 截止日期: 2025-03-22</p>
+                                <button class="text-secondary-600 font-medium">开始批改</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 最近批改 -->
+                <div>
+                    <div class="flex justify-between items-center mb-3">
+                        <h2 class="text-lg font-semibold text-gray-900">最近批改</h2>
+                        <span class="text-sm text-secondary-600">查看历史</span>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="bg-white p-3 rounded-lg shadow-sm">
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="font-medium text-gray-900">高二(1)班 - 语文作文</h3>
+                                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">已完成</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
+                                <p class="text-gray-500">40份作业 | 完成于: 2025-03-18</p>
+                                <button class="text-secondary-600 font-medium">查看报告</button>
+                            </div>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg shadow-sm">
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="font-medium text-gray-900">初二(4)班 - 数学测验</h3>
+                                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">已完成</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
+                                <p class="text-gray-500">36份作业 | 完成于: 2025-03-15</p>
+                                <button class="text-secondary-600 font-medium">查看报告</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 第二个页面 - 上传作业页面 -->
+        <div class="mockup-border p-6 min-w-[360px] max-w-[360px]">
+            <div class="mx-auto">
+                <!-- 顶部导航 -->
+                <div class="flex items-center justify-between mb-6">
+                    <a href="#" class="flex items-center text-secondary-600">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/arrow-left.svg" class="w-5 h-5 mr-2" alt="Back">
+                        <span>返回</span>
+                    </a>
+                    <h2 class="text-lg font-semibold text-gray-900">上传作业</h2>
+                    <div class="w-5"></div> <!-- 占位 -->
+                </div>
+                
+                <!-- 上传表单 -->
+                <div class="bg-white rounded-xl p-5 shadow-sm mb-6">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">班级</label>
+                            <select class="w-full rounded-lg border-gray-300 shadow-sm focus:border-secondary-500 focus:ring-secondary-500 bg-white p-2.5 text-sm border">
+                                <option>高二(3)班</option>
+                                <option>高二(2)班</option>
+                                <option>高二(1)班</option>
+                                <option>高一(5)班</option>
+                                <option>初三(2)班</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">作业类型</label>
+                            <select class="w-full rounded-lg border-gray-300 shadow-sm focus:border-secondary-500 focus:ring-secondary-500 bg-white p-2.5 text-sm border">
+                                <option>数学作业</option>
+                                <option>语文作文</option>
+                                <option>英语作文</option>
+                                <option>物理实验报告</option>
+                                <option>化学实验报告</option>
+                                <option>自定义...</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">作业标题</label>
+                            <input type="text" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-secondary-500 focus:ring-secondary-500 bg-white p-2.5 text-sm border" placeholder="例如：第三章函数习题">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">截止日期</label>
+                            <input type="date" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-secondary-500 focus:ring-secondary-500 bg-white p-2.5 text-sm border">
+                        </div>
+                        
+                        <!-- 上传区域 -->
+                        <div class="mt-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">上传作业文件</label>
+                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 flex flex-col items-center justify-center bg-gray-50">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/upload-cloud.svg" class="w-10 h-10 text-gray-400 mb-3" alt="Upload">
+                                <p class="text-sm text-gray-500 text-center mb-2">拖拽文件到此处或点击上传</p>
+                                <p class="text-xs text-gray-400 text-center mb-3">支持 PDF, Word, 图片等格式</p>
+                                <button class="px-4 py-2 bg-secondary-600 text-white text-sm font-medium rounded-lg hover:bg-secondary-700 transition-colors">选择文件</button>
+                            </div>
+                        </div>
+                        
+                        <!-- 批改设置 -->
+                        <div class="mt-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">批改设置</label>
+                            <div class="space-y-2">
+                                <label class="inline-flex items-center">
+                                    <input type="checkbox" class="rounded text-secondary-600 focus:ring-secondary-500" checked>
+                                    <span class="ml-2 text-sm text-gray-700">自动识别学生信息</span>
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="checkbox" class="rounded text-secondary-600 focus:ring-secondary-500" checked>
+                                    <span class="ml-2 text-sm text-gray-700">生成个性化反馈</span>
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="checkbox" class="rounded text-secondary-600 focus:ring-secondary-500" checked>
+                                    <span class="ml-2 text-sm text-gray-700">批改完成后通知学生</span>
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="checkbox" class="rounded text-secondary-600 focus:ring-secondary-500">
+                                    <span class="ml-2 text-sm text-gray-700">教师审核后再发送结果</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 提交按钮 -->
+                <div class="flex space-x-3">
+                    <button class="flex-1 px-4 py-2.5 bg-gray-200 text-gray-800 font-medium rounded-lg hover:bg-gray-300 transition-colors">取消</button>
+                    <button class="flex-1 px-4 py-2.5 bg-secondary-600 text-white font-medium rounded-lg hover:bg-secondary-700 transition-colors">开始上传</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 第三个页面 - 批改结果页面 -->
+        <div class="mockup-border p-6 min-w-[360px] max-w-[360px]">
+            <div class="mx-auto">
+                <!-- 顶部导航 -->
+                <div class="flex items-center justify-between mb-6">
+                    <a href="#" class="flex items-center text-secondary-600">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/arrow-left.svg" class="w-5 h-5 mr-2" alt="Back">
+                        <span>返回</span>
+                    </a>
+                    <div class="flex space-x-2">
+                        <button class="p-1.5 rounded-full text-gray-500 hover:bg-gray-100">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/download.svg" class="w-5 h-5" alt="Download">
+                        </button>
+                        <button class="p-1.5 rounded-full text-gray-500 hover:bg-gray-100">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/share.svg" class="w-5 h-5" alt="Share">
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 批改标题 -->
+                <div class="mb-6">
+                    <h1 class="text-xl font-bold text-gray-900">高二(3)班 - 数学作业</h1>
+                    <p class="text-gray-500 text-sm">批改完成: 45/45 | 完成于: 2025-03-19</p>
+                </div>
+                
+                <!-- 批改概览 -->
+                <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                    <h2 class="font-semibold text-gray-900 mb-3">批改概览</h2>
+                    <div class="grid grid-cols-3 gap-3 mb-4">
+                        <div class="bg-gray-50 p-3 rounded-lg text-center">
+                            <p class="text-xs text-gray-500 mb-1">平均分</p>
+                            <p class="text-xl font-bold text-gray-900">85.6</p>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-lg text-center">
+                            <p class="text-xs text-gray-500 mb-1">最高分</p>
+                            <p class="text-xl font-bold text-gray-900">98</p>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-lg text-center">
+                            <p class="text-xs text-gray-500 mb-1">最低分</p>
+                            <p class="text-xl font-bold text-gray-900">62</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 成绩分布图 -->
+                    <div class="h-28 mb-3 flex items-end justify-between">
+                        <div class="w-1/5 px-1">
+                            <div class="bg-red-400 rounded-t-sm" style="height: 30%"></div>
+                        </div>
+                        <div class="w-1/5 px-1">
+                            <div class="bg-orange-400 rounded-t-sm" style="height: 45%"></div>
+                        </div>
+                        <div class="w-1/5 px-1">
+                            <div class="bg-yellow-400 rounded-t-sm" style="height: 70%"></div>
+                        </div>
+                        <div class="w-1/5 px-1">
+                            <div class="bg-green-400 rounded-t-sm" style="height: 100%"></div>
+                        </div>
+                        <div class="w-1/5 px-1">
+                            <div class="bg-blue-400 rounded-t-sm" style="height: 60%"></div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between text-xs text-gray-500 px-1">
+                        <span>60分以下</span>
+                        <span>60-70</span>
+                        <span>70-80</span>
+                        <span>80-90</span>
+                        <span>90-100</span>
+                    </div>
+                </div>
+                
+                <!-- 常见错误 -->
+                <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                    <h2 class="font-semibold text-gray-900 mb-3">常见错误分析</h2>
+                    <div class="space-y-3">
+                        <div class="flex items-start">
+                            <div class="h-6 w-6 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <span class="text-xs font-medium text-red-600">1</span>
+                            </div>
+                            <div class="ml-2">
+                                <p class="text-sm font-medium text-gray-900">函数定义域判断错误</p>
+                                <p class="text-xs text-gray-500">出现频率: 68% | 主要在第3题</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="h-6 w-6 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <span class="text-xs font-medium text-orange-600">2</span>
+                            </div>
+                            <div class="ml-2">
+                                <p class="text-sm font-medium text-gray-900">导数计算错误</p>
+                                <p class="text-xs text-gray-500">出现频率: 52% | 主要在第5题</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="h-6 w-6 rounded-full bg-yellow-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <span class="text-xs font-medium text-yellow-600">3</span>
+                            </div>
+                            <div class="ml-2">
+                                <p class="text-sm font-medium text-gray-900">不等式求解错误</p>
+                                <p class="text-xs text-gray-500">出现频率: 45% | 主要在第7题</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 学生列表 -->
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-3">
+                        <h2 class="text-lg font-semibold text-gray-900">学生列表</h2>
+                        <div class="flex items-center">
+                            <span class="text-xs text-gray-500 mr-2">排序:</span>
+                            <select class="text-xs border-gray-200 rounded-md py-1">
+                                <option>按成绩降序</option>
+                                <option>按成绩升序</option>
+                                <option>按姓名排序</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="bg-white p-3 rounded-lg shadow-sm flex justify-between items-center">
+                            <div class="flex items-center">
+                                <div class="h-8 w-8 rounded-full bg-secondary-100 flex items-center justify-center">
+                                    <span class="text-xs font-medium text-secondary-600">张</span>
+                                </div>
+                                <span class="ml-2 font-medium text-gray-900">张明</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-sm font-medium text-gray-900 mr-3">98分</span>
+                                <button class="text-secondary-600">
+                                    <img src="https://unpkg.com/lucide-static@latest/icons/eye.svg" class="w-4 h-4" alt="View">
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg shadow-sm flex justify-between items-center">
+                            <div class="flex items-center">
+                                <div class="h-8 w-8 rounded-full bg-secondary-100 flex items-center justify-center">
+                                    <span class="text-xs font-medium text-secondary-600">李</span>
+                                </div>
+                                <span class="ml-2 font-medium text-gray-900">李华</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-sm font-medium text-gray-900 mr-3">95分</span>
+                                <button class="text-secondary-600">
+                                    <img src="https://unpkg.com/lucide-static@latest/icons/eye.svg" class="w-4 h-4" alt="View">
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg shadow-sm flex justify-between items-center">
+                            <div class="flex items-center">
+                                <div class="h-8 w-8 rounded-full bg-secondary-100 flex items-center justify-center">
+                                    <span class="text-xs font-medium text-secondary-600">王</span>
+                                </div>
+                                <span class="ml-2 font-medium text-gray-900">王小明</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-sm font-medium text-gray-900 mr-3">92分</span>
+                                <button class="text-secondary-600">
+                                    <img src="https://unpkg.com/lucide-static@latest/icons/eye.svg" class="w-4 h-4" alt="View">
+                                </button>
+                            </div>
+                        </div>
+                        <button class="w-full py-2 text-sm text-secondary-600 font-medium">
+                            查看全部学生 (45)
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 教学建议 -->
+                <div class="bg-secondary-50 rounded-xl p-4 border border-secondary-100">
+                    <div class="flex items-start">
+                        <div class="h-8 w-8 rounded-full bg-secondary-100 flex items-center justify-center flex-shrink-0">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/lightbulb.svg" class="h-4 w-4 text-secondary-600" alt="Tip">
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="font-medium text-gray-900 mb-1">AI教学建议</h3>
+                            <div class="space-y-2 text-sm text-gray-700">
+                                <p>1. 建议针对函数定义域的判断进行专项复习</p>
+                                <p>2. 可组织小组讨论，让学生互相讲解导数计算方法</p>
+                                <p>3. 设计针对性练习，强化不等式求解能力</p>
+                                <p>4. 对8名成绩较低的学生进行个别辅导</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
