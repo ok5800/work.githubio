@@ -1,0 +1,219 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Microsoft YaHei", "Heiti SC", sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+}
+
+.page-container {
+    position: relative;
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #1755a1 86%, #f5f5f5 30%);
+    overflow: hidden;
+}
+
+/* 顶部状态栏 */
+.status-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    color: white;
+    font-weight: bold;
+}
+
+.right-icons {
+    display: flex;
+    gap: 10px;
+}
+
+/* 导航区域 */
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+}
+
+.nav-left {
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+
+.logo {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.url {
+    font-size: 10px;
+}
+
+.close-btn {
+    width: 50px;
+    height: 20px;
+    border-radius: 10%;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    
+}
+
+/* 主内容区 */
+.main-container {
+    padding: 20px;
+}
+
+/* 标题部分 */
+.title-section {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.ai-badge {
+    display: inline-block;
+    border: 2px solid white;
+    border-radius: 30px;
+    padding: 10px 30px;
+    color: white;
+    font-size: 18px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.main-title {
+    font-size: 36px;
+    color: white;
+    margin-bottom: 15px;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.highlight {
+    color: #61E786; /* 亮绿色作为突出强调 */
+}
+
+.subtitle {
+    color: white;
+    font-size: 16px;
+}
+
+/* 成长路径图 */
+.roadmap-section {
+    background-color: #073b7e; /* 深蓝色 */
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+    color: white;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.roadmap-title {
+    color: #9ee886; /* 金黄色 */
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 22px;
+}
+
+.roadmap-item {
+    display: flex;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 12px 0;
+}
+
+.roadmap-left {
+    flex: 1;
+    color: #ffbd39; /* 保持金黄色 */
+    font-weight: bold;
+}
+
+.roadmap-right {
+    flex: 2;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+}
+
+.difficulty-indicator {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.roadmap-question {
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #01295f; /* 深蓝色 */
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    white-space: nowrap;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* 讲师信息 */
+.lecturer-section {
+    background-color: #1387b0; /* 中蓝色 */
+    border-radius: 10px;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.lecturer-title {
+    margin-bottom: 15px;
+    font-size: 24px;
+}
+
+.lecturer-bio {
+    font-size: 14px;
+    line-height: 1.6;
+    text-align: left;
+}
+
+/* 添加一些科技感元素 */
+.ai-badge::before,
+.ai-badge::after {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #61E786; /* 亮绿色 */
+    margin: 0 10px;
+    vertical-align: middle;
+}
+
+/* 为路径图添加渐变 */
+.roadmap-item:hover {
+    background: linear-gradient(90deg, rgba(97, 231, 134, 0.05), transparent);
+    transition: background 0.3s ease;
+}
+
+/* 响应式调整 */
+@media (max-width: 480px) {
+    .main-title {
+        font-size: 28px;
+    }
+    
+    .roadmap-item {
+        flex-direction: column;
+    }
+    
+    .roadmap-left {
+        margin-bottom: 5px;
+    }
+} 

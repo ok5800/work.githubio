@@ -1,494 +1,520 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>数智化评价解决方案</title>
-  <link rel="preconnect" href="https://unpkg.com" crossorigin>
-  <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', 'PingFang SC', 'Hiragino Sans', Arial, sans-serif;
-      background: url('https://img2.baidu.com/it/u=2777322612,3193252514&fm=253&fmt=auto&app=120&f=JPEG?w=875&h=500') no-repeat center center fixed;
-      background-size: cover;
-      overflow-y: auto;
-      overflow-x: hidden;
-    }
-    body {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-    }
-    /* 顶部导航栏样式 */
-    .navbar {
-      position: fixed;
-      top: 20px;
-      right: 0;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      padding: 10px 20px;
-      width: 100%;
-      z-index: 1000;
-    }
-    
-    /* 登录按钮样式 */
-    .login-btn {
-      display: flex;
-      align-items: center;
-      background: rgba(35, 111, 217, 0.794);
-      padding: 8px 16px;
-      border-radius: 20px;
-      cursor: pointer;
-      border: 1px solid rgba(255, 255, 255, 0.28);
-      transition: all 0.3s ease;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-    }
-    
-    .login-btn:hover {
-      background: rgba(82, 141, 237, 0.905);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    
-    .login-btn:hover span {
-      color: #020c1a;
-    }
-    
-    .login-btn:active {
-      transform: translateY(0);
-    }
-    
-    .login-btn img {
-      width: 20px;
-      height: 20px;
-      margin-right: 8px;
-    }
-    
-    .login-btn span {
-      color: #fff;
-      font-weight: 500;
-    }
-    
-    /* 用户信息样式 */
-    .user-info {
-      display: none;
-      align-items: center;
-      background: rgba(117, 128, 208, 0.478);
-      padding: 6px 12px;
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.28);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      position: relative;
-    }
-    
-    .user-avatar {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-right: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.5);
-    }
-    
-    .user-name {
-      color: #fff;
-      font-weight: 500;
-      margin-right: 8px;
-    }
-    
-    .dropdown-icon {
-      width: 16px;
-      height: 16px;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-    }
-    
-    /* 下拉菜单样式 */
-    .dropdown-menu {
-      display: none;
-      position: absolute;
-      top: 45px;
-      right: 0;
-      background: rgba(117, 128, 208, 0.706);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-radius: 10px;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-      min-width: 150px;
-      z-index: 1001;
-    }
-    
-
-    
-    .dropdown-menu.show {
-      display: block;
-      animation: fadeIn 0.2s ease;
-    }
-    
-    .dropdown-menu a {
-      display: block;
-      padding: 12px 16px;
-      color: #f9f5f5;
-      text-decoration: none;
-      transition: background 0.2s;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    }
-    
-    .dropdown-menu a:last-child {
-      border-bottom: none;
-    }
-    
-    .dropdown-menu a:hover {
-      background: rgba(209, 235, 147, 0.284);
-    }
-    
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    .glass-header {
-      margin-top: 40px;
-      margin-bottom: 32px;
-      padding: 24px 48px;
-      border-radius: 24px;
-      background: rgba(255,255,255,0.18);
-      box-shadow: 0 8px 32px 0 rgba(31,38,135,0.18);
-      backdrop-filter: blur(16px) saturate(180%);
-      -webkit-backdrop-filter: blur(16px) saturate(180%);
-      border: 1px solid rgba(255,255,255,0.28);
-      text-align: center;
-    }
-    .glass-header h1 {
-      font-size: 2.3rem;
-      font-weight: 700;
-      color: #ebebfd;
-      margin: 0;
-      letter-spacing: 2px;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-    
-    .entry-row {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 32px;
-  justify-content: center;
-  align-items: stretch;
-  width: calc(100% - 40px);
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-  box-sizing: border-box;
-}
-
-/* 新增子元素样式 */
-.entry-row > * {
-  flex: 0 0 calc(33.333% - 32px * 2 / 3); /* 计算逻辑：每个元素占1/3宽度并扣除间隙 */
-  box-sizing: border-box;
-}
-
-    .entry-card {
-      flex: 0 1 calc(33.333% - 22px);
-      min-width: 240px;
-      max-width: none;
-      background: rgba(255, 255, 255, 0.246);
-      border-radius: 20px;
-      box-shadow: 0 6px 24px 0 rgba(31,38,135,0.12);
-      backdrop-filter: blur(12px) saturate(180%);
-      -webkit-backdrop-filter: blur(12px) saturate(180%);
-      border: 2px dashed rgba(120,120,120,0.16);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 36px 18px 28px 18px;
-      transition: box-shadow 0.2s, transform 0.2s;
-      position: relative;
-      overflow: visible;
-      margin-bottom: 32px;
-    }
-    .entry-card:hover {
-      box-shadow: 0 10px 32px 0 rgba(31,38,135,0.22);
-      transform: translateY(-6px) scale(1.03);
-      border-color: #b5b5b5;
-    }
-    .entry-icon {
-      width: 54px;
-      height: 54px;
-      margin-bottom: 20px;
-      filter: drop-shadow(0 2px 6px rgba(219, 223, 229, 0.441));
-      
-    }
-
-    
-    .entry-title {
-      font-size: 1.23rem;
-      font-weight: 600;
-      color: #222;
-      margin-bottom: 10px;
-      letter-spacing: 1px;
-    }
-    .entry-desc {
-      font-size: 1rem;
-      color: #dad5d5;
-      margin-bottom: 24px;
-      text-align: center;
-      min-height: 40px;
-    }
-    .entry-btn {
-      background: linear-gradient(90deg, #6ec1e4 0%, #bfe9ff 100%);
-      color: #222;
-      font-weight: 600;
-      border: none;
-      border-radius: 999px;
-      padding: 10px 34px;
-      font-size: 1rem;
-      box-shadow: 0 2px 10px 0 rgba(80,160,255,0.10);
-      cursor: pointer;
-      transition: background 0.18s, color 0.18s;
-      outline: none;
-    }
-    .entry-btn:hover {
-      background: linear-gradient(90deg, #4ea6d3 0%, #9fd8f7 100%);
-      color: #fff;
-    }
-
-
-    entry-btn {
-      background: linear-gradient(90deg, #6ec1e4 0%, #bfe9ff 100%);
-      color: #222;
-      font-weight: 600;
-      border: none;
-      border-radius: 999px;
-      padding: 10px 34px;
-      font-size: 1rem;
-      box-shadow: 0 2px 10px 0 rgba(80,160,255,0.10);
-      cursor: pointer;
-      transition: background 0.18s, color 0.18s;
-      outline: none;
-    }
-    .entry-btn:hover {
-      background: linear-gradient(90deg, #4ea6d3 0%, #9fd8f7 100%);
-      color: #fff;
-    }
-    
-    @media (max-width: 900px) {
-      .entry-row {
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 24px;
-        align-items: center;
-      }
-      .entry-card {
-        flex: 0 1 calc(50% - 12px);
-        max-width: none;
-      }
-    }
-    @media (max-width: 600px) {
-      .entry-card {
-        flex: 0 1 100%;
-      }
-    }
-    /* 修改滚动条样式而不是禁用 */
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.1);
-    }
-    ::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.3);
-      border-radius: 3px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(255, 255, 255, 0.5);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>优师AI助手 - 教师专业AI助手</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* 悬浮按钮样式 */
+        .ai-assistant-button {
+            position: fixed;
+            right: 280px;
+            top: 65%; /* 从底部改为中部 */
+            transform: translateY(-50%); /* 垂直居中 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1000;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* 更强的弹性动画 */
+        }
+        
+        .ai-assistant-button:hover {
+            transform: translateY(-50%) scale(1.12); /* 更明显的缩放效果 */
+            filter: brightness(1.2); /* 增加亮度效果 */
+        }
+        
+        .ai-assistant-button:hover .ai-assistant-icon {
+            box-shadow: 0 0 20px rgba(23, 85, 161, 0.9); /* 更强的阴影发光效果 */
+        }
+        
+        .ai-assistant-button:hover .ai-assistant-text {
+            background-color: #1755a1;
+            color: white;
+            transform: scale(1.1); /* 放大效果 */
+        }
+        
+        .ai-assistant-icon {
+            width: 60px; /* 增大尺寸让效果更明显 */
+            height: 60px; /* 增大尺寸让效果更明显 */
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0a3d7a, #1755a1); /* 渐变蓝色背景 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 5px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* 更强的阴影 */
+            position: relative;
+            overflow: hidden;
+            border: 4px solid transparent; /* 透明边框，用于渐变 */
+            animation: borderPulse 3s infinite;
+            background-clip: padding-box; /* 确保背景不会延伸到边框 */
+        }
+        
+        /* 图标样式调整 */
+        .ai-assistant-icon img {
+            width: 20px; /* 更小的图标尺寸 */
+            height: 20px;
+            object-fit: contain;
+            z-index: 2;
+            position: relative;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.9)); /* 更强的发光效果 */
+            transition: transform 0.5s ease;
+            animation: pulse3D 2s infinite; /* 添加3D脉冲效果 */
+        }
+        
+        @keyframes pulse3D {
+            0% {
+                transform: scale(1) rotate(0deg);
+            }
+            50% {
+                transform: scale(1.3) rotate(5deg); /* 更明显的脉冲效果 */
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
+        }
+        
+        .ai-assistant-button:hover .ai-assistant-icon img {
+            transform: rotate(25deg) scale(1.2); /* 更明显的旋转效果 */
+            animation-play-state: paused; /* 悬停时暂停动画 */
+        }
+        
+        /* 图标背景旋转效果 */
+        .ai-assistant-icon::before {
+            content: '';
+            position: absolute;
+            width: 150%; /* 扩大尺寸 */
+            height: 150%; /* 扩大尺寸 */
+            top: -25%;
+            left: -25%;
+            background: conic-gradient(
+                from 0deg,
+                rgba(97, 231, 134, 0.5), /* 增强颜色饱和度 */
+                rgba(97, 231, 134, 0.2),
+                rgba(23, 85, 161, 0.5), /* 增强颜色饱和度 */
+                rgba(97, 231, 134, 0.5) /* 增强颜色饱和度 */
+            );
+            border-radius: 50%;
+            z-index: 1;
+            animation: rotate 4s linear infinite; /* 加快旋转速度 */
+            opacity: 0.9; /* 提高不透明度 */
+        }
+        
+        /* 扫描线效果 - 重命名为scan-line以避免冲突 */
+        .ai-assistant-icon .scan-line {
+            position: absolute;
+            width: 150%; /* 扩大尺寸 */
+            height: 4px; /* 增大高度 */
+            background: rgba(255, 255, 255, 0.8); /* 提高亮度 */
+            top: 50%;
+            left: -25%;
+            transform: translateY(-50%) rotate(0deg);
+            z-index: 3;
+            animation: scan 1.5s linear infinite, rotate 6s linear infinite; /* 添加旋转动画 */
+            opacity: 0.9; /* 提高不透明度 */
+            box-shadow: 0 0 8px #61E786; /* 添加发光效果 */
+        }
+        
+        @keyframes scan {
+            0% {
+                top: -10%;
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 0.9;
+            }
+            100% {
+                top: 110%;
+                opacity: 0.3;
+            }
+        }
+        
+        .ai-assistant-text {
+            color: #1755a1;
+            font-size: 12px;
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.9); /* 增加不透明度 */
+            padding: 4px 10px; /* 增加内边距 */
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* 增强阴影 */
+            transition: all 0.3s ease;
+            animation: textPulse 2s infinite alternate; /* 添加文字脉冲效果 */
+        }
+        
+        @keyframes textPulse {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.05);
+            }
+        }
+        
+        /* 科技感环形效果 */
+        .ai-assistant-button::before {
+            content: '';
+            position: absolute;
+            width: 80px; /* 增大尺寸 */
+            height: 80px; /* 增大尺寸 */
+            border-radius: 50%;
+            border: 3px dashed rgba(97, 231, 134, 0.7); /* 更粗的边框和更高的不透明度 */
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: spin 8s linear infinite;
+            filter: drop-shadow(0 0 5px rgba(97, 231, 134, 0.5)); /* 添加发光效果 */
+        }
+        
+        /* 动画效果 */
+        @keyframes spin {
+            0% {
+                transform: translateX(-50%) rotate(0deg);
+            }
+            100% {
+                transform: translateX(-50%) rotate(360deg);
+            }
+        }
+        
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        /* 边框脉冲效果 */
+        @keyframes borderPulse {
+            0% {
+                border-color: #61E786;
+                box-shadow: 0 0 10px rgba(97, 231, 134, 0.7), inset 0 0 5px rgba(97, 231, 134, 0.5);
+            }
+            50% {
+                border-color: #1755a1;
+                box-shadow: 0 0 20px rgba(23, 85, 161, 0.9), inset 0 0 10px rgba(23, 85, 161, 0.7);
+            }
+            100% {
+                border-color: #61E786;
+                box-shadow: 0 0 10px rgba(97, 231, 134, 0.7), inset 0 0 5px rgba(97, 231, 134, 0.5);
+            }
+        }
+        
+        /* 数据浮动效果 - 使用额外的元素 */
+        .ai-assistant-button .data-flow {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px; /* 增大宽度 */
+            height: 0;
+            background: linear-gradient(to top, rgba(97, 231, 134, 0), rgba(97, 231, 134, 0.9)); /* 更亮的颜色 */
+            animation: dataFlow 2s infinite;
+            opacity: 0;
+            pointer-events: none;
+            box-shadow: 0 0 5px rgba(97, 231, 134, 0.5); /* 添加发光效果 */
+        }
+        
+        .ai-assistant-button .data-flow:nth-child(1) {
+            animation-delay: 0s;
+            left: 35%;
+            height: 2px;
+            background: linear-gradient(to top, rgba(97, 231, 134, 0), rgba(255, 255, 255, 0.9));
+        }
+        
+        .ai-assistant-button .data-flow:nth-child(2) {
+            animation-delay: 0.7s;
+            left: 65%;
+            height: 2px;
+            background: linear-gradient(to top, rgba(23, 85, 161, 0), rgba(23, 85, 161, 0.9));
+        }
+        
+        .ai-assistant-button .data-flow:nth-child(3) {
+            animation-delay: 1.4s;
+            left: 50%;
+            height: 3px;
+            background: linear-gradient(to top, rgba(97, 231, 134, 0), rgba(97, 231, 134, 0.9));
+        }
+        
+        /* 添加数字雨效果 */
+        .ai-assistant-button .binary {
+            position: absolute;
+            font-size: 8px; /* 增大字体 */
+            color: rgba(97, 231, 134, 0.9); /* 更亮的颜色 */
+            pointer-events: none;
+            opacity: 0;
+            font-family: monospace;
+            text-shadow: 0 0 3px rgba(97, 231, 134, 0.8); /* 添加文字发光效果 */
+        }
+        
+        .ai-assistant-button .binary:nth-child(4) {
+            top: -15px;
+            left: 70%;
+            animation: binaryRain 3s infinite;
+            animation-delay: 0.3s;
+        }
+        
+        .ai-assistant-button .binary:nth-child(5) {
+            top: -15px;
+            left: 30%;
+            animation: binaryRain 3s infinite;
+            animation-delay: 1.2s;
+        }
+        
+        .ai-assistant-button .binary:nth-child(6) {
+            top: 15px;
+            left: 45%;
+            animation: binaryRain 2.5s infinite reverse;
+            animation-delay: 0.5s;
+        }
+        
+        @keyframes binaryRain {
+            0% {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+            30% {
+                opacity: 0.9; /* 提高不透明度 */
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(40px); /* 增加移动距离 */
+            }
+        }
+        
+        @keyframes dataFlow {
+            0% {
+                height: 0;
+                top: -5px;
+                opacity: 0;
+            }
+            30% {
+                opacity: 0.9; /* 提高不透明度 */
+            }
+            100% {
+                height: 40px; /* 增加长度 */
+                top: -45px; /* 增加移动距离 */
+                opacity: 0;
+            }
+        }
+        
+        /* 增加科技感的脉冲效果 */
+        .ai-assistant-button::after {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(97, 231, 134, 0.3) 0%, rgba(23, 85, 161, 0) 70%);
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: -1;
+            animation: radialPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes radialPulse {
+            0% {
+                transform: translateX(-50%) scale(0.8);
+                opacity: 0.7;
+            }
+            50% {
+                transform: translateX(-50%) scale(1.4);
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateX(-50%) scale(0.8);
+                opacity: 0.7;
+            }
+        }
+        
+        /* 添加呼吸灯光效果 */
+        .ai-assistant-icon::after {
+            content: '';
+            position: absolute;
+            width: 150%; /* 扩大尺寸 */
+            height: 4px; /* 增大高度 */
+            background: rgba(255, 255, 255, 0.8); /* 提高亮度 */
+            top: 50%;
+            left: -25%;
+            transform: translateY(-50%) rotate(0deg);
+            z-index: 3;
+            animation: scan 1.5s linear infinite, rotate 6s linear infinite; /* 添加旋转动画 */
+            opacity: 0.9; /* 提高不透明度 */
+            box-shadow: 0 0 8px #61E786; /* 添加发光效果 */
+        }
+        
+        /* 添加圆形闪烁效果 */
+        .ai-assistant-button .flash {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: rgba(97, 231, 134, 0.9);
+            opacity: 0;
+            pointer-events: none;
+            animation: flash 3s infinite;
+            box-shadow: 0 0 5px rgba(97, 231, 134, 0.8);
+        }
+        
+        .ai-assistant-button .flash:nth-child(7) {
+            top: -5px;
+            left: 75%;
+            animation-delay: 0.3s;
+        }
+        
+        .ai-assistant-button .flash:nth-child(8) {
+            top: 10px;
+            left: 25%;
+            animation-delay: 1.7s;
+        }
+        
+        @keyframes flash {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            25% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(0.8);
+            }
+            75% {
+                opacity: 0.8;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- 添加登录导航栏 -->
-  <div class="navbar">
-    <div class="login-btn" id="loginBtn">
-      <img src="images/user2.svg" alt="登录">
-      <span>登录</span>
-    </div>
+    <div class="page-container">
+        <!-- 顶部状态栏 -->
     
-    <div class="user-info" id="userInfo">
-      <img src="https://img1.baidu.com/it/u=3177203332,1299138918&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500" alt="用户头像" class="user-avatar">
-      <span class="user-name">李明老师</span>
-      <img src="images/chevron-down.svg" alt="下拉菜单" class="dropdown-icon" id="dropdownIcon">
-      
-      <div class="dropdown-menu" id="dropdownMenu">
-        <a href="#">修改个人资料</a>
-        <a href="#">我的评价报告</a>
-        <a href="#" id="logoutBtn">退出</a>
-      </div>
-    </div>
-  </div>
-  
-  <div class="glass-header">
-    <img src="images/teachseek.logo2.png" class="logo" alt="TeachSeek Logo">
-    <div class="subtitle">—— 小沃评价助手，赋能学校数智化专业发展</div>
-  </div>
-  
-  <style>
-  .glass-header {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-center; /* 保持容器居中对齐 */
-    gap: 10px;
-    padding: 22px 30px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 8px;
-  }
-  
-  .logo {
-    height: 32px;
-    width: auto;
-    margin-bottom: 4px;
-  }
-  
-  .subtitle {
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.9);
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    letter-spacing: 0.5px;
-    font-weight: 300;
-    line-height: 1.4;
-    width: 100%; /* 确保文字容器占满宽度 */
-    text-align: center; /* 修改为居中对齐 */
-  }
-  </style>
-  
-  
-  <div class="entry-row">
-    <!-- 专业发展规划 -->
-    <div class="entry-card">
-      <img class="entry-icon" src="https://unpkg.com/lucide-static@latest/icons/compass.svg" alt="规划图标" />
-      <div class="entry-title">教师专业发展规划</div>
-      <div class="entry-desc">科学规划成长路径，助力教师专业发展。</div>
-      <div style="display: flex; justify-content: center; gap: 10px;">
-        <button class="entry-btn" style="background: linear-gradient(900deg, #c59bc294 0%, #9ec5dd 100%);" onclick="window.open('https://shuzisuyang.teacher.com.cn/resources/pages/infoLiteracy/systemIntroduction.htm', '_blank')">了解方案</button>
-        <button class="entry-btn" onclick="window.open('index1-planning.html', '_blank')">开始使用</button>
-      </div>
-    </div>
 
-      <!-- 数字素养评价 -->
-      <div class="entry-card">
-        <img class="entry-icon" src="images/Indicator.svg" alt="学生能力图标" />
-        <div class="entry-title">教师数字素养</div> 
-        <div class="entry-desc">聚焦技术应用能力、数据驱动教学及伦理规范，促进数字化创新实践。</div>
-        <div style="display: flex; justify-content: center; gap: 10px;">
-          <button class="entry-btn" style="background: linear-gradient(900deg, #c59bc294 0%, #9ec5dd 100%);" onclick="window.open('https://shuzisuyang.teacher.com.cn/resources/pages/infoLiteracy/systemIntroduction.htm', '_blank')">了解方案</button>
-          <button class="entry-btn" onclick="window.open('index1-shuzisuyang.html', '_blank')">开始使用</button>
+        <!-- 网站导航 -->
+        <div class="nav-container">
+            <div class="nav-left">
+                <div class="logo">小沃AI助手</div>
+<div class="url">teachseek.com.cn</div>
+            </div>
+            <div class="nav-right">
+                <button class="close-btn" onclick="location.href='../index1.html'">← 返回 </button>
+            </div>
         </div>
-      </div>
 
-    <!-- AI课堂评价 -->
-    <div class="entry-card">
-      <img class="entry-icon" src="https://unpkg.com/lucide-static@latest/icons/sparkles.svg" alt="AI课堂图标" />
-      <div class="entry-title">AI课堂观察</div>
-      <div class="entry-desc">智能分析课堂表现，提升教学质量。</div>
-      <button class="entry-btn" onclick="location.href='index1-ai.html'">进入</button>
+        <!-- 主内容区 -->
+        <div class="main-container">
+            <!-- 标题部分 -->
+            <div class="title-section">
+                <div class="ai-badge">AI驱动 · 教育赋能</div>
+                <p class="subtitle">教育AI专项训练，为教师提供全方面的一站式AI数智化应用</p>
+            </div>
+
+            <!-- 成长路径图 -->
+
+            <div class="roadmap-section">
+                <h2 class="roadmap-title">AI赋能 教·学·评·管</h2>
+                
+                   
+            <div class="difficulty-indicator">
+                <span class="left-text">↓顺序</span>
+                <span class="right-text">深度→</span>
+            </div>
+
+            
+                <div class="roadmap-item">
+                    <div class="roadmap-left">资料收集</div>
+                    <div class="roadmap-right">通过课堂智能体的数据，优化教研方式</div>
+                </div>
+                
+                <div class="roadmap-item">
+                    <div class="roadmap-left">教案制作</div>
+                    <div class="roadmap-right">可把自己创建的智能体应用到各个场景</div>
+                </div>
+                
+                <div class="roadmap-item">
+                    <div class="roadmap-left">课件制作</div>
+                    <div class="roadmap-right">知道提示词，可创建个性需求的智能体</div>
+                </div>
+                
+                <div class="roadmap-item">
+                    <div class="roadmap-left">作业批改</div>
+                    <div class="roadmap-right">掌握通用大模型提问公式、追问对话技巧</div>
+                </div>
+                
+                <div class="roadmap-item">
+                    <div class="roadmap-left">出卷组卷</div>
+                    <div class="roadmap-right">大模型的初级感知，了解、应用</div>
+                </div>
+                
+                <div class="roadmap-item">
+                    <div class="roadmap-left">成绩分析</div>
+                    <div class="roadmap-right">大模型是什么？基础知识了解</div>
+                </div>
+
+                <div class="roadmap-item">
+                    <div class="roadmap-left">课题论文</div>
+                    <div class="roadmap-right">大模型是什么？基础知识了解</div>
+                </div>
+            </br>
+
+                <div class="roadmap-question">
+                    <a href="../index.html" target="_blank" class="ai-ability-link">教师应用AI能力提升图谱</a>
+                </div>
+                <style>
+                    .ai-ability-link {
+                        color: inherit;
+                        text-decoration: none;
+                        display: inline-block;
+                        padding: 5px 10px;
+                        border-radius: 5px;
+                        transition: all 0.3s ease;
+                    }
+                    .ai-ability-link:hover {
+                        background: linear-gradient(135deg, #1755a1, #7b5dd3);
+                        color: white;
+                        transform: scale(1.05);
+                    }
+                    .ai-ability-link:active {
+                        transform: scale(0.98);
+                    }
+                </style>
+              </div>
+
+
+            <!-- 讲师信息 -->
+            <div class="lecturer-section">
+                <h2 class="lecturer-title">全国中小学教师继续教育网</h2>
+                <p class="lecturer-bio">
+                    全国中小学教师继续教育网(www.teacher.com.cn，简称"继教网"或"全国继教网")，我们以"用AI技术赋能每一名教师"为使命，致力于为全国教师群体提供智能化、个性化的专业发展解决方案，助力教育数字化转型与高质量发展。同时也专注教师信息技术应用能力提升课程开发与培训，与各地基地校合作，研究GenAI在教育领域应用，涵盖教师AI应用能力提升、智能教学辅助工具、学校数据自采集系统等，推动AI技术实践落地。              </p>
+            </div>
+        </div>
     </div>
 
-    
-    <!-- 学生发展能力指导 -->
-    <div class="entry-card">
-      <img class="entry-icon" src="https://unpkg.com/lucide-static@latest/icons/users.svg" alt="学生能力图标" />
-      <div class="entry-title">学生发展能力指导</div>
-      <div class="entry-desc">关注学生核心素养，促进全面成长。</div>
-      <button class="entry-btn" onclick="location.href='index1-student.html'">进入</button>
+    <!-- 悬浮小沃AI助手按钮 -->
+    <div class="ai-assistant-button" onclick="window.open('../index-ai.html', '_blank')">
+        <div class="data-flow"></div>
+        <div class="data-flow"></div>
+        <div class="data-flow"></div>
+        <div class="binary">1011</div>
+        <div class="binary">0101</div>
+        <div class="binary">1001</div>
+        <div class="flash"></div>
+        <div class="flash"></div>
+        <div class="ai-assistant-icon">
+            <div class="scan-line"></div>
+            <img src="../images/AI003.svg" alt="AI助手图标">
+        </div>
+        <div class="ai-assistant-text">现在使用小沃AI助手</div>
     </div>
-    
-   
-
-       <!-- 智慧作业 -->
-       <div class="entry-card">
-        <img class="entry-icon" src="https://unpkg.com/lucide-static@latest/icons/users.svg" alt="学生能力图标" />
-        <div class="entry-title">智慧作业</div>
-        <div class="entry-desc">数据驱动教学，数智化作业学情分析，构建完整智能学情画像，精准定位学生需求，优化教学方法和评估方式。</div>
-        <button class="entry-btn" onclick="location.href='index1-ai-6.html'">进入</button>
-      </div>
-      
-     
-
-    <!-- 高中升学规划评价
-    <div class="entry-card">
-      <img class="entry-icon" src="images/Indicator.svg" alt="学生能力图标" />
-      <div class="entry-title">高中升学规划评价</div>
-      <div class="entry-desc">多元升学规划，打破信息壁垒，定制升学路径培优与评价指引。</div>
-      <button class="entry-btn" onclick="location.href='index1-student.html'">进入</button>
-    </div> -->
-
-    <!-- 优师AI工具 -->
-    <div class="entry-card">
-      <img class="entry-icon" src="images/AI003.svg" alt="学生能力图标" />
-      <div class="entry-title">小沃AI助手</div>
-      <div class="entry-desc">小沃AI助手，自研大模型为教育赋能，为教师提供全方面的一站式AI数智化应用。</div>
-      <div style="display: flex; justify-content: center; gap: 10px;">
-        <button class="entry-btn" onclick="window.open('0327A-优师AI/index.html', '_blank')">查看说明</button>
-        <button class="entry-btn" onclick="window.open('index-ai.html', '_blank')">开始使用</button>
-      </div>
-    </div>
-    
-    
-
-
-  <script>
-    // 登录功能
-    document.addEventListener('DOMContentLoaded', function() {
-      const loginBtn = document.getElementById('loginBtn');
-      const userInfo = document.getElementById('userInfo');
-      const dropdownIcon = document.getElementById('dropdownIcon');
-      const dropdownMenu = document.getElementById('dropdownMenu');
-      const logoutBtn = document.getElementById('logoutBtn');
-      
-      // 点击登录按钮
-      loginBtn.addEventListener('click', function() {
-        loginBtn.style.display = 'none';
-        userInfo.style.display = 'flex';
-      });
-      
-      // 点击下拉图标
-      dropdownIcon.addEventListener('click', function() {
-        dropdownMenu.classList.toggle('show');
-        dropdownIcon.style.transform = dropdownMenu.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0)';
-      });
-      
-      // 点击退出
-      logoutBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        userInfo.style.display = 'none';
-        loginBtn.style.display = 'flex';
-        dropdownMenu.classList.remove('show');
-        dropdownIcon.style.transform = 'rotate(0)';
-      });
-      
-      // 点击页面其他区域关闭下拉菜单
-      document.addEventListener('click', function(e) {
-        if (!userInfo.contains(e.target)) {
-          dropdownMenu.classList.remove('show');
-          dropdownIcon.style.transform = 'rotate(0)';
-        }
-      });
-    });
-  </script>
 </body>
-</html>
+</html> 
