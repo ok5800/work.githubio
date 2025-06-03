@@ -1,0 +1,101 @@
+/* 工具详情页面样式 */
+.tool-detail {
+    padding: 20px 0;
+}
+
+.tool-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.tool-icon-large {
+    width: 80px;
+    height: 80px;
+    background-color: #e8f0fe;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+    flex-shrink: 0;
+}
+
+.tool-icon-large i {
+    font-size: 40px;
+    color: #1a73e8;
+}
+
+.tool-title {
+    flex: 1;
+}
+
+.tool-title h1 {
+    margin: 0 0 10px 0;
+    font-size: 28px;
+    color: #202124;
+}
+
+.tool-desc {
+    margin: 0 0 15px 0;
+    color: #5f6368;
+    font-size: 16px;
+}
+
+.tool-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn-large {
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+.tool-tabs {
+    display: flex;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 20px;
+}
+
+.tab {
+    padding: 12px 20px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #5f6368;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.tab:hover {
+    color: #1a73e8;
+}
+
+.tab.active {
+    color: #1a73e8;
+}
+
+.tab.active:after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #1a73e8;
+}
+
+.tab-content {
+    padding: 20px 0;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+.feature-

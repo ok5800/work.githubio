@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学情分析助手 - 小沃AI助手</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* 学情分析助手特定样式 */
+        .report-container {
+            padding: 30px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .report-title {
+            font-size: 24px;
+            color: #333;
+            margin: 0;
+        }
+        
+        .report-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .report-form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: #fff;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-col {
+            flex: 1;
+        }
+        
+        .btn-generate {
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-generate:hover {
+            background-color: #1557b0;
+        }
+        
+        .report-preview {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .preview-title {
+            font-size: 22px;
+            color: #333;
+            margin: 0;
+        }
+        
+        .preview-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid #1a73e8;
+            color: #1a73e8;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s;
+        }
+        
+        .btn-outline:hover {
+            background-color: #f0f7ff;
+        }
+        
+        .report-section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .student-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .info-item {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .info-label {
+            font-weight: 500;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .chart-container {
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .chart-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .analysis-list {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+        }
+        
+        .analysis-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .analysis-item:last-child {
+            border-bottom: none;
+        }
+        
+        .analysis-title {
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .analysis-content {
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .recommendation-list {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+        }
+        
+        .recommendation-item {
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .recommendation-item:before {
+            content: "\f00c";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 2px;
+            color: #34a853;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .feature-card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background-color: #e8f0fe;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .feature-icon i {
+            font-size: 24px;
+            color: #1a73e8;
+        }
+        
+        .feature-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .feature-desc {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .testimonial-card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .reviewer-avatar {
+            width: 50px;
+            height: 50px;
+            background-color: #e8f0fe;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        
+        .reviewer-avatar i {
+            font-size: 20px;
+            color: #1a73e8;
+        }
+        
+        .reviewer-info h3 {
+            margin: 0 0 5px 0;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .rating {
+            color: #fbbc04;
+        }
+        
+        .review-content {
+            color: #555;
+            line-height: 1.6;
+            font-style: italic;
+        }
+        
+        /* 常见问题样式 */
+        .faq-section {
+            margin: 40px 0;
+        }
+        
+        .faq-container {
+            margin-top: 20px;
+        }
+        
+        .faq-item {
+            background-color: #fff;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .faq-question:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .faq-question h3 {
+            margin: 0;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .faq-question i {
+            color: #1a73e8;
+            transition: transform 0.3s;
+        }
+        
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease;
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 0 20px 20px;
+            max-height: 500px;
+        }
+        
+        /* 使用指南样式 */
+        .guide-section {
+            margin: 40px 0;
+        }
+        
+        .guide-steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .step-item {
+            flex: 1;
+            min-width: 200px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background-color: #1a73e8;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .step-content h3 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+            color: #333;
+        }
+        
+        .step-content p {
+            margin: 0;
+            color: #555;
+        }
+        
+        .guide-video {
+            margin-top: 30px;
+        }
+        
+        .video-container {
+            position: relative;
+            margin-top: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .video-container img {
+            width: 100%;
+            display: block;
+        }
+        
+        .video-play {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 60px;
+            opacity: 0.8;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        
+        .video-container:hover .video-play {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        /* 相关工具推荐样式 */
+        .related-tools {
+            margin: 40px 0;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .tool-card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .tool-icon {
+            width: 50px;
+            height: 50px;
+            background-color: #e8f0fe;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .tool-icon i {
+            font-size: 20px;
+            color: #1a73e8;
+        }
+        
+        .tool-info h3 {
+            margin: 0 0 5px 0;
+            font-size: 16px;
+        }
+        
+        .tool-info h3 a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .tool-info h3 a:hover {
+            color: #1a73e8;
+        }
+        
+        .tool-info p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        /* 页脚样式 */
+        .footer {
+            background-color: #f5f5f5;
+            padding: 40px 0 0;
+            margin-top: 60px;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            padding: 0 30px 30px;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .footer-section h3 {
+            color: #333;
+            margin: 0 0 15px 0;
+            font-size: 18px;
+        }
+        
+        .footer-section p {
+            color: #666;
+            margin: 0 0 15px 0;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            color: #666;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: #1a73e8;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul li a {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-section ul li a:hover {
+            color: #1a73e8;
+        }
+        
+        .contact-info li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .contact-info li i {
+            color: #1a73e8;
+            width: 20px;
+        }
+        
+        .qrcode {
+            margin-bottom: 10px;
+        }
+        
+        .footer-bottom {
+            background-color: #eee;
+            padding: 15px 0;
+            text-align: center;
+        }
+        
+        .footer-bottom p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .report-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .preview-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .guide-steps {
+                flex-direction: column;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 侧边栏 -->
+        <!-- <div class="sidebar">
+            <div class="logo">
+                <img src="images/logo.png" alt="Logo">
+                <span>小沃AI助手</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html"><i class="fas fa-home"></i>首页推荐</a></li>
+                <li><i class="fas fa-star"></i> 我的收藏</li>
+                <li><i class="fas fa-history"></i> 最近使用</li>
+                <li class="category-header">AI教育神器</li>
+
+                <li class="category-header">教育数据分析</li>
+                <li class="active"><i class="fas fa-chart-pie"></i> 学情分析助手</li>
+                <li><i class="fas fa-chart-bar"></i> 成绩趋势分析</li>
+                <li><i class="fas fa-brain"></i> 学习行为分析</li>
+                <li><i class="fas fa-clipboard-check"></i> 考试数据分析</li>
+                <li><i class="fas fa-lightbulb"></i> 教学效果评估</li>
+
+                <li class="category-header">AI备课工具</li>
+                <li><i class="fas fa-tools"></i> AI搜索资料</li>
+                <li><i class="fas fa-magic"></i> AI教学设计</li>
+                <li><i class="fas fa-pen"></i> AI做课件PPT</li>
+                <li><i class="fas fa-image"></i> AI出题</li>
+                <li><i class="fas fa-video"></i> AI做教学图片</li>
+                <li><i class="fas fa-music"></i> AI做教学视频</li>
+                <li><i class="fas fa-code"></i> AI微课</li>
+                <li class="category-header">AI教学工具</li>
+                <li><i class="fas fa-chart-line"></i>AI分析成绩</li>
+                <li><i class="fas fa-search"></i> AI点名</li>
+                <li><i class="fas fa-graduation-cap"></i> AI批改作业</li>
+                <li><i class="fas fa-briefcase"></i> AI做报告总结</li>
+                <li><i class="fas fa-comments"></i> AI家校沟通</li>
+  
+            </ul>
+        </div> -->
+
+        
+
+        <!-- 主内容区 -->
+        <div class="main-content">
+            <!-- 顶部导航 -->
+            <div class="top-nav">
+                <div class="breadcrumb">
+                    <a href="index.html">首页</a> > <a href="index.html">小沃AI助手</a> > <span>学情分析助手</span>
+                </div>
+                <div class="search-bar">
+                    <input type="text" placeholder="搜索...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <div class="user-actions">
+                    <button class="btn-outline">登录/注册</button>
+                    <button class="btn-primary">免费使用</button>
+                </div>
+            </div>
+
+            <!-- 页面标题 -->
+            <div class="page-title">
+                <h1>学情分析助手</h1>
+                <p>智能分析学生学习情况，提供数据驱动的教学决策支持</p>
+            </div>
+
+            <!-- 主要内容 -->
+            <div class="report-container">
+                <div class="report-header">
+                    <h2 class="report-title">AI学情分析报告生成</h2>
+                    <div class="report-actions">
+                        <button class="btn-outline"><i class="fas fa-question-circle"></i> 使用帮助</button>
+                    </div>
+                </div>
+
+                <!-- 报告生成表单 -->
+                <div class="report-form">
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="class-name">班级名称</label>
+                                <input type="text" id="class-name" class="form-control" placeholder="例如：高一(1)班">
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="subject">学科</label>
+                                <select id="subject" class="form-select">
+                                    <option value="">请选择学科</option>
+                                    <option value="chinese">语文</option>
+                                    <option value="math">数学</option>
+                                    <option value="english">英语</option>
+                                    <option value="physics">物理</option>
+                                    <option value="chemistry">化学</option>
+                                    <option value="biology">生物</option>
+                                    <option value="history">历史</option>
+                                    <option value="geography">地理</option>
+                                    <option value="politics">政治</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="report-type">报告类型</label>
+                                <select id="report-type" class="form-select">
+                                    <option value="">请选择报告类型</option>
+                                    <option value="class">班级整体学情分析</option>
+                                    <option value="individual">个人学情分析</option>
+                                    <option value="knowledge">知识点掌握分析</option>
+                                    <option value="progress">学习进度分析</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="data-source">数据来源</label>
+                                <select id="data-source" class="form-select">
+                                    <option value="">请选择数据来源</option>
+                                    <option value="exam">考试成绩</option>
+                                    <option value="homework">作业完成情况</option>
+                                    <option value="classroom">课堂表现</option>
+                                    <option value="comprehensive">综合数据</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="data-file">上传数据文件（Excel/CSV）</label>
+                        <input type="file" id="data-file" class="form-control">
+                        <small>支持Excel或CSV格式，<a href="#">下载模板</a></small>
+                    </div>
+
+                    <div class="form-group">
+                        <button class="btn-generate">
+                            <i class="fas fa-magic"></i> 生成学情分析报告
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 报告预览 -->
+                <div class="report-preview">
+                    <div class="preview-header">
+                        <h3 class="preview-title">高一(3)班数学学情分析报告</h3>
+                        <div class="preview-actions">
+                            <button class="btn-outline"><i class="fas fa-download"></i> 下载</button>
+                            <button class="btn-outline"><i class="fas fa-print"></i> 打印</button>
+                            <button class="btn-outline"><i class="fas fa-share-alt"></i> 分享</button>
+                        </div>
+                    </div>
+
+                    <div class="report-section">
+                        <h4 class="section-title">班级基本信息</h4>
+                        <div class="student-info">
+                            <div class="info-item">
+                                <div class="info-label">班级名称</div>
+                                <div class="info-value">高一(3)班</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">学科</div>
+                                <div class="info-value">数学</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">学生人数</div>
+                                <div class="info-value">45人</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">分析时间</div>
+                                <div class="info-value">2024年3月24日</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="report-section">
+                        <h4 class="section-title">成绩分布分析</h4>
+                        <div class="chart-container">
+                            <img src="images/311ec1.png" alt="成绩分布图">
+                        </div>
+                        <ul class="analysis-list">
+                            <li class="analysis-item">
+                                <div class="analysis-title">整体成绩分布</div>
+                                <div class="analysis-content">
+                                    班级整体成绩呈正态分布，平均分为85.6分，高于年级平均水平3.2分。其中90分以上的优秀学生占比28%，低于60分的学生占比5%，整体学习状况良好。
+                                </div>
+                            </li>
+                            <li class="analysis-item">
+                                <div class="analysis-title">成绩两极分化</div>
+                                <div class="analysis-content">
+                                    班级成绩存在一定的两极分化现象，优秀学生与后进生之间的差距较大。建议针对不同层次学生采取分层教学策略，重点关注中等偏下学生的提升。
+                                </div>
+                            </li>
+                            <li class="analysis-item">
+                                <div class="analysis-title">与上次考试对比</div>
+                                <div class="analysis-content">
+                                    与上次月考相比，班级平均分提升了2.3分，优秀率提高了5个百分点，说明近期教学效果显著，但仍有约15%的学生成绩出现下滑，需要重点关注。
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="report-section">
+                        <h4 class="section-title">知识点掌握分析</h4>
+                        <div class="chart-container">
+                            <img src="/images/311ec2.png" alt="知识点掌握雷达图">
+                        </div>
+                        <ul class="analysis-list">
+                            <li class="analysis-item">
+                                <div class="analysis-title">优势知识点</div>
+                                <div class="analysis-content">
+                                    班级在"函数与导数"、"三角函数"等知识点掌握较好，正确率均在85%以上，说明这些内容的教学方法有效，可以总结推广。
+                                </div>
+                            </li>
+                            <li class="analysis-item">
+                                <div class="analysis-title">薄弱知识点</div>
+                                <div class="analysis-content">
+                                    "立体几何"、"概率统计"等知识点正确率较低，分别为62%和68%，是班级普遍的薄弱环节，建议加强这些内容的教学和练习。
+                                </div>
+                            </li>
+                            <li class="analysis-item">
+                                <div class="analysis-title">知识点关联分析</div>
+                                <div class="analysis-content">
+                                    数据显示，"立体几何"与"空间向量"知识点掌握情况高度相关，建议在教学中加强这两个知识点的联系，帮助学生建立知识网络。
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="report-section">
+                        <h4 class="section-title">学习行为分析</h4>
+                        <ul class="analysis-list">
+                            <li class="analysis-item">
+                                <div class="analysis-title">课堂参与度</div>
+                                <div class="analysis-content">
+                                    班级整体课堂参与度良好，约75%的学生能够积极回答问题，但仍有约25%的学生课堂参与度不足，需要采取更多互动教学方式提高参与度。
+                                </div>
+                            </li>
+                            <li class="analysis-item">
+                                <div class="analysis-title">作业完成情况</div>
+                                <div class="analysis-content">
+                                    作业按时完成率为92%，质量合格率为85%，但有8%的学生存在作业拖延或不完成的情况，建议加强作业管理和督导。
+                                </div>
+                            </li>
+                            <li class="analysis-item">
+                                <div class="analysis-title">学习习惯</div>
+                                <div class="analysis-content">
+                                    数据显示，约60%的学生有良好的预习复习习惯，但仍有相当一部分学生缺乏系统的学习方法，建议开展学习方法指导专题活动。
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="report-section">
+                        <h4 class="section-title">教学建议</h4>
+                        <ul class="recommendation-list">
+                            <li class="recommendation-item">针对"立体几何"和"概率统计"等薄弱知识点，建议增加专项练习和讲解，可采用多种教学方法提高学生理解。</li>
+                            <li class="recommendation-item">对于成绩两极分化现象，建议实施分层教学策略，为不同层次学生提供差异化的学习任务和辅导。</li>
+                            <li class="recommendation-item">加强对学习方法的指导，特别是针对学习习惯较差的学生，可以开展学习方法专题讲座或一对一辅导。</li>
+                            <li class="recommendation-item">增加课堂互动环节，提高学生参与度，特别关注课堂参与度低的学生，鼓励他们积极表达。</li>
+                            <li class="recommendation-item">建立学生成长档案，定期追踪每个学生的学习进展，及时发现问题并调整教学策略。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 功能特点 -->
+            <div class="features-section">
+                <h2>学情分析助手功能特点</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3 class="feature-title">AI智能分析</h3>
+                        <p class="feature-desc">采用先进AI算法，自动分析学生学习数据，发现隐藏的学习规律和问题。</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <h3 class="feature-title">多维度分析</h3>
+                        <p class="feature-desc">从成绩、知识点、学习行为等多个维度全面分析学生学习情况。</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h3 class="feature-title">智能教学建议</h3>
+                        <p class="feature-desc">基于分析结果，自动生成针对性的教学建议和改进方案。</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <h3 class="feature-title">个性化学习分析</h3>
+                        <p class="feature-desc">针对每位学生的特点进行个性化分析，支持因材施教。</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-file-export"></i>
+                        </div>
+                        <h3 class="feature-title">报告导出分享</h3>
+                        <p class="feature-desc">支持多种格式导出分析报告，方便与家长、学生和同事分享。</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <h3 class="feature-title">学习进展追踪</h3>
+                        <p class="feature-desc">长期追踪学生学习进展，记录成长轨迹，发现长期趋势。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 用户评价 -->
+            <div class="testimonials">
+                <h2>用户评价</h2>
+                <div class="testimonial-grid">
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <div class="testimonial-header">
+                                <div class="reviewer-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="reviewer-info">
+                                    <h3>李老师 - 高中数学教师</h3>
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="review-content">学情分析助手帮我节省了大量分析学生成绩的时间，而且分析结果非常准确。通过它提供的建议，我调整了教学策略，班级平均分提高了5分以上。强烈推荐给所有老师！</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <div class="testimonial-header">
+                                <div class="reviewer-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="reviewer-info">
+                                    <h3>王主任 - 教研组长</h3>
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="review-content">作为教研组长，我推荐全组老师使用学情分析助手。它不仅能分析单个班级，还能进行跨班级对比，帮助我们发现不同教学方法的效果差异，对教研活动非常有帮助。</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <div class="testimonial-header">
+                                <div class="reviewer-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="reviewer-info">
+                                    <h3>赵校长 - 中学校长</h3>
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="review-content"> 作为校长，我推荐所有老师使用学情分析助手。它不仅能分析单个班级，还能进行跨班级对比，帮助我们发现不同教学方法的效果差异，对教研活动非常有帮助。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 常见问题 -->
+            <div class="faq-section">
+                <h2>常见问题</h2>
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>如何导入我的学生成绩数据？</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>您可以通过Excel或CSV文件导入数据，也可以直接连接您的教务系统进行数据导入。我们提供了模板供您下载使用。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 页脚 -->
+            <div class="footer">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h3>小沃AI助手</h3>
+                        <p>专注于教育领域的人工智能助手，让教学更高效，学习更智能。</p>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-weixin"></i></a>
+                            <a href="#"><i class="fab fa-weibo"></i></a>
+                            <a href="#"><i class="fab fa-qq"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>© 2024 小沃AI助手 版权所有</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
