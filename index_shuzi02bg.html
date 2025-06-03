@@ -1,0 +1,1798 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数智化评价解决方案 - TeachSeek</title>
+  <!-- TailwindCSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- ApexCharts -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#f0f5ff',
+              100: '#e6effe',
+              200: '#bcd1fb',
+              300: '#91b4f9',
+              400: '#5a93f5',
+              500: '#3373f2',
+              600: '#2058e0',
+              700: '#1c45b9',
+              800: '#183994',
+              900: '#162f74',
+            },
+            accent: {
+              yellow: '#FFD166',
+              purple: '#9381FF',
+              pink: '#FF6B98',
+            }
+          },
+          fontFamily: {
+            sans: ['PingFang SC', 'Microsoft YaHei', 'sans-serif']
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      background-color: #f8fafc;
+    }
+    .report-card {
+      transition: all 0.3s ease;
+    }
+    .report-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    .chart-container {
+      min-height: 300px;
+    }
+    @keyframes dash {
+      from {
+        stroke-dasharray: 0, 100;
+      }
+      to {
+        stroke-dasharray: 76, 100;
+      }
+    }
+    
+    /* AI Button Styles */
+    #ai-button {
+      position: fixed;
+      right: 30px;
+      top: 40%;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0a255a, #9381FF);
+      box-shadow: 0 4px 15px rgba(51, 115, 242, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      cursor: pointer;
+      z-index: 1000;
+      transition: all 0.3s ease;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    
+    #ai-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(5, 27, 73, 0.5);
+    }
+    
+    #ai-button .pulse {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: rgba(51, 115, 242, 0.4);
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 0.7;
+      }
+      70% {
+        transform: scale(1.1);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 0;
+      }
+    }
+    
+    /* AI Chat Dialog Styles */
+    #ai-chat-dialog {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 600px;
+      height: 70vh;
+      max-height: 600px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      z-index: 1001;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    
+    .dialog-header {
+      padding: 16px 20px;
+      background: linear-gradient(135deg, #3373f2, #9381FF);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 16px 16px 0 0;
+    }
+    
+    .dialog-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .dialog-footer {
+      padding: 15px 20px;
+      border-top: 1px solid #eee;
+      display: flex;
+    }
+    
+    .message {
+      margin-bottom: 15px;
+      max-width: 80%;
+      padding: 12px 16px;
+      border-radius: 18px;
+      line-height: 1.5;
+      position: relative;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .user-message {
+      background-color: #f0f5ff;
+      color: #333;
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+    }
+    
+    .ai-message {
+      background-color: #f0f0f0;
+      color: #333;
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+    }
+    
+    .message-input {
+      flex: 1;
+      border: none;
+      padding: 12px 15px;
+      border-radius: 24px;
+      background-color: #f5f5f5;
+      font-size: 14px;
+      margin-right: 10px;
+    }
+    
+    .message-input:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(51, 115, 242, 0.3);
+    }
+    
+    .send-button {
+      background-color: #3373f2;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .send-button:hover {
+      background-color: #2058e0;
+    }
+    
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      display: none;
+    }
+    
+    .typing-indicator {
+      display: flex;
+      padding: 12px 16px;
+      background-color: #f0f0f0;
+      border-radius: 18px;
+      align-self: flex-start;
+      margin-bottom: 15px;
+      border-bottom-left-radius: 4px;
+    }
+    
+    .typing-indicator span {
+      height: 8px;
+      width: 8px;
+      margin: 0 2px;
+      background-color: #9381FF;
+      display: block;
+      border-radius: 50%;
+      opacity: 0.4;
+    }
+    
+    .typing-indicator span:nth-of-type(1) {
+      animation: pulse-typing 1s infinite 0s;
+    }
+    
+    .typing-indicator span:nth-of-type(2) {
+      animation: pulse-typing 1s infinite 0.2s;
+    }
+    
+    .typing-indicator span:nth-of-type(3) {
+      animation: pulse-typing 1s infinite 0.4s;
+    }
+    
+    @keyframes pulse-typing {
+      0% {
+        opacity: 0.4;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.2);
+      }
+      100% {
+        opacity: 0.4;
+        transform: scale(1);
+      }
+    }
+    
+    /* Next Steps Card transitions */
+    #next-steps-card {
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    
+    #collapsed-next-steps {
+      transition: all 0.3s ease;
+    }
+    
+    #collapsed-next-steps:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="fixed w-full top-0 z-50 bg-white shadow-md">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center">
+          <a href="#" class="text-primary-600 flex items-center">
+            <img src="../images/teachseek.logo1.png" alt="Logo" class="h-8 w-auto mr-2">
+            <span class="font-bold text-xl">数字素养评价与能力提升</span>
+          </a>
+        </div>
+        <div class="hidden md:block">
+          <div class="ml-4 flex items-center space-x-4">
+            <a href="#overview" class="text-gray-600 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium">总览</a>
+            <a href="#dimension-analysis" class="text-gray-600 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium">维度分析</a>
+            <a href="#strength-weakness" class="text-gray-600 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium">优势与不足</a>
+            <a href="#growth-suggestions" class="text-gray-600 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium">能力提升建议</a>
+            <!-- <button onclick="window.location.href='../index1-shuzisuyang.html'" class="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700">
+              <i class="fas fa-home mr-2"></i> 返回主页
+            </button> -->
+          </div>
+        </div>
+        <div class="md:hidden">
+          <button type="button" class="text-gray-600 hover:text-primary-600" id="mobile-menu-button" aria-label="打开菜单">
+            <i class="fas fa-bars text-xl"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Mobile menu -->
+    <div class="hidden md:hidden bg-white shadow-md" id="mobile-menu">
+      <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <a href="#overview" class="text-gray-600 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium">总览</a>
+        <a href="#dimension-analysis" class="text-gray-600 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium">维度分析</a>
+        <a href="#strength-weakness" class="text-gray-600 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium">优势与不足</a>
+        <a href="#growth-suggestions" class="text-gray-600 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium">能力提升建议</a>
+        <!-- <button onclick="window.location.href='../index1-shuzisuyang.html'" class="mt-2 w-full flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700">
+          <i class="fas fa-home mr-2"></i> 返回主页
+        </button> -->
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="pt-20 pb-10">
+    <!-- Report Header -->
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+      <div class="bg-gradient-to-r from-primary-600 to-primary-800 rounded-lg shadow-lg p-6 md:p-10 text-white relative overflow-hidden">
+        <div class="absolute top-0 right-0 opacity-10">
+          <i class="fas fa-chart-pie text-9xl transform rotate-12"></i>
+        </div>
+        <div class="relative z-10">
+          <h1 class="text-2xl md:text-4xl font-bold mb-2">教师数字素养评价分析报告</h1>
+          <div class="flex flex-row items-center gap-4 mb-4">
+            <div class="bg-white/20 rounded-lg px-4 py-2 backdrop-blur-sm">
+              <span class="text-sm opacity-80">报告生成日期：</span>
+              <span class="font-medium">2025年5月15日</span>
+            </div>
+            <div class="bg-white/20 rounded-lg px-4 py-2 backdrop-blur-sm">
+              <span class="text-sm opacity-80">评测完成时间：</span>
+              <span class="font-medium">2025年5月15日</span>
+            </div>
+            <div class="bg-white/20 rounded-lg px-4 py-2 backdrop-blur-sm">
+              <span class="text-sm opacity-80">评测用时：</span>
+              <span class="font-medium">42分钟</span>
+            </div>
+          </div>
+          <p class="text-sm md:text-base opacity-90 mb-6 max-w-3xl">本报告基于国家中小学教师数字素养标准框架，通过对您完成的评测问卷进行分析，呈现您在各个维度的数字素养水平，并提供针对性的成长建议。</p>
+          <div class="flex flex-wrap gap-4">
+            <button class="inline-flex items-center px-5 py-2.5 bg-white text-primary-700 rounded-full font-medium hover:bg-gray-100 transition-colors">
+              <i class="fas fa-download mr-2"></i> 下载报告
+            </button>
+            <button class="inline-flex items-center px-5 py-2.5 bg-primary-700 text-white rounded-full font-medium hover:bg-primary-800 transition-colors">
+              <i class="fas fa-share-alt mr-2"></i> 分享报告
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Teacher Info -->
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 mb-10">
+      <div class="bg-white rounded-lg shadow-md p-6 flex flex-col md:flex-row items-start gap-6">
+        <div class="flex-shrink-0">
+          <div class="w-24 h-24 md:w-32 md:h-32 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+            <img src="https://img1.baidu.com/it/u=3177203332,1299138918&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500" alt="Teacher Avatar" class="w-full h-full object-cover">
+          </div>
+        </div>
+        <div class="flex-grow space-y-4">
+          <div class="flex flex-col md:flex-row md:items-center gap-4">
+            <h2 class="text-2xl font-bold text-gray-800">李明 老师</h2>
+            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">职初教师</span>
+            <span class="bg-accent-yellow/20 text-yellow-700 px-3 py-1 rounded-full text-sm font-medium">数学教研组</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-gray-50 rounded-lg p-3">
+              <p class="text-sm text-gray-500">所在学校</p>
+              <p class="font-medium text-gray-800">信沃中学</p>
+            </div>
+            <div class="bg-gray-50 rounded-lg p-3">
+              <p class="text-sm text-gray-500">教龄</p>
+              <p class="font-medium text-gray-800">3年</p>
+            </div>
+            <div class="bg-gray-50 rounded-lg p-3">
+              <p class="text-sm text-gray-500">所教学科</p>
+              <p class="font-medium text-gray-800">数学</p>
+            </div>
+          </div>
+          <div class="bg-gray-50 rounded-lg p-4">
+            <p class="text-sm text-gray-600 mb-2"><i class="fas fa-quote-left text-gray-600 mr-2"></i><span class="bg-green-100 text-gray-800 px-2 py-0.5 rounded shadow-sm">教学理念</span> &nbsp;<i class="fas fa-quote-right text-gray-600 mr-2"></i></p>
+            <p class="text-gray-700">通过数字技术辅助教学，激发学生学习兴趣，培养学生的创新思维和解决问题的能力，让每个学生都能获得个性化的成长。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- More content sections will be added here -->
+    <!-- Overview Section -->
+    <section id="overview" class="container mx-auto px-4 sm:px-6 lg:px-8 mb-10">
+      <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+        <span class="bg-primary-100 text-primary-700 rounded-full w-8 h-8 flex items-center justify-center mr-2">
+          <i class="fas fa-chart-pie text-sm"></i>
+        </span>
+        数字素养评测总览
+      </h2>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <!-- Overall Score Card -->
+        <div class="bg-white rounded-lg shadow-md p-6 report-card">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-semibold text-gray-700">总体评分</h3>
+            <span class="text-xs font-medium text-gray-500">百分制</span>
+          </div>
+          <div class="flex items-center justify-center my-4">
+            <div class="relative w-36 h-36">
+              <svg class="w-full h-full" viewBox="0 0 36 36">
+                <path
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                  fill="none"
+                  stroke="#eee"
+                  stroke-width="3"
+                  stroke-dasharray="100, 100"
+                />
+                <path
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                  fill="none"
+                  stroke="#3373f2"
+                  stroke-width="3"
+                  stroke-dasharray="76, 100"
+                  class="animate-[dash_1.5s_ease-in-out_forwards]"
+                  style="animation: dash 1.5s ease-in-out forwards;"
+                />
+                <text x="18" y="20.5" text-anchor="middle" fill="#3373f2" font-size="8" font-weight="bold">88</text>
+              </svg>
+            </div>
+          </div>
+          <div class="text-center mb-4">
+            <span class="inline-block px-3 py-1 bg-primary-100 text-primary-800 rounded-full text-sm font-medium">良好水平</span>
+          </div>
+          <p class="text-sm text-gray-600 text-center">超过全校82%的教师</p>
+        </div>
+
+        <!-- Assessment Dimensions Card -->
+        <div class="bg-white rounded-lg shadow-md p-6 report-card">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-semibold text-gray-700">评测维度表现</h3>
+            <span class="text-xs font-medium text-gray-500">6大维度</span>
+          </div>
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex flex-col items-center">
+              <div class="bg-primary-100 text-primary-700 rounded-full w-12 h-12 flex items-center justify-center mb-2">
+                <i class="fas fa-laptop-code"></i>
+              </div>
+              <span class="text-xs text-gray-600 text-center">信息素养</span>
+            </div>
+            <div class="flex flex-col items-center">
+              <div class="bg-accent-yellow/20 text-yellow-700 rounded-full w-12 h-12 flex items-center justify-center mb-2">
+                <i class="fas fa-tools"></i>
+              </div>
+              <span class="text-xs text-gray-600 text-center">技术运用</span>
+            </div>
+            <div class="flex flex-col items-center">
+              <div class="bg-accent-purple/20 text-purple-700 rounded-full w-12 h-12 flex items-center justify-center mb-2">
+                <i class="fas fa-chalkboard-teacher"></i>
+              </div>
+              <span class="text-xs text-gray-600 text-center">教学设计</span>
+            </div>
+          </div>
+          <div class="flex items-center justify-between">
+            <div class="flex flex-col items-center">
+              <div class="bg-accent-pink/20 text-pink-700 rounded-full w-12 h-12 flex items-center justify-center mb-2">
+                <i class="fas fa-search"></i>
+              </div>
+              <span class="text-xs text-gray-600 text-center">研究创新</span>
+            </div>
+            <div class="flex flex-col items-center">
+              <div class="bg-green-100 text-green-700 rounded-full w-12 h-12 flex items-center justify-center mb-2">
+                <i class="fas fa-shield-alt"></i>
+              </div>
+              <span class="text-xs text-gray-600 text-center">伦理规范</span>
+            </div>
+            <div class="flex flex-col items-center">
+              <div class="bg-indigo-100 text-indigo-700 rounded-full w-12 h-12 flex items-center justify-center mb-2">
+                <i class="fas fa-users"></i>
+              </div>
+              <span class="text-xs text-gray-600 text-center">专业发展</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Evaluation Summary Card -->
+        <div class="bg-white rounded-lg shadow-md p-6 report-card">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-semibold text-gray-700">评价摘要</h3>
+            <span class="text-xs font-medium text-gray-500">AI分析</span>
+          </div>
+          <div class="prose prose-sm text-gray-600 mb-4">
+            <p>王老师在数字素养评测中表现良好，展现了较强的信息素养和技术运用能力。在教学设计和研究创新方面具有一定潜力，但需要进一步提升和完善。</p>
+            <p class="mt-2">建议关注专业发展和伦理规范领域的能力提升，参与相关培训和实践活动，进一步强化数字教学能力。</p>
+          </div>
+          <div class="flex items-center justify-between text-sm">
+            <span class="text-accent-yellow font-medium flex items-center"><i class="fas fa-star mr-1"></i> 技术运用突出</span>
+            <span class="text-accent-purple font-medium flex items-center"><i class="fas fa-arrow-up mr-1"></i> 专业发展待提升</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Radar Chart Card -->
+        <div class="bg-white rounded-lg shadow-md p-6 report-card">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-semibold text-gray-700">数字素养能力雷达图</h3>
+            <div class="flex items-center">
+              <span class="inline-block w-3 h-3 bg-primary-500 rounded-full mr-1"></span>
+              <span class="text-xs font-medium text-gray-500 mr-3">个人得分</span>
+              <span class="inline-block w-3 h-3 bg-gray-300 rounded-full mr-1"></span>
+              <span class="text-xs font-medium text-gray-500">平均水平</span>
+            </div>
+          </div>
+          <div class="chart-container" id="radar-chart"></div>
+        </div>
+
+        <!-- Bar Chart Card -->
+        <div class="bg-white rounded-lg shadow-md p-6 report-card">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-semibold text-gray-700">各维度得分对比</h3>
+            <div class="flex items-center">
+              <span class="inline-block w-3 h-3 bg-primary-500 rounded-full mr-1"></span>
+              <span class="text-xs font-medium text-gray-500 mr-3">个人得分</span>
+              <span class="inline-block w-3 h-3 bg-gray-300 rounded-full mr-1"></span>
+              <span class="text-xs font-medium text-gray-500">平均水平</span>
+            </div>
+          </div>
+          <div class="chart-container" id="bar-chart"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dimension Analysis Section -->
+    <section id="dimension-analysis" class="container mx-auto px-4 sm:px-6 lg:px-8 mb-10 pt-4">
+      <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+        <span class="bg-primary-100 text-primary-700 rounded-full w-8 h-8 flex items-center justify-center mr-2">
+          <i class="fas fa-cubes text-sm"></i>
+        </span>
+        维度详细分析
+      </h2>
+
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-6">
+          <div>
+            <h3 class="text-xl font-semibold text-gray-800">各维度详细解析</h3>
+            <p class="text-sm text-gray-600 mt-1">根据数字素养评测框架的各维度标准进行解析</p>
+          </div>
+          <div class="mt-4 md:mt-0">
+            <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" aria-label="选择维度" title="选择维度">
+              <option selected>切换维度查看</option>
+              <option value="information">信息素养 (85分)</option>
+              <option value="technical">技术运用 (90分)</option>
+              <option value="teaching">教学设计 (70分)</option>
+              <option value="research">研究创新 (60分)</option>
+              <option value="ethics">伦理规范 (75分)</option>
+              <option value="professional">专业发展 (65分)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Dimension Tabs -->
+        <div class="mb-4 border-b border-gray-200">
+          <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" role="tablist">
+            <li class="mr-2" role="presentation">
+              <button class="inline-block p-4 rounded-t-lg border-b-2 border-primary-600 text-primary-600 hover:text-primary-700" type="button" role="tab" aria-selected="true" aria-label="显示信息素养维度">
+                信息素养
+              </button>
+            </li>
+            <li class="mr-2" role="presentation">
+              <button class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300" type="button" role="tab" aria-selected="false" aria-label="显示技术运用维度">
+                技术运用
+              </button>
+            </li>
+            <li class="mr-2" role="presentation">
+              <button class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300" type="button" role="tab" aria-selected="false" aria-label="显示教学设计维度">
+                教学设计
+              </button>
+            </li>
+            <li class="mr-2" role="presentation">
+              <button class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300" type="button" role="tab" aria-selected="false" aria-label="显示研究创新维度">
+                研究创新
+              </button>
+            </li>
+            <li class="mr-2" role="presentation">
+              <button class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300" type="button" role="tab" aria-selected="false" aria-label="显示伦理规范维度">
+                伦理规范
+              </button>
+            </li>
+            <li role="presentation">
+              <button class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300" type="button" role="tab" aria-selected="false" aria-label="显示专业发展维度">
+                专业发展
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Dimension Content -->
+        <div class="p-4 bg-gray-50 rounded-lg">
+          <div class="flex flex-col md:flex-row gap-6">
+            <!-- Left Column -->
+            <div class="flex-1">
+              <div class="flex items-center mb-4">
+                <div class="bg-primary-100 text-primary-700 rounded-full w-10 h-10 flex items-center justify-center mr-3">
+                  <i class="fas fa-laptop-code"></i>
+                </div>
+                <div>
+                  <h4 class="text-lg font-semibold text-gray-800">信息素养</h4>
+                  <div class="flex items-center">
+                    <div class="text-2xl font-bold text-primary-600 mr-2">85</div>
+                    <div class="text-sm text-gray-500">/ 100分</div>
+                    <span class="ml-3 inline-block px-2 py-0.5 bg-green-100 text-green-800 rounded text-xs font-medium">优秀</span>
+                  </div>
+                </div>
+              </div>
+
+              <p class="text-gray-700 mb-4">信息素养是指获取、评估、使用和创造信息的能力，是数字化时代教师必备的基础能力。您在此维度的表现优异，体现了较强的信息检索、筛选与整合能力。</p>
+
+              <div class="mb-6">
+                <h5 class="text-sm font-semibold text-gray-700 mb-2">子维度分析</h5>
+                <div class="space-y-3">
+                  <div>
+                    <div class="flex justify-between mb-1">
+                      <span class="text-xs font-medium text-gray-700">信息获取能力</span>
+                      <span class="text-xs font-medium text-gray-700">90%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                      <div class="bg-primary-600 h-2 rounded-full" style="width: 90%"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="flex justify-between mb-1">
+                      <span class="text-xs font-medium text-gray-700">信息评估能力</span>
+                      <span class="text-xs font-medium text-gray-700">85%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                      <div class="bg-primary-600 h-2 rounded-full" style="width: 85%"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="flex justify-between mb-1">
+                      <span class="text-xs font-medium text-gray-700">信息整合能力</span>
+                      <span class="text-xs font-medium text-gray-700">80%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                      <div class="bg-primary-600 h-2 rounded-full" style="width: 80%"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="flex justify-between mb-1">
+                      <span class="text-xs font-medium text-gray-700">信息创造能力</span>
+                      <span class="text-xs font-medium text-gray-700">75%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                      <div class="bg-primary-600 h-2 rounded-full" style="width: 75%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-6">
+                <h5 class="text-sm font-semibold text-gray-700 mb-2">优势分析</h5>
+                <ul class="space-y-2 text-sm text-gray-600">
+                  <li class="flex items-start">
+                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                    擅长使用多种信息检索工具和平台，能够快速获取所需教学资源
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                    具备较强的信息甄别能力，能够评估信息的可靠性和适用性
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                    能够有效整合多渠道信息，形成系统化的知识结构
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <h5 class="text-sm font-semibold text-gray-700 mb-2">提升建议</h5>
+                <ul class="space-y-2 text-sm text-gray-600">
+                  <li class="flex items-start">
+                    <i class="fas fa-arrow-circle-up text-accent-yellow mt-1 mr-2"></i>
+                    加强信息创造能力，尝试利用获取的信息开发原创性教学资源
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-arrow-circle-up text-accent-yellow mt-1 mr-2"></i>
+                    学习更高级的信息分析工具，提升对复杂信息的处理效率
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="md:w-80 flex-shrink-0">
+              <div class="bg-white rounded-lg border border-gray-200 p-4 mb-4">
+                <h5 class="text-sm font-semibold text-gray-700 mb-3">相关能力表现</h5>
+                <div id="spider-chart" class="h-64 -mx-4"></div>
+              </div>
+
+              <div class="bg-yellow-50 rounded-lg p-4 border border-yellow-200">
+                <h5 class="text-sm font-semibold text-yellow-800 mb-3 flex items-center">
+                  <i class="fas fa-lightbulb mr-2"></i> 相关课程推荐
+                </h5>
+                <div class="space-y-3">
+                  <div class="flex items-start">
+                    <div class="flex-shrink-0 bg-white rounded-md w-12 h-12 flex items-center justify-center border border-gray-200 mr-3">
+                      <i class="fas fa-search text-primary-600"></i>
+                    </div>
+                    <div class="flex-1">
+                      <h6 class="text-sm font-medium text-gray-800">高级信息检索技巧</h6>
+                      <p class="text-xs text-gray-600">5课时 | 已有126人学习</p>
+                    </div>
+                  </div>
+                  <div class="flex items-start">
+                    <div class="flex-shrink-0 bg-white rounded-md w-12 h-12 flex items-center justify-center border border-gray-200 mr-3">
+                      <i class="fas fa-tools text-primary-600"></i>
+                    </div>
+                    <div class="flex-1">
+                      <h6 class="text-sm font-medium text-gray-800">数据分析与可视化</h6>
+                      <p class="text-xs text-gray-600">8课时 | 已有89人学习</p>
+                    </div>
+                  </div>
+                  <button class="text-xs text-primary-600 font-medium hover:text-primary-700 mt-2">
+                    查看全部推荐 <i class="fas fa-arrow-right ml-1"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dimension Growth Chart -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">各维度能力成长趋势</h3>
+        <div class="chart-container" id="line-chart"></div>
+      </div>
+    </section>
+
+    <!-- Strength and Weakness Section -->
+    <section id="strength-weakness" class="container mx-auto px-4 sm:px-6 lg:px-8 mb-10 pt-4">
+      <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+        <span class="bg-primary-100 text-primary-700 rounded-full w-8 h-8 flex items-center justify-center mr-2">
+          <i class="fas fa-balance-scale text-sm"></i>
+        </span>
+        优势与不足分析
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <!-- Strengths Card -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden report-card">
+          <div class="bg-gradient-to-r from-green-500 to-green-600 px-6 py-4">
+            <h3 class="text-white text-lg font-semibold flex items-center">
+              <i class="fas fa-star mr-2"></i> 您的优势能力
+            </h3>
+          </div>
+          <div class="p-6">
+            <div class="mb-6">
+              <div class="flex items-center mb-3">
+                <div class="bg-accent-yellow/20 text-yellow-700 rounded-full w-8 h-8 flex items-center justify-center mr-2">
+                  <i class="fas fa-tools"></i>
+                </div>
+                <h4 class="text-gray-800 font-medium">技术运用能力</h4>
+                <span class="ml-auto inline-block px-2 py-0.5 bg-green-100 text-green-800 rounded text-xs font-medium">90分</span>
+              </div>
+              <p class="text-sm text-gray-600 mb-3">您在技术运用方面表现出色，能够熟练使用各种数字工具和软件进行教学，包括网络教学平台、多媒体制作工具等。</p>
+              <div class="bg-gray-50 rounded-lg p-3 text-sm text-gray-700">
+                <p class="font-medium mb-1">具体表现：</p>
+                <ul class="list-disc list-inside space-y-1 text-gray-600">
+                  <li>能熟练使用多种教学软件和工具</li>
+                  <li>具备良好的多媒体资源制作能力</li>
+                  <li>能够针对不同教学场景选择合适的技术工具</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="mb-6">
+              <div class="flex items-center mb-3">
+                <div class="bg-primary-100 text-primary-700 rounded-full w-8 h-8 flex items-center justify-center mr-2">
+                  <i class="fas fa-laptop-code"></i>
+                </div>
+                <h4 class="text-gray-800 font-medium">信息素养</h4>
+                <span class="ml-auto inline-block px-2 py-0.5 bg-green-100 text-green-800 rounded text-xs font-medium">85分</span>
+              </div>
+              <p class="text-sm text-gray-600 mb-3">您具备较强的信息获取、筛选与整合能力，能够高效地从互联网和数字资源库中获取有价值的教学资源。</p>
+              <div class="bg-gray-50 rounded-lg p-3 text-sm text-gray-700">
+                <p class="font-medium mb-1">具体表现：</p>
+                <ul class="list-disc list-inside space-y-1 text-gray-600">
+                  <li>信息检索能力强，善于利用搜索引擎和专业数据库</li>
+                  <li>具备良好的信息筛选和甄别能力</li>
+                  <li>能够将不同来源的信息进行整合和再创造</li>
+                </ul>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex items-center mb-3">
+                <div class="bg-green-100 text-green-700 rounded-full w-8 h-8 flex items-center justify-center mr-2">
+                  <i class="fas fa-shield-alt"></i>
+                </div>
+                <h4 class="text-gray-800 font-medium">伦理规范意识</h4>
+                <span class="ml-auto inline-block px-2 py-0.5 bg-green-100 text-green-800 rounded text-xs font-medium">75分</span>
+              </div>
+              <p class="text-sm text-gray-600 mb-3">您在教学过程中注重数字伦理和网络安全，能够遵守相关法律法规，并引导学生形成良好的网络素养。</p>
+              <div class="bg-gray-50 rounded-lg p-3 text-sm text-gray-700">
+                <p class="font-medium mb-1">具体表现：</p>
+                <ul class="list-disc list-inside space-y-1 text-gray-600">
+                  <li>注重个人信息保护和隐私安全</li>
+                  <li>注重知识产权保护，合理使用数字资源</li>
+                  <li>能够指导学生安全、合法地使用网络</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Weaknesses Card -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden report-card">
+          <div class="bg-gradient-to-r from-amber-500 to-amber-600 px-6 py-4">
+            <h3 class="text-white text-lg font-semibold flex items-center">
+              <i class="fas fa-exclamation-triangle mr-2"></i> 待提升领域
+            </h3>
+          </div>
+          <div class="p-6">
+            <div class="mb-6">
+              <div class="flex items-center mb-3">
+                <div class="bg-accent-pink/20 text-pink-700 rounded-full w-8 h-8 flex items-center justify-center mr-2">
+                  <i class="fas fa-search"></i>
+                </div>
+                <h4 class="text-gray-800 font-medium">研究创新能力</h4>
+                <span class="ml-auto inline-block px-2 py-0.5 bg-amber-100 text-amber-800 rounded text-xs font-medium">60分</span>
+              </div>
+              <p class="text-sm text-gray-600 mb-3">您在利用数字技术开展教育教学研究和创新方面还有较大提升空间，需要加强该能力的培养。</p>
+              <div class="bg-gray-50 rounded-lg p-3 text-sm text-gray-700">
+                <p class="font-medium mb-1">提升方向：</p>
+                <ul class="list-disc list-inside space-y-1 text-gray-600">
+                  <li>尝试利用数字工具收集和分析教学数据</li>
+                  <li>参与数字教育相关研究项目</li>
+                  <li>探索创新型教学模式，如翻转课堂等</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="mb-6">
+              <div class="flex items-center mb-3">
+                <div class="bg-indigo-100 text-indigo-700 rounded-full w-8 h-8 flex items-center justify-center mr-2">
+                  <i class="fas fa-users"></i>
+                </div>
+                <h4 class="text-gray-800 font-medium">专业发展能力</h4>
+                <span class="ml-auto inline-block px-2 py-0.5 bg-amber-100 text-amber-800 rounded text-xs font-medium">65分</span>
+              </div>
+              <p class="text-sm text-gray-600 mb-3">您在利用数字资源进行持续专业发展方面有待加强，需要更积极地参与数字化专业学习社区。</p>
+              <div class="bg-gray-50 rounded-lg p-3 text-sm text-gray-700">
+                <p class="font-medium mb-1">提升方向：</p>
+                <ul class="list-disc list-inside space-y-1 text-gray-600">
+                  <li>加入专业的在线教师社区，与同行交流</li>
+                  <li>定期参与数字教育相关培训和研讨</li>
+                  <li>建立个人成长档案，记录专业发展历程</li>
+                </ul>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex items-center mb-3">
+                <div class="bg-accent-purple/20 text-purple-700 rounded-full w-8 h-8 flex items-center justify-center mr-2">
+                  <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <h4 class="text-gray-800 font-medium">教学设计能力</h4>
+                <span class="ml-auto inline-block px-2 py-0.5 bg-amber-100 text-amber-800 rounded text-xs font-medium">70分</span>
+              </div>
+              <p class="text-sm text-gray-600 mb-3">您在融合数字技术与学科教学方面还需加强，特别是针对不同学生的个性化教学设计。</p>
+              <div class="bg-gray-50 rounded-lg p-3 text-sm text-gray-700">
+                <p class="font-medium mb-1">提升方向：</p>
+                <ul class="list-disc list-inside space-y-1 text-gray-600">
+                  <li>学习TPACK框架，加强技术、教学内容和教学法的整合</li>
+                  <li>尝试开发个性化学习路径和资源</li>
+                  <li>加强对数字化教学评估方法的学习与应用</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contrast Analysis Chart -->
+      <div class="bg-white rounded-lg shadow-md p-6 report-card">
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">六大维度强弱对比分析</h3>
+        <p class="text-sm text-gray-600 mb-4">以下图表直观展示了您在各个维度的表现差异，帮助您理解自身能力的分布情况</p>
+        <div class="chart-container" id="polar-chart"></div>
+      </div>
+    </section>
+
+    <!-- Growth Suggestions Section -->
+    <section id="growth-suggestions" class="container mx-auto px-4 sm:px-6 lg:px-8 mb-10 pt-4">
+      <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+        <span class="bg-primary-100 text-primary-700 rounded-full w-8 h-8 flex items-center justify-center mr-2">
+          <i class="fas fa-rocket text-sm"></i>
+        </span>
+        成长建议与能力提升服务
+      </h2>
+
+      <div class="grid grid-cols-1 lg:grid-cols-7 gap-6 mb-6">
+        <!-- Growth Path Card -->
+        <div class="lg:col-span-4 bg-white rounded-lg shadow-md p-6 report-card">
+          <h3 class="text-lg font-semibold text-gray-800 mb-4">个性化成长路径</h3>
+          <div class="relative">
+            <div class="absolute h-full border-l-2 border-dashed border-gray-200 left-4"></div>
+            <div class="space-y-8 relative">
+              <div class="flex">
+                <div class="flex-shrink-0 z-10">
+                  <div class="bg-primary-600 text-white rounded-full w-8 h-8 flex items-center justify-center">
+                    <span class="text-sm font-medium">1</span>
+                  </div>
+                </div>
+                <div class="ml-4">
+                  <h4 class="text-base font-medium text-gray-800">强化研究创新能力</h4>
+                  <p class="mt-1 text-sm text-gray-600">针对您研究创新能力的不足，建议从以下几个方面入手：</p>
+                  <div class="mt-2 space-y-2">
+                    <div class="bg-primary-50 p-3 rounded-lg">
+                      <h5 class="text-sm font-medium text-primary-700 mb-1">短期行动（1-3个月）</h5>
+                      <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                        <li>参加"教育数据分析与应用"在线课程</li>
+                        <li>尝试在一个班级中应用学习分析工具，收集学生学习数据</li>
+                        <li>阅读《数字时代的教育创新》相关文献</li>
+                      </ul>
+                    </div>
+                    <div class="bg-primary-50 p-3 rounded-lg">
+                      <h5 class="text-sm font-medium text-primary-700 mb-1">中期目标（3-6个月）</h5>
+                      <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                        <li>基于收集的数据，撰写一份教学改进报告</li>
+                        <li>参与校内数字教育创新项目</li>
+                        <li>尝试设计并实施一个基于数据的个性化教学实验</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex">
+                <div class="flex-shrink-0 z-10">
+                  <div class="bg-primary-600 text-white rounded-full w-8 h-8 flex items-center justify-center">
+                    <span class="text-sm font-medium">2</span>
+                  </div>
+                </div>
+                <div class="ml-4">
+                  <h4 class="text-base font-medium text-gray-800">提升专业发展能力</h4>
+                  <p class="mt-1 text-sm text-gray-600">建议通过以下方式加强专业社区参与和持续学习：</p>
+                  <div class="mt-2 space-y-2">
+                    <div class="bg-primary-50 p-3 rounded-lg">
+                      <h5 class="text-sm font-medium text-primary-700 mb-1">短期行动（1-3个月）</h5>
+                      <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                        <li>注册并活跃参与至少2个教师专业在线社区</li>
+                        <li>订阅3-5个教育技术相关的专业公众号或简报</li>
+                        <li>建立个人数字化学习笔记和资源库</li>
+                      </ul>
+                    </div>
+                    <div class="bg-primary-50 p-3 rounded-lg">
+                      <h5 class="text-sm font-medium text-primary-700 mb-1">中期目标（3-6个月）</h5>
+                      <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                        <li>参与线上或线下的数字教育研讨会并分享经验</li>
+                        <li>与同领域教师建立协作关系，进行同伴互助学习</li>
+                        <li>完成一个数字教学能力认证课程</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex">
+                <div class="flex-shrink-0 z-10">
+                  <div class="bg-primary-600 text-white rounded-full w-8 h-8 flex items-center justify-center">
+                    <span class="text-sm font-medium">3</span>
+                  </div>
+                </div>
+                <div class="ml-4">
+                  <h4 class="text-base font-medium text-gray-800">完善教学设计能力</h4>
+                  <p class="mt-1 text-sm text-gray-600">在数字技术与学科教学融合方面，建议：</p>
+                  <div class="mt-2 space-y-2">
+                    <div class="bg-primary-50 p-3 rounded-lg">
+                      <h5 class="text-sm font-medium text-primary-700 mb-1">短期行动（1-3个月）</h5>
+                      <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                        <li>学习TPACK框架理论，了解技术、教学内容和教学法的整合</li>
+                        <li>研究3-5个优秀的数字化教学案例</li>
+                        <li>设计一个融合数字技术的教学单元</li>
+                      </ul>
+                    </div>
+                    <div class="bg-primary-50 p-3 rounded-lg">
+                      <h5 class="text-sm font-medium text-primary-700 mb-1">中期目标（3-6个月）</h5>
+                      <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                        <li>设计并实施一个基于混合学习模式的教学方案</li>
+                        <li>开发适合不同学习风格的数字化学习资源</li>
+                        <li>建立基于数据的教学评估和反馈机制</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recommended Resources Card -->
+        <div class="lg:col-span-3 bg-white rounded-lg shadow-md overflow-hidden report-card">
+          <div class="bg-gradient-to-r from-primary-600 to-primary-800 px-6 py-4">
+            <h3 class="text-white text-lg font-semibold">推荐学习资源与服务</h3>
+          </div>
+          <div class="divide-y divide-gray-200">
+            <div class="p-4 hover:bg-gray-50 transition-colors">
+              <div class="flex items-start">
+                <div class="flex-shrink-0 bg-primary-100 text-primary-700 rounded-md p-2 mr-3">
+                  <i class="fas fa-book"></i>
+                </div>
+                <div class="flex-1">
+                  <h4 class="text-base font-medium text-gray-800">数字时代的教育创新</h4>
+                  <p class="text-sm text-gray-600 mb-1">资料学习 | 5小时</p>
+                  <div class="flex items-center text-sm">
+                    <span class="text-yellow-400 flex">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star-half-alt"></i>
+                    </span>
+                    <span class="ml-1 text-gray-500">(4.5)</span>
+                    <span class="ml-auto text-primary-600 font-medium">学习</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-4 hover:bg-gray-50 transition-colors">
+              <div class="flex items-start">
+                <div class="flex-shrink-0 bg-accent-yellow/20 text-yellow-700 rounded-md p-2 mr-3">
+                  <i class="fas fa-video"></i>
+                </div>
+                <div class="flex-1">
+                  <h4 class="text-base font-medium text-gray-800">TPACK框架与教学设计</h4>
+                  <p class="text-sm text-gray-600 mb-1">视频课程 | 8课时</p>
+                  <div class="flex items-center text-sm">
+                    <span class="text-yellow-400 flex">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="far fa-star"></i>
+                    </span>
+                    <span class="ml-1 text-gray-500">(4.0)</span>
+                    <span class="ml-auto text-primary-600 font-medium">学习</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-4 hover:bg-gray-50 transition-colors">
+              <div class="flex items-start">
+                <div class="flex-shrink-0 bg-accent-purple/20 text-purple-700 rounded-md p-2 mr-3">
+                  <i class="fas fa-laptop-code"></i>
+                </div>
+                <div class="flex-1">
+                  <h4 class="text-base font-medium text-gray-800">教育数据分析与应用</h4>
+                  <p class="text-sm text-gray-600 mb-1">实操课程 | 12课时</p>
+                  <div class="flex items-center text-sm">
+                    <span class="text-yellow-400 flex">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                    </span>
+                    <span class="ml-1 text-gray-500">(4.9)</span>
+                    <span class="ml-auto text-primary-600 font-medium">学习</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-4 hover:bg-gray-50 transition-colors">
+              <div class="flex items-start">
+                <div class="flex-shrink-0 bg-green-100 text-green-700 rounded-md p-2 mr-3">
+                  <i class="fas fa-users"></i>
+                </div>
+                <div class="flex-1">
+                  <h4 class="text-base font-medium text-gray-800">工作室引领</h4>
+                  <p class="text-sm text-gray-600 mb-1">名师引领 | 工作坊学习与实践相结合</p>
+                  <div class="flex items-center text-sm">
+                    <span class="text-yellow-400 flex">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star-half-alt"></i>
+                    </span>
+                    <span class="ml-1 text-gray-500">(4.7)</span>
+                    <span class="ml-auto text-primary-600 font-medium">申请</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="p-4 hover:bg-gray-50 transition-colors">
+                <div class="flex items-start">
+                  <div class="flex-shrink-0 bg-green-100 text-green-700 rounded-md p-2 mr-3">
+                    <i class="fas fa-users"></i>
+                  </div>
+                  <div class="flex-1">
+                    <h4 class="text-base font-medium text-gray-800">数字教师社群</h4>
+                    <p class="text-sm text-gray-600 mb-1">专业社群 | 资源持续更新</p>
+                    <div class="flex items-center text-sm">
+                      <span class="text-yellow-400 flex">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                      </span>
+                      <span class="ml-1 text-gray-500">(4.7)</span>
+                      <span class="ml-auto text-primary-600 font-medium">加入</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+            <div class="bg-gray-50 p-4">
+              <button class="w-full bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center justify-center">
+                <i class="fas fa-th-list mr-2"></i> 查看全部学习资源
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      
+      <!-- Next Steps Card底部卡片 -->
+      <div id="next-steps-card" class="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-primary-400 to-primary-200 rounded-t-lg shadow-lg p-6 text-gray-600 z-40 hidden">
+        <button id="close-next-steps" class="absolute top-3 right-3 text-gray-600 hover:text-gray-800 transition-colors" title="关闭">
+          <i class="fas fa-times text-lg"></i>
+        </button>
+        <div class="flex flex-col md:flex-row items-center justify-between max-w-6xl mx-auto">
+          <div class="mb-6 md:mb-0 md:mr-6">
+            <h3 class="text-xl md:text-3xl font-bold mb-2">个性化制定您的数字素养能力提升方案</h3>
+            <p class="opacity-90 mb-4 text-sm md:text-base">根据您的评测结果，我们为您定制了专属成长计划，帮助您全面提升数字素养能力。</p>
+            <div class="flex flex-wrap gap-3">
+              <a href="https://office.teacher.com.cn/views/learningViews/myOffice/autonomousselection.htm?projectid=1026&flag=0&isopenpayfunction=1" target="_blank" rel="noopener" class="bg-blue-600 text-primary-100 hover:bg-white hover:text-primary-800 font-medium py-2 px-4 rounded-lg transition-colors flex items-center text-sm">
+                <i class="fas fa-calendar-alt mr-2"></i> 数字化研培项目智能荐学，智能选学
+              </a>
+
+              <a href="../index.html" target="_blank" rel="noopener" class="bg-primary-500 hover:bg-white text-white hover:text-primary-800 font-medium py-2 px-4 rounded-lg border border-white/30 transition-colors flex items-center text-sm">
+                <i class="fas fa-user-friends mr-2"></i> 小沃AI助手，助力数字化能力实践
+              </a>
+
+              <button id="find-partner-btn" class="bg-primary-500 hover:bg-white text-white hover:text-primary-800 font-medium py-2 px-4 rounded-lg border border-white/30 transition-colors flex items-center text-sm" onclick="document.getElementById('partner-modal').classList.remove('hidden')">
+                <i class="fas fa-user-friends mr-2"></i> 精选学习伙伴，名师引领
+              </button>
+            </div>
+          </div>
+          <div class="flex-shrink-0 w-full md:w-auto mt-4 md:mt-0">
+            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=300" alt="成长计划" class="w-full md:w-64 h-auto rounded-lg shadow-lg">
+          </div>
+        </div>
+      </div>
+
+      <!-- 收起后的Bottom Card (默认显示) -->
+      <div id="collapsed-next-steps" class="mx-auto px-4 sm:px-6 lg:px-8 fixed bottom-0 left-0 right-0 z-40">
+        <div class="bg-gradient-to-r from-primary-400 to-primary-200 rounded-t-lg shadow-md p-4 md:p-5 text-gray-600 cursor-pointer">
+          <div class="flex items-center justify-between">
+            <div class="flex flex-col pl-4">
+              <div class="flex items-center">
+                <i class="fas fa-rocket mr-4 text-xl md:text-2xl"></i>
+                <h3 class="text-sm md:text-lg text-gray-800 font-bold truncate max-w-[200px] md:max-w-none">个性化制定您的数字素养能力提升方案</h3>
+              </div>
+              <p class="opacity-90 mt-3 mb-1 text-sm md:text-base pl-8">根据您的评测结果，我们为您定制了专属成长计划，帮助您全面提升数字素养能力。</p>
+            </div>
+            <span class="text-sm whitespace-nowrap ml-2">点击展开 <i class="fas fa-chevron-up ml-1"></i></span>
+          </div>
+        </div>
+      </div>
+
+
+
+      <!-- 学习伙伴弹窗 -->
+      <div id="partner-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden">
+        <div class="bg-white rounded-lg p-6 max-w-sm mx-auto">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-medium text-gray-900">加入社群</h3>
+            <button id="close-modal" class="text-gray-400 hover:text-gray-500" title="关闭">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <div class="text-center">
+            <div class="mx-auto w-48 h-48 bg-gray-100 p-2 rounded-md mb-4">
+              <img src="../images/qrcode-sample.png" alt="学习社区二维码" class="w-full h-full object-contain">
+            </div>
+            <p class="text-gray-700 mb-4">用手机微信扫一扫，加入教师数字素养提升社区，与志同道合的教师一起学习成长！</p>
+            <button class="bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors w-full">
+              复制群邀请码
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+
+
+
+
+  <!-- Footer 页底-->
+  <footer class="bg-gradient-to-b from-gray-400 to-gray-600 text-white py-6">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-4 md:mb-0">
+          <img src="../images/teachseek.logo1.png" alt="Logo" class="h-8 w-auto mb-2 filter brightness-75 contrast-150 drop-shadow-[0_4px_6px_rgba(128,0,128,0.5)] transform-gpu hover:scale-105 transition-transform" style="filter: drop-shadow(2px 4px 6px rgba(128, 90, 213, 0.8)); transform: perspective(500px) rotateX(5deg);">
+          <p class="text-sm text-gray-400">© 2025 TeachSeek小沃助手，保留所有权利.</p>
+        </div>
+        <div class="flex space-x-6">
+          <a href="#" class="text-gray-300 hover:text-white flex items-center">
+            <i class="fab fa-weixin text-2xl mr-1"></i><span class="text-sm">分享</span>
+          </a>
+          <!-- <a href="#" class="text-gray-400 hover:text-white">
+            <i class="fab fa-weibo text-xl"></i>
+          </a> -->
+          <a href="#" class="text-gray-300 hover:text-white flex items-center">
+            <i class="fas fa-envelope text-2xl mr-1"></i><span class="text-sm">分享</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    // Mobile menu toggle
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    mobileMenuButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+    
+    // AI Button and Chat Dialog functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const aiButton = document.getElementById('ai-button');
+      const aiChatDialog = document.getElementById('ai-chat-dialog');
+      const overlay = document.getElementById('overlay');
+      const closeDialog = document.getElementById('close-dialog');
+      const sendMessage = document.getElementById('send-message');
+      const messageInput = document.getElementById('message-input');
+      const chatMessages = document.getElementById('chat-messages');
+      
+      // Make the AI button draggable
+      let isDragging = false;
+      let offsetX, offsetY;
+      
+      aiButton.addEventListener('mousedown', function(e) {
+        isDragging = true;
+        offsetX = e.clientX - aiButton.getBoundingClientRect().left;
+        offsetY = e.clientY - aiButton.getBoundingClientRect().top;
+      });
+      
+      document.addEventListener('mousemove', function(e) {
+        if (!isDragging) return;
+        
+        const x = e.clientX - offsetX;
+        const y = e.clientY - offsetY;
+        
+        // Keep button within viewport
+        const maxX = window.innerWidth - aiButton.offsetWidth;
+        const maxY = window.innerHeight - aiButton.offsetHeight;
+        
+        const boundedX = Math.max(0, Math.min(x, maxX));
+        const boundedY = Math.max(0, Math.min(y, maxY));
+        
+        aiButton.style.right = (window.innerWidth - boundedX - aiButton.offsetWidth) + 'px';
+        aiButton.style.top = boundedY + 'px';
+        aiButton.style.left = 'auto'; // Ensure right positioning takes precedence
+      });
+      
+      document.addEventListener('mouseup', function() {
+        isDragging = false;
+      });
+      
+      // Open chat dialog
+      aiButton.addEventListener('click', function(e) {
+        if (!isDragging) {
+          aiChatDialog.style.display = 'flex';
+          overlay.style.display = 'block';
+        }
+      });
+      
+      // Close chat dialog
+      closeDialog.addEventListener('click', function() {
+        aiChatDialog.style.display = 'none';
+        overlay.style.display = 'none';
+      });
+      
+      overlay.addEventListener('click', function() {
+        aiChatDialog.style.display = 'none';
+        overlay.style.display = 'none';
+      });
+      
+      // Send message functionality
+      function sendUserMessage() {
+        const message = messageInput.value.trim();
+        if (message === '') return;
+        
+        // Add user message to chat
+        const userMessageElement = document.createElement('div');
+        userMessageElement.className = 'user-message message';
+        userMessageElement.innerHTML = `<p>${message}</p>`;
+        chatMessages.appendChild(userMessageElement);
+        
+        // Clear input
+        messageInput.value = '';
+        
+        // Scroll to bottom
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        
+        // Show typing indicator
+        const typingIndicator = document.createElement('div');
+        typingIndicator.className = 'typing-indicator';
+        typingIndicator.innerHTML = `
+          <span></span>
+          <span></span>
+          <span></span>
+        `;
+        chatMessages.appendChild(typingIndicator);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        
+        // Simulate AI response after a delay
+        setTimeout(() => {
+          // Remove typing indicator
+          chatMessages.removeChild(typingIndicator);
+          
+          // Generate AI response based on user message
+          let aiResponse = '';
+          
+          if (message.includes('总体评分') || message.includes('总分')) {
+            aiResponse = '根据报告显示，李明老师的数字素养总体评分为76分（百分制），属于"良好水平"，超过全校62%的教师。';
+          } 
+          else if (message.includes('优势') || message.includes('强项')) {
+            aiResponse = '李明老师的优势能力主要体现在以下方面：<br>1. 技术运用能力（90分）：能够熟练使用各种数字工具和软件进行教学<br>2. 信息素养（85分）：具备较强的信息获取、筛选与整合能力<br>3. 伦理规范意识（75分）：注重数字伦理和网络安全';
+          }
+          else if (message.includes('不足') || message.includes('弱项') || message.includes('待提升')) {
+            aiResponse = '李明老师需要提升的领域包括：<br>1. 研究创新能力（60分）：在利用数字技术开展教育教学研究和创新方面有较大提升空间<br>2. 专业发展能力（65分）：需要更积极地参与数字化专业学习社区<br>3. 教学设计能力（70分）：在融合数字技术与学科教学方面还需加强';
+          }
+          else if (message.includes('建议') || message.includes('提升') || message.includes('如何改进')) {
+            aiResponse = '针对李明老师的情况，建议：<br>1. 参加"教育数据分析与应用"等相关课程，提升研究创新能力<br>2. 加入专业的在线教师社区，与同行交流，增强专业发展能力<br>3. 学习TPACK框架，加强技术、教学内容和教学法的整合<br>4. 尝试设计并实施基于混合学习模式的教学方案';
+          }
+          else if (message.includes('信息素养') || message.includes('信息能力')) {
+            aiResponse = '李明老师的信息素养得分为85分，属于"优秀"水平。具体表现为：<br>- 信息获取能力：90%<br>- 信息评估能力：85%<br>- 信息整合能力：80%<br>- 信息创造能力：75%<br><br>优势在于能够使用多种信息检索工具和平台，具备较强的信息甄别能力。建议加强信息创造能力，尝试开发原创性教学资源。';
+          }
+          else if (message.includes('技术运用') || message.includes('技术能力')) {
+            aiResponse = '李明老师的技术运用能力得分为90分，是其最突出的优势领域。具体表现为能够熟练使用各种教学软件和工具，具备良好的多媒体资源制作能力，能够针对不同教学场景选择合适的技术工具。';
+          }
+          else if (message.includes('教学设计')) {
+            aiResponse = '李明老师的教学设计能力得分为70分，属于待提升领域。建议学习TPACK框架，加强技术、教学内容和教学法的整合；尝试开发个性化学习路径和资源；加强对数字化教学评估方法的学习与应用。';
+          }
+          else if (message.includes('研究创新')) {
+            aiResponse = '李明老师的研究创新能力得分为60分，是最需要提升的领域。建议尝试利用数字工具收集和分析教学数据，参与数字教育相关研究项目，探索创新型教学模式如翻转课堂等。短期内可参加"教育数据分析与应用"在线课程，尝试在班级中应用学习分析工具。';
+          }
+          else if (message.includes('伦理规范')) {
+            aiResponse = '李明老师的伦理规范意识得分为75分，表现良好。具体表现为注重个人信息保护和隐私安全，注重知识产权保护，合理使用数字资源，能够指导学生安全、合法地使用网络。';
+          }
+          else if (message.includes('专业发展')) {
+            aiResponse = '李明老师的专业发展能力得分为65分，需要提升。建议加入专业的在线教师社区与同行交流，定期参与数字教育相关培训和研讨，建立个人成长档案记录专业发展历程。';
+          }
+          else if (message.includes('推荐课程') || message.includes('学习资源')) {
+            aiResponse = '根据李明老师的情况，推荐以下学习资源：<br>1. 《教育数据分析与应用》实操课程（12课时）<br>2. 《TPACK框架与教学设计》视频课程（8课时）<br>3. 《数字时代的教育创新》资料学习（5小时）<br>4. 数字教师社群 - 专业社区资源持续更新';
+          }
+          else {
+            aiResponse = '感谢您的提问。根据李明老师的数字素养评价报告，他的总体评分为76分（良好水平），优势在于技术运用（90分）和信息素养（85分），需要提升的领域是研究创新能力（60分）和专业发展能力（65分）。您可以询问具体维度的详细情况、提升建议或推荐课程等。';
+          }
+          
+          // Add AI response to chat
+          const aiMessageElement = document.createElement('div');
+          aiMessageElement.className = 'ai-message message';
+          aiMessageElement.innerHTML = `<p>${aiResponse}</p>`;
+          chatMessages.appendChild(aiMessageElement);
+          
+          // Scroll to bottom
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+        }, 1500);
+      }
+      
+      sendMessage.addEventListener('click', sendUserMessage);
+      
+      messageInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          sendUserMessage();
+        }
+      });
+    });
+
+    // Radar Chart
+    document.addEventListener('DOMContentLoaded', function() {
+      const radarChartOptions = {
+        series: [{
+          name: '个人得分',
+          data: [85, 90, 70, 60, 75, 65],
+        }, {
+          name: '平均水平',
+          data: [70, 65, 65, 55, 70, 60],
+        }],
+        chart: {
+          height: 300,
+          type: 'radar',
+          toolbar: {
+            show: false
+          },
+          fontFamily: 'PingFang SC, Microsoft YaHei, sans-serif',
+        },
+        colors: ['#3373f2', '#cbd5e1'],
+        stroke: {
+          width: 2
+        },
+        fill: {
+          opacity: 0.1
+        },
+        markers: {
+          size: 4,
+          hover: {
+            size: 6
+          }
+        },
+        xaxis: {
+          categories: ['信息素养', '技术运用', '教学设计', '研究创新', '伦理规范', '专业发展']
+        },
+        yaxis: {
+          max: 100,
+          min: 0,
+          tickAmount: 5
+        },
+        legend: {
+          position: 'bottom'
+        }
+      };
+
+      const radarChart = new ApexCharts(document.querySelector("#radar-chart"), radarChartOptions);
+      radarChart.render();
+
+      // Bar Chart
+      const barChartOptions = {
+        series: [{
+          name: '个人得分',
+          data: [85, 90, 70, 60, 75, 65]
+        }, {
+          name: '平均水平',
+          data: [70, 65, 65, 55, 70, 60]
+        }],
+        chart: {
+          type: 'bar',
+          height: 300,
+          toolbar: {
+            show: false
+          },
+          fontFamily: 'PingFang SC, Microsoft YaHei, sans-serif',
+        },
+        colors: ['#3373f2', '#cbd5e1'],
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            columnWidth: '60%',
+            borderRadius: 4,
+          },
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          show: true,
+          width: 2,
+          colors: ['transparent']
+        },
+        xaxis: {
+          categories: ['信息素养', '技术运用', '教学设计', '研究创新', '伦理规范', '专业发展'],
+        },
+        yaxis: {
+          title: {
+            text: '分数'
+          },
+          max: 100
+        },
+        fill: {
+          opacity: 1
+        },
+        tooltip: {
+          y: {
+            formatter: function (val) {
+              return val + " 分"
+            }
+          }
+        },
+        legend: {
+          position: 'bottom'
+        }
+      };
+
+      const barChart = new ApexCharts(document.querySelector("#bar-chart"), barChartOptions);
+      barChart.render();
+    });
+
+    // Spider Chart for Dimension Details
+    document.addEventListener('DOMContentLoaded', function() {
+      const spiderChartOptions = {
+        series: [{
+          name: '能力水平',
+          data: [90, 85, 80, 75],
+        }],
+        chart: {
+          height: 250,
+          type: 'radar',
+          toolbar: {
+            show: false
+          },
+        },
+        colors: ['#3373f2'],
+        stroke: {
+          width: 2
+        },
+        fill: {
+          opacity: 0.2
+        },
+        markers: {
+          size: 4
+        },
+        xaxis: {
+          categories: ['信息获取', '信息评估', '信息整合', '信息创造']
+        },
+        yaxis: {
+          max: 100,
+          min: 0,
+          tickAmount: 5
+        },
+      };
+
+      const spiderChart = new ApexCharts(document.querySelector("#spider-chart"), spiderChartOptions);
+      spiderChart.render();
+      
+      // Line Chart for Growth Trend
+      const lineChartOptions = {
+        series: [{
+          name: '信息素养',
+          data: [65, 70, 78, 85]
+        }, {
+          name: '技术运用',
+          data: [70, 76, 82, 90]
+        }, {
+          name: '教学设计',
+          data: [60, 64, 68, 70]
+        }],
+        chart: {
+          height: 350,
+          type: 'line',
+          toolbar: {
+            show: false
+          },
+          zoom: {
+            enabled: false
+          }
+        },
+        colors: ['#3373f2', '#FFD166', '#9381FF'],
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: 'smooth',
+          width: 3
+        },
+        grid: {
+          row: {
+            colors: ['#f3f3f3', 'transparent'],
+            opacity: 0.5
+          },
+        },
+        markers: {
+          size: 5
+        },
+        xaxis: {
+          categories: ['2022年Q3', '2022年Q4', '2023年Q1', '2023年Q2'],
+        },
+        yaxis: {
+          min: 50,
+          max: 100
+        },
+        legend: {
+          position: 'top'
+        }
+      };
+
+      const lineChart = new ApexCharts(document.querySelector("#line-chart"), lineChartOptions);
+      lineChart.render();
+    });
+
+    // Polar Chart for Strength and Weakness Analysis
+    document.addEventListener('DOMContentLoaded', function() {
+      const polarChartOptions = {
+        series: [85, 90, 70, 60, 75, 65],
+        chart: {
+          type: 'polarArea',
+          height: 400,
+          toolbar: {
+            show: false
+          },
+          fontFamily: 'PingFang SC, Microsoft YaHei, sans-serif',
+        },
+        labels: ['信息素养', '技术运用', '教学设计', '研究创新', '伦理规范', '专业发展'],
+        fill: {
+          opacity: 0.8,
+          colors: ['#3373f2', '#FFD166', '#9381FF', '#FF6B98', '#4CC9F0', '#8AC926']
+        },
+        stroke: {
+          width: 1,
+          colors: ['#fff']
+        },
+        yaxis: {
+          show: false,
+          max: 100
+        },
+        legend: {
+          position: 'bottom'
+        },
+        plotOptions: {
+          polarArea: {
+            rings: {
+              strokeWidth: 0
+            },
+            spokes: {
+              strokeWidth: 0
+            },
+          }
+        },
+        theme: {
+          monochrome: {
+            enabled: false
+          }
+        },
+        tooltip: {
+          y: {
+            formatter: function(val) {
+              return val + " 分";
+            }
+          }
+        }
+      };
+
+      const polarChart = new ApexCharts(document.querySelector("#polar-chart"), polarChartOptions);
+      polarChart.render();
+    });
+
+    // JavaScript for Next Steps Card
+    document.addEventListener('DOMContentLoaded', function() {
+      const nextStepsCard = document.getElementById('next-steps-card');
+      const collapsedCard = document.getElementById('collapsed-next-steps');
+      const closeButton = document.getElementById('close-next-steps');
+      
+      // 关闭按钮点击事件
+      closeButton.addEventListener('click', function() {
+        // 添加消失动画效果
+        nextStepsCard.style.transition = 'all 0.5s ease';
+        nextStepsCard.style.opacity = '0';
+        nextStepsCard.style.transform = 'translateY(100%)';
+        
+        // 动画结束后隐藏卡片并显示收起版本
+        setTimeout(function() {
+          nextStepsCard.style.display = 'none';
+          collapsedCard.classList.remove('hidden');
+          // 重置样式以便于下次显示
+          nextStepsCard.style.opacity = '1';
+          nextStepsCard.style.transform = 'translateY(0)';
+        }, 500);
+      });
+      
+      // 收起版本点击事件，重新展开卡片
+      collapsedCard.addEventListener('click', function() {
+        nextStepsCard.style.display = 'block';
+        collapsedCard.classList.add('hidden');
+      });
+      
+      // 弹窗控制
+      const findPartnerBtn = document.getElementById('find-partner-btn');
+      const partnerModal = document.getElementById('partner-modal');
+      const closeModal = document.getElementById('close-modal');
+      
+      if (findPartnerBtn && partnerModal && closeModal) {
+        findPartnerBtn.addEventListener('click', function() {
+          partnerModal.classList.remove('hidden');
+        });
+        
+        closeModal.addEventListener('click', function() {
+          partnerModal.classList.add('hidden');
+        });
+        
+        // 点击弹窗外部关闭弹窗
+        partnerModal.addEventListener('click', function(e) {
+          if (e.target === partnerModal) {
+            partnerModal.classList.add('hidden');
+          }
+        });
+      }
+      
+      // 检测设备尺寸，在移动设备上默认显示收起版本
+      function checkScreenSize() {
+        if (window.innerWidth < 768) { // 移动设备尺寸
+          nextStepsCard.style.display = 'none';
+          collapsedCard.classList.remove('hidden');
+        } else {
+          // 在桌面设备上可以选择默认显示展开版本
+          // nextStepsCard.style.display = 'block';
+          // collapsedCard.classList.add('hidden');
+        }
+      }
+      
+      // 初始检查
+      checkScreenSize();
+      
+      // 窗口大小改变时重新检查
+      window.addEventListener('resize', checkScreenSize);
+    });
+  </script>
+
+  <!-- Footer Spacing footer距页面底边的留白高度设置-->
+  <div class="h-[100px] md:h-[150px]"></div>
+</body>
+
+
+  <!-- AI Floating Button 小沃AI助手报告解读-->
+  <div id="ai-button">
+    <div class="pulse"></div>
+    <div style="position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center;">
+      <i class="fas fa-rocket text-2xl"></i>
+      <span style="font-size: 10px; margin-top: 3px;">小沃AI助手</span>
+      <span style="font-size: 15px; margin-top: 3px;">报告解读</span>
+
+    </div>
+  </div>
+  
+  <!-- Overlay -->
+  <div id="overlay" class="overlay"></div>
+  
+  <!-- AI Chat Dialog -->
+  <div id="ai-chat-dialog">
+    <div class="dialog-header">
+      <div class="flex items-center">
+        <i class="fas fa-robot mr-2"></i>
+        <h3 class="text-lg font-medium">AI报告解读助手</h3>
+      </div>
+      <button id="close-dialog" class="text-white hover:text-gray-200">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="dialog-body" id="chat-messages">
+      <div class="ai-message message">
+        <p>您好！我是您的AI报告解读助手。我可以帮您解读数字素养评价分析报告，回答您关于报告内容的问题。请问有什么可以帮您的？</p>
+      </div>
+    </div>
+    <div class="dialog-footer">
+      <input type="text" class="message-input" id="message-input" placeholder="输入您的问题..." />
+      <button class="send-button" id="send-message">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+</html>

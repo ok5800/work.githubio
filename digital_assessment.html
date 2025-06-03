@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>教师数字技术应用能力测评</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', Arial, sans-serif;
+      background: url('https://img2.baidu.com/it/u=3385118160,3424268185&fm=253&fmt=auto&app=138&f=JPEG?w=640&h=427') no-repeat center center fixed;
+      background-size: cover;
+    }
+    .container {
+      max-width: 800px;
+      width: 100%;
+      padding: 20px;
+      margin: 0 auto;
+    }
+    .glass-header {
+      margin-top: 40px;
+      margin-bottom: 32px;
+      padding: 24px 48px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.18);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.28);
+      text-align: center;
+    }
+    .glass-header h1 {
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: #fff;
+      margin: 0;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .assessment-form {
+      background: rgba(255,255,255,0.85);
+      border-radius: 20px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.5);
+      padding: 24px;
+      margin-bottom: 30px;
+    }
+    .question {
+      margin-bottom: 30px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+    .question h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: #4a4a4a;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    .option {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+    .option input[type="radio"] {
+      margin-top: 5px;
+      margin-right: 10px;
+    }
+    .option label {
+      flex: 1;
+      color: #555;
+      font-size: 1rem;
+    }
+    .submit-btn {
+      display: block;
+      background: linear-gradient(135deg, #6A5ACD, #9370DB);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 15px 30px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      cursor: pointer;
+      margin: 30px auto;
+      transition: all 0.2s;
+      box-shadow: 0 4px 10px rgba(106, 90, 205, 0.3);
+    }
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(106, 90, 205, 0.4);
+    }
+    .back-btn {
+      background: linear-gradient(90deg, #6A5ACD 0%, #9370DB 100%);
+      color: white;
+      font-weight: 600;
+      border: none;
+      border-radius: 999px;
+      padding: 10px 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+    .progress-container {
+      width: 100%;
+      height: 8px;
+      background-color: rgba(255, 255, 255, 0.5);
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(to right, #6A5ACD, #9370DB);
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      max-width: 500px;
+      width: 90%;
+      padding: 25px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      position: relative;
+      text-align: center;
+    }
+    .modal-title {
+      margin-top: 5px;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 15px;
+    }
+    .modal-btn {
+      padding: 12px 25px;
+      background: linear-gradient(135deg, #6A5ACD, #9370DB);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 20px;
+      font-weight: 500;
+    }
+    /* 答题器样式 */
+    .answer-navigator {
+      position: fixed;
+      top: 120px;
+      right: 20px;
+      width: 200px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      z-index: 90;
+      overflow: hidden;
+      transition: box-shadow 0.3s;
+    }
+    .answer-navigator:hover {
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+    .navigator-header {
+      padding: 12px;
+      background: linear-gradient(135deg, #6A5ACD, #9370DB);
+      color: white;
+      font-weight: 600;
+      cursor: move;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .navigator-body {
+      padding: 15px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .question-indicators {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .question-indicator {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.85rem;
+      color: #555;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .question-indicator:hover {
+      transform: scale(1.1);
+    }
+    .question-indicator.answered {
+      background-color: #6A5ACD;
+      color: white;
+    }
+    .navigator-footer {
+      padding: 10px 15px;
+      background: rgba(106, 90, 205, 0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+      color: #666;
+    }
+    .minimize-btn {
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 1.2rem;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    body {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    @media (max-width: 768px) {
+      .glass-header {
+        padding: 20px;
+        margin-top: 20px;
+      }
+      .glass-header h1 {
+        font-size: 1.6rem;
+      }
+      .container {
+        padding: 10px;
+      }
+      .question h3 {
+        font-size: 1.1rem;
+      }
+      .option label {
+        font-size: 0.95rem;
+      }
+      .back-btn {
+        padding: 8px 20px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- <button class="back-btn" onclick="location.href='index_shuzi.html'">返回</button> -->
+  
+  <div class="glass-header">
+    <h1>教师数字技术应用能力测评</h1>
+  </div>
+
+  <!-- 悬浮答题器 -->
+  <div class="answer-navigator" id="answerNavigator">
+    <div class="navigator-header" id="navigatorHeader">
+      <span>答题进度</span>
+      <button class="minimize-btn" id="minimizeBtn">−</button>
+    </div>
+    <div class="navigator-body">
+      <div class="question-indicators" id="questionIndicators">
+        <!-- 这里将通过JS动态生成问题指示器 -->
+      </div>
+    </div>
+    <div class="navigator-footer">
+      <span>已答: <span id="answeredCount">0</span>/10</span>
+      <span id="completionStatus">未完成</span>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+    </div>
+    
+    <div class="assessment-form" id="assessmentForm">
+      <!-- 问题1 -->
+      <div class="question">
+        <h3>1. 您在备课过程中，使用数字资源的频率是？</h3>
+        <div class="option">
+          <input type="radio" id="q1a" name="q1" value="A">
+          <label for="q1a">从不使用，完全依赖传统教材</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="q1b" name="q1" value="B">
+          <label for="q1b">偶尔使用，主要依赖传统教材</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="q1c" name="q1" value="C">
+          <label for="q1c">经常使用，数字资源和传统教材平分秋色</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="q1d" name="q1" value="D">
+          <label for="q1d">频繁使用，数字资源是备课主要来源</label>
+        </div>
+      </div>
+
+      <!-- 问题2 -->
+      <div class="question">
+        <h3>2. 您能熟练使用多少种教学软件/应用？</h3>
+        <div class="option">
+          <input type="radio" id="q2a" name="q2" value="A">
+          <label for="q2a">1-2种，主要是基础办公软件（如PPT、Word）</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="q2b" name="q2" value="B">
+          <label for="q2b">3-5种，能使用一些专业教学软件</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="q2c" name="q2" value="C">
+          <label for="q2c">6-10种，熟悉大部分常用教学工具</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="q2d" name="q2" value="D">
+          <label for="q2d">10种以上，包括专业教学工具和新兴技术应用</label>
+        </div>
+      </div>
+
+      <!-- 问题3 -->
+      <div class="question">
+        <h3>3. 您在多大程度上能够创建自己的数字教学资源？</h3>
+        <div class="option">
+          <input type="radio" id="q3a" name="q3" value="A">
+          <label for="q3a">只能使用现成的资源，不会修改或创建</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="q3b" name="q3" value="B">
+          <label for="q3b">能对现成资源进行简单修改适应教学需要</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="q3c" name="q3" value="C">
+          <label for="q3c">能创建基本的原创数字教学资源</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="q3d" name="q3" value="D">
+          <label for="q3d">能创建丰富多样的高质量原创数字教学资源</label>
+        </div>
+      </div>
+
+      <!-- 问题4 -->
+      <div class="question">
+        <h3>4. 您使用在线教学平台的频率是？</h3>
+        <div class="option">
+          <input type="radio" id="q4a" name="q4" value="A">
+          <label for="q4a">从不使用</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="q4b" name="q4" value="B">
+          <label for="q4b">只在特殊情况下使用（如疫情期间）</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="q4c" name="q4" value="C">
+          <label for="q4c">定期使用作为线下教学补充</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="q4d" name="q4" value="D">
+          <label for="q4d">经常使用，已融入日常教学流程</label>
+        </div>
+      </div>
+
+      <!-- 问题5 -->
+      <div class="question">
+        <h3>5. 您能否使用数字工具进行学生评估与反馈？</h3>
+        <div class="option">
+          <input type="radio" id="q5a" name="q5" value="A">
+          <label for="q5a">不会使用数字工具进行评估</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="q5b" name="q5" value="B">
+          <label for="q5b">能使用简单的在线测验工具</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="q5c" name="q5" value="C">
+          <label for="q5c">能熟练使用多种数字评估工具并分析数据</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="q5d" name="q5" value="D">
+          <label for="q5d">能综合运用多种评估工具，并根据数据调整教学</label>
+        </div>
+      </div>
+
+      <!-- 问题6 -->
+      <div class="question">
+        <h3>6. 您如何看待人工智能技术在教育中的应用？</h3>
+        <div class="option">
+          <input type="radio" id="q6a" name="q6" value="A">
+          <label for="q6a">了解很少，不确定如何在教学中应用</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="q6b" name="q6" value="B">
+          <label for="q6b">了解基础概念，但未在教学中应用</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="q6c" name="q6" value="C">
+          <label for="q6c">已尝试在教学中应用，如智能批改作业等</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="q6d" name="q6" value="D">
+          <label for="q6d">积极应用并探索AI在教学中的创新方式</label>
+        </div>
+      </div>
+
+      <!-- 问题7 -->
+      <div class="question">
+        <h3>7. 您能否利用数据分析来改进教学？</h3>
+        <div class="option">
+          <input type="radio" id="q7a" name="q7" value="A">
+          <label for="q7a">不会收集或分析教学数据</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="q7b" name="q7" value="B">
+          <label for="q7b">能收集基本数据，但不太会分析</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="q7c" name="q7" value="C">
+          <label for="q7c">能分析数据并根据结果调整教学方法</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="q7d" name="q7" value="D">
+          <label for="q7d">能进行深入数据分析，持续优化教学流程</label>
+        </div>
+      </div>
+
+      <!-- 问题8 -->
+      <div class="question">
+        <h3>8. 您对信息安全和数据隐私的了解程度？</h3>
+        <div class="option">
+          <input type="radio" id="q8a" name="q8" value="A">
+          <label for="q8a">了解很少，不太关注这些问题</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="q8b" name="q8" value="B">
+          <label for="q8b">有基本意识，但不确定如何保护数据</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="q8c" name="q8" value="C">
+          <label for="q8c">熟悉基本保护措施，并在教学中实践</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="q8d" name="q8" value="D">
+          <label for="q8d">深入了解并能指导学生进行数据保护</label>
+        </div>
+      </div>
+
+      <!-- 问题9 -->
+      <div class="question">
+        <h3>9. 您如何应对数字教学中遇到的技术问题？</h3>
+        <div class="option">
+          <input type="radio" id="q9a" name="q9" value="A">
+          <label for="q9a">完全依赖技术支持人员解决</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="q9b" name="q9" value="B">
+          <label for="q9b">能解决简单问题，复杂问题需要帮助</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="q9c" name="q9" value="C">
+          <label for="q9c">能独立解决大多数常见技术问题</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="q9d" name="q9" value="D">
+          <label for="q9d">不仅能解决问题，还能帮助同事和学生</label>
+        </div>
+      </div>
+
+      <!-- 问题10 -->
+      <div class="question">
+        <h3>10. 您在多大程度上鼓励学生使用数字工具进行创新和解决问题？</h3>
+        <div class="option">
+          <input type="radio" id="q10a" name="q10" value="A">
+          <label for="q10a">几乎不鼓励学生使用数字工具</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="q10b" name="q10" value="B">
+          <label for="q10b">偶尔鼓励，但没有系统性指导</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="q10c" name="q10" value="C">
+          <label for="q10c">经常鼓励并提供基本指导</label>
+        </div>
+        <div class="option">
+          <input type="radio" id="q10d" name="q10" value="D">
+          <label for="q10d">系统性引导学生利用数字工具进行创新学习</label>
+        </div>
+      </div>
+
+      <button class="submit-btn" onclick="submitAssessment()">提交</button>
+    </div>
+  </div>
+
+  <!-- 完成测评弹窗 -->
+  <div id="completionModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-title">测评完成</div>
+      <p>您已完成测评，点此可查看分析报告</p>
+      <button class="modal-btn" onclick="viewReport()">查看分析报告</button>
+    </div>
+  </div>
+
+  <script>
+    // 计算并更新进度条
+    function updateProgress() {
+      const totalQuestions = 10;
+      let answeredQuestions = 0;
+      
+      for (let i = 1; i <= totalQuestions; i++) {
+        const radioButtons = document.getElementsByName('q' + i);
+        for (const radio of radioButtons) {
+          if (radio.checked) {
+            answeredQuestions++;
+            break;
+          }
+        }
+      }
+      
+      const progressPercentage = (answeredQuestions / totalQuestions) * 100;
+      document.getElementById('progressBar').style.width = progressPercentage + '%';
+      
+      // 更新答题器状态
+      updateNavigator();
+    }
+    
+    // 生成问题指示器
+    function generateQuestionIndicators() {
+      const indicatorsContainer = document.getElementById('questionIndicators');
+      for (let i = 1; i <= 10; i++) {
+        const indicator = document.createElement('div');
+        indicator.className = 'question-indicator';
+        indicator.textContent = i;
+        indicator.onclick = function() {
+          scrollToQuestion(i);
+        };
+        indicatorsContainer.appendChild(indicator);
+      }
+    }
+    
+    // 更新答题器状态
+    function updateNavigator() {
+      const totalQuestions = 10;
+      let answeredQuestions = 0;
+      
+      for (let i = 1; i <= totalQuestions; i++) {
+        const radioButtons = document.getElementsByName('q' + i);
+        let isAnswered = false;
+        
+        for (const radio of radioButtons) {
+          if (radio.checked) {
+            isAnswered = true;
+            break;
+          }
+        }
+        
+        const indicator = document.querySelectorAll('.question-indicator')[i-1];
+        
+        if (isAnswered) {
+          indicator.classList.add('answered');
+          answeredQuestions++;
+        } else {
+          indicator.classList.remove('answered');
+        }
+      }
+      
+      document.getElementById('answeredCount').textContent = answeredQuestions;
+      document.getElementById('completionStatus').textContent = 
+        answeredQuestions === totalQuestions ? '已完成' : '未完成';
+    }
+    
+    // 滚动到指定问题
+    function scrollToQuestion(questionNumber) {
+      const questionElement = document.querySelectorAll('.question')[questionNumber-1];
+      questionElement.scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    // 使答题器可拖动
+    function makeNavigatorDraggable() {
+      const navigator = document.getElementById('answerNavigator');
+      const header = document.getElementById('navigatorHeader');
+      let isDragging = false;
+      let offsetX, offsetY;
+      
+      header.addEventListener('mousedown', function(e) {
+        isDragging = true;
+        offsetX = e.clientX - navigator.getBoundingClientRect().left;
+        offsetY = e.clientY - navigator.getBoundingClientRect().top;
+      });
+      
+      document.addEventListener('mousemove', function(e) {
+        if (!isDragging) return;
+        
+        const x = e.clientX - offsetX;
+        const y = e.clientY - offsetY;
+        
+        // 确保不超出视口边界
+        const maxX = window.innerWidth - navigator.offsetWidth;
+        const maxY = window.innerHeight - navigator.offsetHeight;
+        
+        const boundedX = Math.max(0, Math.min(x, maxX));
+        const boundedY = Math.max(0, Math.min(y, maxY));
+        
+        navigator.style.left = boundedX + 'px';
+        navigator.style.top = boundedY + 'px';
+        navigator.style.right = 'auto';
+      });
+      
+      document.addEventListener('mouseup', function() {
+        isDragging = false;
+      });
+      
+      // 最小化/最大化功能
+      const minimizeBtn = document.getElementById('minimizeBtn');
+      const navigatorBody = document.querySelector('.navigator-body');
+      const navigatorFooter = document.querySelector('.navigator-footer');
+      
+      minimizeBtn.addEventListener('click', function() {
+        if (navigatorBody.style.display === 'none') {
+          navigatorBody.style.display = 'block';
+          navigatorFooter.style.display = 'flex';
+          minimizeBtn.textContent = '−';
+        } else {
+          navigatorBody.style.display = 'none';
+          navigatorFooter.style.display = 'none';
+          minimizeBtn.textContent = '+';
+        }
+      });
+    }
+
+    // 为所有单选按钮添加事件监听器
+    document.addEventListener('DOMContentLoaded', function() {
+      const radioButtons = document.querySelectorAll('input[type="radio"]');
+      radioButtons.forEach(radio => {
+        radio.addEventListener('change', updateProgress);
+      });
+      
+      // 初始化答题器
+      generateQuestionIndicators();
+      makeNavigatorDraggable();
+    });
+
+    // 提交测评
+    function submitAssessment() {
+      const totalQuestions = 10;
+      let answeredQuestions = 0;
+      
+      for (let i = 1; i <= totalQuestions; i++) {
+        const radioButtons = document.getElementsByName('q' + i);
+        let questionAnswered = false;
+        
+        for (const radio of radioButtons) {
+          if (radio.checked) {
+            questionAnswered = true;
+            break;
+          }
+        }
+        
+        if (questionAnswered) {
+          answeredQuestions++;
+        }
+      }
+      
+      if (answeredQuestions < totalQuestions) {
+        alert('请完成所有问题后再提交！');
+      } else {
+        // 显示完成弹窗
+        document.getElementById('completionModal').style.display = 'flex';
+      }
+    }
+
+    // 查看报告
+    function viewReport() {
+      window.location.href = '../03shizi/index_shuzi.html';
+    }
+
+    // 关闭弹窗当点击弹窗外部
+    window.onclick = function(event) {
+      if (event.target.className === 'modal') {
+        event.target.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html> 

@@ -1,0 +1,1627 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数智化评价解决方案 - TeachSeek</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4cc9f0;
+            --dark: #212529;
+            --light: #f8f9fa;
+            --success: #4ade80;
+            --warning: #fbbf24;
+            --danger: #f87171;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: var(--gray-100);
+            color: var(--dark);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Glass Morphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+        }
+        
+        /* Header Styles */
+        header {
+            padding: 20px 0;
+            position: relative;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+            padding: 5px 0;
+        }
+        
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+        
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            min-height: 500px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 40px 0;
+            background-image: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            border-radius: 20px;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+        
+        .hero-section:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.8), rgba(76, 201, 240, 0.8));
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 600px;
+            padding: 30px;
+        }
+        
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .hero-description {
+            font-size: 1.2rem;
+            color: white;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn-light {
+            background-color: white;
+            color: var(--primary);
+        }
+        
+        .btn-light:hover {
+            background-color: var(--gray-100);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Assessment Section */
+        .assessment-section {
+            padding: 60px 0;
+        }
+        
+        .section-title {
+            font-size: 2.2rem;
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary);
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .assessment-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .assessment-card {
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .assessment-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .assessment-card img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: var(--gray-100);
+            border-radius: 50%;
+        }
+        
+        .assessment-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .assessment-card p {
+            color: var(--dark);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        /* Courses Section */
+        .courses-section {
+            padding: 60px 0;
+            background-color: #f9fafb;
+        }
+        
+        .courses-container {
+            margin-top: 40px;
+        }
+        
+        .course-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .course-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .course-tag {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            color: white;
+        }
+        
+        .tag-blue {
+            background-color: var(--primary);
+        }
+        
+        .tag-green {
+            background-color: var(--success);
+        }
+        
+        .tag-purple {
+            background-color: #8b5cf6;
+        }
+        
+        .course-content {
+            padding: 20px;
+        }
+        
+        .course-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .course-desc {
+            font-size: 0.9rem;
+            color: #4b5563;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+        
+        .course-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .course-duration {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .course-actions {
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Resources Section */
+        .resources-section {
+            padding: 60px 0;
+        }
+        
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+        
+        .resource-card {
+            padding: 20px;
+            border-radius: 12px;
+            transition: all 0.3s;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .resource-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .resource-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        
+        .resource-card p {
+            color: #4b5563;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+        
+        .resource-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #6b7280;
+            margin-top: auto;
+        }
+        
+        .resource-type {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .resource-downloads {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* Mentoring Section */
+        .mentoring-section {
+            padding: 60px 0;
+            background-color: #f9fafb;
+        }
+        
+        .mentor-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 40px;
+            justify-content: center;
+        }
+        
+        .mentor-card {
+            width: 280px;
+            border-radius: 15px;
+            background: white;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+        }
+        
+        .mentor-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .mentor-cover {
+            height: 120px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            position: relative;
+        }
+        
+        .mentor-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .mentor-info {
+            margin-top: 60px;
+            text-align: center;
+            padding: 0 20px 25px;
+        }
+        
+        .mentor-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .mentor-title {
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .mentor-desc {
+            color: #4b5563;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        
+        .mentor-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .mentor-tag {
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            border-radius: 12px;
+            background-color: #f3f4f6;
+            color: #4b5563;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #f3f4f6;
+            padding: 60px 0 30px;
+            margin-top: 60px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .footer-description {
+            color: #4b5563;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .social-icon:hover {
+            background-color: var(--primary);
+        }
+        
+        .social-icon:hover img {
+            filter: brightness(0) invert(1);
+        }
+        
+        .footer-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .footer-links {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #4b5563;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+        
+        .footer-contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: #4b5563;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #e5e7eb;
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+        
+        /* Features Section */
+        .features-section {
+            padding: 60px 0;
+            background-color: #f9fafb;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            padding: 30px;
+            border-radius: 12px;
+            transition: all 0.3s;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            margin-bottom: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card p {
+            color: #4b5563;
+            line-height: 1.6;
+        }
+        
+        .icon-blue {
+            background-color: #e0e7ff;
+        }
+        
+        .icon-green {
+            background-color: #d1fae5;
+        }
+        
+        .icon-purple {
+            background-color: #ede9fe;
+        }
+        
+        .icon-orange {
+            background-color: #ffedd5;
+        }
+        
+        .icon-pink {
+            background-color: #fce7f3;
+        }
+        
+        .icon-teal {
+            background-color: #ccfbf1;
+        }
+
+        /* Modals */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            overflow: auto;
+        }
+        
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 30px;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 12px;
+            position: relative;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        
+        /* Mobile Navigation */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 992px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-description {
+                font-size: 1rem;
+            }
+            
+            .user-actions .btn-outline {
+                display: none;
+            }
+            
+            .assessment-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero-section {
+                min-height: 400px;
+            }
+            
+            .hero-title {
+                font-size: 1.8rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="https://unpkg.com/lucide-static@latest/icons/book-open.svg" width="24" height="24" alt="Logo">
+                    教师数字素养发展提升与服务
+                </div>
+                
+                <nav class="nav-links">
+                    <a href="#home">首页</a>
+                    <a href="#assessment">数字素养测评</a>
+                    <a href="#courses">研培服务</a>
+                    <a href="#resources">数字素养实践</a>
+                    <a href="#mentoring">名师引领</a>
+                </nav>
+                
+                <div class="user-actions">
+                    <button class="btn btn-outline" onclick="openModal('loginModal')">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/user.svg" width="18" height="18" alt="登录">
+                        登录
+                    </button>
+                    <button class="btn btn-primary" onclick="openModal('assessmentModal')">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/clipboard-check.svg" width="18" height="18" alt="测评">
+                        开始测评
+                    </button>
+                    <button class="mobile-menu-btn">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/menu.svg" width="24" height="24" alt="菜单">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="container hero-section" id="home">
+        <div class="hero-content">
+            <h1 class="hero-title">提升您的数字素养，引领教育新时代</h1>
+            <p class="hero-description">基于科学评测，为您定制个性化的数字能力提升方案，助力您在信息化时代更好地开展教学工作。</p>
+            <div class="hero-buttons">
+                <button class="btn btn-light" onclick="openModal('assessmentModal')">
+                    <img src="https://unpkg.com/lucide-static@latest/icons/clipboard-check.svg" width="18" height="18" alt="测评">
+                    开始测评
+                </button>
+                <button class="btn btn-outline" style="color: white; border-color: white;" onclick="location.href='#features'">
+                    <img src="https://unpkg.com/lucide-static@latest/icons/info.svg" width="18" height="18" alt="了解更多" style="filter: brightness(0) invert(1);">
+                    了解更多
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="container assessment-section" id="assessment">
+        <h2 class="section-title">数字素养测评维度</h2>
+        <div class="assessment-cards">
+            <div class="assessment-card glass">
+                <img src="https://unpkg.com/lucide-static@latest/icons/lightbulb.svg" alt="信息素养">
+                <h3>信息素养</h3>
+                <p>评估教师获取、评估、组织和有效利用数字信息的能力，包括信息检索、筛选和批判性思考能力。</p>
+                <button class="btn btn-primary" onclick="openModal('infoLiteracyModal')">了解详情</button>
+            </div>
+            <div class="assessment-card glass">
+                <img src="https://unpkg.com/lucide-static@latest/icons/laptop.svg" alt="技术素养">
+                <h3>技术素养</h3>
+                <p>评估教师使用各类数字设备和应用程序的能力，包括基础操作、软件应用以及技术问题解决能力。</p>
+                <button class="btn btn-primary" onclick="openModal('techLiteracyModal')">了解详情</button>
+            </div>
+            <div class="assessment-card glass">
+                <img src="https://unpkg.com/lucide-static@latest/icons/users.svg" alt="教学素养">
+                <h3>教学素养</h3>
+                <p>评估教师将数字技术与教学实践有效整合的能力，包括数字教学设计和实施、学生参与度提升等。</p>
+                <button class="btn btn-primary" onclick="openModal('teachingLiteracyModal')">了解详情</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="features-section" id="features">
+        <div class="container">
+            <h2 class="section-title">我们的特色服务</h2>
+            <div class="features-grid">
+                <div class="feature-card glass">
+                    <div class="feature-icon icon-blue">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/chart-bar.svg" width="24" height="24" alt="科学测评">
+                    </div>
+                    <h3>科学测评分析</h3>
+                    <p>基于教育部数字素养标准，采用多维度评估方法，为教师提供客观、全面的数字素养评测。</p>
+                </div>
+                <div class="feature-card glass">
+                    <div class="feature-icon icon-green">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/graduation-cap.svg" width="24" height="24" alt="课程">
+                    </div>
+                    <h3>定制化研培服务</h3>
+                    <p>根据测评结果，智能匹配最适合的培训项目服务与课程，针对薄弱环节精准匹配，提升数字教学能力。</p>
+                </div>
+                <div class="feature-card glass">
+                    <div class="feature-icon icon-purple">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/file-text.svg" width="24" height="24" alt="资源">
+                    </div>
+                    <h3>数字素养实践</h3>
+                    <p>提供海量精选教学资源，内容涵盖各学科各年级，支持教师快速获取高质量教学素材。</p>
+                </div>
+                <div class="feature-card glass">
+                    <div class="feature-icon icon-orange">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/award.svg" width="24" height="24" alt="名师">
+                    </div>
+                    <h3>名师引领服务</h3>
+                    <p>邀请教育信息化领域专家和名师，提供一对一指导和线上讲座，帮助教师快速提升。</p>
+                </div>
+                <div class="feature-card glass">
+                    <div class="feature-icon icon-pink">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/users.svg" width="24" height="24" alt="社区">
+                    </div>
+                    <h3>教师学习社群</h3>
+                    <p>构建教师专业学习社群，促进教师间交流合作，分享数字教学经验和优秀实践案例。</p>
+                </div>
+                <div class="feature-card glass">
+                    <div class="feature-icon icon-teal">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/trending-up.svg" width="24" height="24" alt="成长">
+                    </div>
+                    <h3>成长跟踪评估</h3>
+                    <p>提供持续的成长监测与评估，生成个人成长报告，帮助教师清晰了解自己的进步与提升空间。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="courses-section" id="courses">
+        <div class="container">
+            <h2 class="section-title">优质研培服务&数字化课程</h2>
+            <p style="text-align: center; max-width: 700px; margin: 0 auto 30px; color: #4b5563;">
+                根据测评结果为您精准匹配的培训课程，提供定制化研培服务，提升教师数字素养能力，助力学校数字素养教学和数字化校园建设。
+            </p>
+            
+            <div class="courses-container">
+                <div class="row" style="display: flex; flex-wrap: wrap; margin: 0 -15px;">
+                    <div class="col" style="flex: 0 0 33.333333%; max-width: 33.333333%; padding: 0 15px;">
+                        <div class="course-card">
+                            <div class="course-image" style="background-image: url('https://images.unsplash.com/photo-1516321497487-e288fb19713f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
+                                <div class="course-tag tag-blue">信息素养</div>
+                            </div>
+                            <div class="course-content">
+                                <h3 class="course-title">数字信息检索与甄别实战培训班</h3>
+                                <p class="course-desc">掌握高效信息检索技巧，学习可靠信息的筛选与甄别方法，提升教学信息质量。</p>
+                                <div class="course-meta">
+                                    <div class="course-rating">
+                                        <img src="https://unpkg.com/lucide-static@latest/icons/star.svg" width="14" height="14" alt="评分">
+                                        <span>4.8 (126人评价)</span>
+                                    </div>
+                                    <div class="course-duration">
+                                        <img src="https://unpkg.com/lucide-static@latest/icons/clock.svg" width="14" height="14" alt="课时">
+                                        <span>6课时</span>
+                                    </div>
+                                </div>
+                                <div class="course-actions">
+                                    <button class="btn btn-outline" onclick="openModal('courseDetailModal')">查看详情</button>
+                                    <button class="btn btn-primary" onclick="window.open('https://office.teacher.com.cn/views/learningViews/myOffice/autonomousselection.htm?projectid=1026&flag=0&isopenpayfunction=1', '_blank')">去学习</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col" style="flex: 0 0 33.333333%; max-width: 33.333333%; padding: 0 15px;">
+                        <div class="course-card">
+                            <div class="course-image" style="background-image: url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
+                                <div class="course-tag tag-green">技术素养</div>
+                            </div>
+                            <div class="course-content">
+                                <h3 class="course-title">教育常用数字工具精通培训项目</h3>
+                                <p class="course-desc">全面掌握教育常用数字工具和平台的操作与应用，通过实例演示和实践，快速提升技术应用能力。</p>
+                                <div class="course-meta">
+                                    <div class="course-rating">
+                                        <img src="https://unpkg.com/lucide-static@latest/icons/star.svg" width="14" height="14" alt="评分">
+                                        <span>4.7 (98人评价)</span>
+                                    </div>
+                                    <div class="course-duration">
+                                        <img src="https://unpkg.com/lucide-static@latest/icons/clock.svg" width="14" height="14" alt="课时">
+                                        <span>8课时</span>
+                                    </div>
+                                </div>
+                                <div class="course-actions">
+                                    <button class="btn btn-outline" onclick="openModal('courseDetailModal')">查看详情</button>
+                                    <button class="btn btn-primary" onclick="window.open('https://office.teacher.com.cn/views/learningViews/myOffice/autonomousselection.htm?projectid=1026&flag=0&isopenpayfunction=1', '_blank')">进项目</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col" style="flex: 0 0 33.333333%; max-width: 33.333333%; padding: 0 15px;">
+                        <div class="course-card">
+                            <div class="course-image" style="background-image: url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
+                                <div class="course-tag tag-purple">教学素养</div>
+                            </div>
+                            <div class="course-content">
+                                <h3 class="course-title">数字化教学设计与实施</h3>
+                                <p class="course-desc">学习如何设计与实施数字化教学活动，整合数字资源提升教学效果，增强学生参与度。</p>
+                                <div class="course-meta">
+                                    <div class="course-rating">
+                                        <img src="https://unpkg.com/lucide-static@latest/icons/star.svg" width="14" height="14" alt="评分">
+                                        <span>4.9 (156人评价)</span>
+                                    </div>
+                                    <div class="course-duration">
+                                        <img src="https://unpkg.com/lucide-static@latest/icons/clock.svg" width="14" height="14" alt="课时">
+                                        <span>10课时</span>
+                                    </div>
+                                </div>
+                                <div class="course-actions">
+                                    <button class="btn btn-outline" onclick="openModal('courseDetailModal')">查看详情</button>
+                                    <button class="btn btn-primary">去学习</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="btn btn-outline" style="padding: 12px 25px;">
+                        <img src="../images/more.svg" width="18" height="18" alt="更多">
+                        查看更多
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="resources-section" id="resources">
+        <div class="container">
+            <h2 class="section-title">数字化实践AI智慧工具</h2>
+            <p style="text-align: center; max-width: 700px; margin: 0 auto 30px; color: #4b5563;">
+                AI驱动，教育赋能，助力教师数字化素养实践与路径探究，赋能学校智教 · 智学 · 智评 · 智管
+            </p>
+            
+            <div class="resources-grid">
+                <div class="resource-card glass">
+                    <div class="resource-icon icon-blue">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/file-text.svg" width="24" height="24" alt="教案">
+                    </div>
+                    <h3>智能备课助手</h3>
+                    <p>基于教学目标智能生成教案，提供多样化教学策略与资源推荐。</p>
+                    <div class="resource-meta">
+                        <div class="resource-type">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/folder.svg" width="14" height="14" alt="类型">
+                            <span>备课 教学设计</span>
+                        </div>
+                        <div class="resource-downloads">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/download.svg" width="14" height="14" alt="下载">
+                            <span>1280次使用</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 15px;" onclick="openModal('resourceDetailModal')"><a href="../index.html" target="_blank" style="color: inherit; text-decoration: none;">使用AI工具</a></button>
+                </div>
+                
+                <div class="resource-card glass">
+                    <div class="resource-icon icon-green">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/presentation.svg" width="24" height="24" alt="课件">
+                    </div>
+                    <h3>课件制作工具</h3>
+                    <p>一键生成精美课件，内置丰富模板与素材库，让教学展示更生动。</p>
+                    <div class="resource-meta">
+                        <div class="resource-type">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/folder.svg" width="14" height="14" alt="类型">
+                            <span>课件</span>
+                        </div>
+                        <div class="resource-downloads">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/download.svg" width="14" height="14" alt="下载">
+                            <span>2156次使用</span>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 15px;" onclick="openModal('resourceDetailModal')"><a href="../index.html" target="_blank" style="color: inherit; text-decoration: none;">使用AI工具</a></button>
+                </div>
+                
+                <div class="resource-card glass">
+                    <div class="resource-icon icon-purple">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/film.svg" width="24" height="24" alt="视频">
+                    </div>
+                    <h3>作业智评系统</h3>
+                    <p>自动批改学生作业，提供个性化反馈和学习建议，节省教师批改时间。</p>
+                    <div class="resource-meta">
+                        <div class="resource-type">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/folder.svg" width="14" height="14" alt="类型">
+                            <span>作业</span>
+                        </div>
+                        <div class="resource-downloads">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/play.svg" width="14" height="14" alt="播放">
+                            <span>3876次使用</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 15px;" onclick="openModal('resourceDetailModal')"><a href="../index.html" target="_blank" style="color: inherit; text-decoration: none;">使用AI工具</a></button>
+                </div>
+                
+                <div class="resource-card glass">
+                    <div class="resource-icon icon-orange">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/book-open.svg" width="24" height="24" alt="教材">
+                    </div>
+                    <h3>学情数据分析</h3>
+                    <p>分析学生学习数据，生成可视化报告，帮助教师精准把握班级学习状况。</p>
+                    <div class="resource-meta">
+                        <div class="resource-type">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/folder.svg" width="14" height="14" alt="类型">
+                            <span>数据分析</span>
+                        </div>
+                        <div class="resource-downloads">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/download.svg" width="14" height="14" alt="下载">
+                            <span>1682次使用</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 15px;" onclick="openModal('resourceDetailModal')"><a href="../index.html" target="_blank" style="color: inherit; text-decoration: none;">使用AI工具</a></button>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn btn-outline" style="padding: 12px 25px;">
+                    <img src="https://unpkg.com/lucide-static@latest/icons/plus.svg" width="18" height="18" alt="更多">
+                    使用更多AI工具
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <section class="mentoring-section" id="mentoring">
+        <div class="container">
+            <h2 class="section-title">名师引领</h2>
+            <p style="text-align: center; max-width: 700px; margin: 0 auto 30px; color: #4b5563;">
+                由教育信息化领域专家和名师提供一对一指导和专业培训
+            </p>
+            
+            <div class="mentor-cards">
+                <div class="mentor-card">
+                    <div class="mentor-cover">
+                        <img src="http://portal.teacherclub.com.cn/uploadfile/2021/1015/20211015044712132.jpg" alt="李明" class="mentor-avatar">
+                    </div>
+                    <div class="mentor-info">
+                        <h3 class="mentor-name">王荣生</h3>
+                        <p class="mentor-title">特级教师 | 信息化教学专家</p>
+                        <p class="mentor-desc">20年教育信息化实践经验，多次获得国家级教学大赛奖项，擅长数字技术与学科教学融合。</p>
+                        <div class="mentor-tags">
+                            <span class="mentor-tag">信息技术</span>
+                            <span class="mentor-tag">数字教学</span>
+                            <span class="mentor-tag">教学设计</span>
+                        </div>
+                        <button class="btn btn-outline" onclick="openModal('mentorDetailModal')">了解详情</button>
+                    </div>
+                </div>
+                
+                <div class="mentor-card">
+                    <div class="mentor-cover">
+                        <img src="http://portal.teacherclub.com.cn/uploadfile/2021/1015/20211015044522126.jpg" alt="张华" class="mentor-avatar">
+                    </div>
+                    <div class="mentor-info">
+                        <h3 class="mentor-name">王磊</h3>
+                        <p class="mentor-title">教育技术学博士 | 教授</p>
+                        <p class="mentor-desc">教育部数字素养课题组核心成员，在数字教育领域发表多篇学术论文，擅长教育技术研究与应用。</p>
+                        <div class="mentor-tags">
+                            <span class="mentor-tag">教育技术</span>
+                            <span class="mentor-tag">数字素养</span>
+                            <span class="mentor-tag">科研指导</span>
+                        </div>
+                        <button class="btn btn-outline" onclick="openModal('mentorDetailModal')">了解详情</button>
+                    </div>
+                </div>
+                
+                <div class="mentor-card">
+                    <div class="mentor-cover">
+                        <img src="http://portal.teacherclub.com.cn/uploadfile/2021/1015/20211015044903561.jpg" alt="王静" class="mentor-avatar">
+                    </div>
+                    <div class="mentor-info">
+                        <h3 class="mentor-name">林崇德</h3>
+                        <p class="mentor-title">一级教师 | 创新教学实践者</p>
+                        <p class="mentor-desc">深耕信息化教学10年，善于创新教学方法，多次获省市级教学能手称号，擅长数字资源开发与应用。</p>
+                        <div class="mentor-tags">
+                            <span class="mentor-tag">课程设计</span>
+                            <span class="mentor-tag">数字资源</span>
+                            <span class="mentor-tag">创新教学</span>
+                        </div>
+                        <button class="btn btn-outline" onclick="openModal('mentorDetailModal')">了解详情</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <button class="btn btn-primary" style="padding: 12px 25px;" onclick="openModal('applyMentorModal')">
+                    <img src="https://unpkg.com/lucide-static@latest/icons/user-plus.svg" width="18" height="18" alt="申请">
+                    我有需求，了解名师指导服务
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <div class="footer-logo">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/book-open.svg" width="24" height="24" alt="Logo">
+                        教师数字素养发展提升与服务
+                    </div>
+                    <p class="footer-description">
+                        致力于提升中小学教师数字素养水平，促进信息技术与教育教学深度融合，培养数字时代创新型教师。
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" class="social-icon">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/message-circle.svg" width="18" height="18" alt="微信">
+                        </a>
+                        <a href="#" class="social-icon">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/thumbs-up.svg" width="18" height="18" alt="微博">
+                        </a>
+                        <a href="#" class="social-icon">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/mail.svg" width="18" height="18" alt="邮箱">
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="footer-title">快速链接</h3>
+                    <ul class="footer-links">
+                        <li>
+                            <a href="#assessment">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/chevron-right.svg" width="16" height="16" alt="箭头">
+                                数字素养测评
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#courses">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/chevron-right.svg" width="16" height="16" alt="箭头">
+                                培训课程
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#resources">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/chevron-right.svg" width="16" height="16" alt="箭头">
+                                数字素养实践
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#mentoring">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/chevron-right.svg" width="16" height="16" alt="箭头">
+                                名师引领
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/chevron-right.svg" width="16" height="16" alt="箭头">
+                                教师社群
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="footer-title">联系我们</h3>
+                    <div class="footer-contact-item">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/map-pin.svg" width="18" height="18" alt="地址">
+                        <span>北京市海淀区中关村南大街5号</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/phone.svg" width="18" height="18" alt="电话">
+                        <span>400-812-1228</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/mail.svg" width="18" height="18" alt="邮箱">
+                        <span>contact@teacher.com.cn</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/clock.svg" width="18" height="18" alt="工作时间">
+                        <span>周一至周日: 9:00 - 18:00</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2025 全国中小学教师继续教育网 版权所有 | 教育部教师工作司指导</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content glass">
+            <button class="close-btn" onclick="closeModal('loginModal')">
+                <img src="https://unpkg.com/lucide-static@latest/icons/x.svg" width="24" height="24" alt="关闭">
+            </button>
+            <h2 style="text-align: center; margin-bottom: 30px;">用户登录</h2>
+            <form style="max-width: 400px; margin: 0 auto;">
+                <div style="margin-bottom: 20px;">
+                    <label for="username" style="display: block; margin-bottom: 8px; font-weight: 500;">用户名</label>
+                    <input type="text" id="username" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--gray-300);">
+                </div>
+                <div style="margin-bottom: 30px;">
+                    <label for="password" style="display: block; margin-bottom: 8px; font-weight: 500;">密码</label>
+                    <input type="password" id="password" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--gray-300);">
+                </div>
+                <button type="button" class="btn btn-primary" style="width: 100%;">登录</button>
+                <div style="margin-top: 20px; text-align: center;">
+                    <a href="#" style="color: var(--primary); text-decoration: none;">忘记密码？</a>
+                    <span style="margin: 0 10px;">|</span>
+                    <a href="#" style="color: var(--primary); text-decoration: none;">注册账号</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Information Literacy Modal -->
+    <div id="infoLiteracyModal" class="modal">
+        <div class="modal-content glass">
+            <button class="close-btn" onclick="closeModal('infoLiteracyModal')">
+                <img src="https://unpkg.com/lucide-static@latest/icons/x.svg" width="24" height="24" alt="关闭">
+            </button>
+            <h2 style="text-align: center; margin-bottom: 30px;">信息素养详情</h2>
+            <div style="margin-bottom: 30px;">
+                <h3 style="margin-bottom: 15px; color: var(--primary);">能力维度</h3>
+                <ul style="list-style-type: none; padding: 0;">
+                    <li style="margin-bottom: 15px; display: flex; align-items: flex-start; gap: 10px;">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/search.svg" width="20" height="20" alt="信息检索" style="margin-top: 3px;">
+                        <div>
+                            <h4 style="margin-bottom: 5px;">信息检索与获取</h4>
+                            <p style="color: #4b5563;">高效利用各类数字平台和资源获取教学所需信息的能力</p>
+                        </div>
+                    </li>
+                    <li style="margin-bottom: 15px; display: flex; align-items: flex-start; gap: 10px;">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/filter.svg" width="20" height="20" alt="信息筛选" style="margin-top: 3px;">
+                        <div>
+                            <h4 style="margin-bottom: 5px;">信息筛选与评估</h4>
+                            <p style="color: #4b5563;">对获取的信息进行甄别、评估和判断其可靠性与适用性的能力</p>
+                        </div>
+                    </li>
+                    <li style="margin-bottom: 15px; display: flex; align-items: flex-start; gap: 10px;">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/folder.svg" width="20" height="20" alt="信息管理" style="margin-top: 3px;">
+                        <div>
+                            <h4 style="margin-bottom: 5px;">信息管理与组织</h4>
+                            <p style="color: #4b5563;">有效管理、分类和组织数字教学资源的能力</p>
+                        </div>
+                    </li>
+                    <li style="margin-bottom: 15px; display: flex; align-items: flex-start; gap: 10px;">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/share-2.svg" width="20" height="20" alt="信息创作" style="margin-top: 3px;">
+                        <div>
+                            <h4 style="margin-bottom: 5px;">信息创作与分享</h4>
+                            <p style="color: #4b5563;">基于已有信息创作新内容并合法分享的能力</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div style="text-align: center;">
+                <button class="btn btn-primary" onclick="openModal('assessmentModal')">开始测评</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assessment Modal -->
+    <div id="assessmentModal" class="modal">
+        <div class="modal-content glass">
+            <button class="close-btn" onclick="closeModal('assessmentModal')">
+                <img src="https://unpkg.com/lucide-static@latest/icons/x.svg" width="24" height="24" alt="关闭">
+            </button>
+            <h2 style="text-align: center; margin-bottom: 20px;">数字素养测评</h2>
+            <p style="text-align: center; margin-bottom: 30px; color: #4b5563;">测评完成后，您将获得个性化的能力分析报告和提升建议</p>
+            
+            <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin: 30px 0;">
+                <div style="text-align: center; flex: 1; min-width: 150px; max-width: 200px;">
+                    <div style="width: 60px; height: 60px; margin: 0 auto 15px; background-color: #e0e7ff; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <span style="font-size: 24px; font-weight: bold; color: var(--primary);">1</span>
+                    </div>
+                    <h4 style="margin-bottom: 10px;">基本信息</h4>
+                    <p style="color: #4b5563; font-size: 14px;">填写您的基本信息及教学背景</p>
+                </div>
+                <div style="text-align: center; flex: 1; min-width: 150px; max-width: 200px;">
+                    <div style="width: 60px; height: 60px; margin: 0 auto 15px; background-color: #d1fae5; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <span style="font-size: 24px; font-weight: bold; color: #10b981;">2</span>
+                    </div>
+                    <h4 style="margin-bottom: 10px;">能力测评</h4>
+                    <p style="color: #4b5563; font-size: 14px;">完成三大维度的数字素养测评</p>
+                </div>
+                <div style="text-align: center; flex: 1; min-width: 150px; max-width: 200px;">
+                    <div style="width: 60px; height: 60px; margin: 0 auto 15px; background-color: #ede9fe; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <span style="font-size: 24px; font-weight: bold; color: #8b5cf6;">3</span>
+                    </div>
+                    <h4 style="margin-bottom: 10px;">结果分析</h4>
+                    <p style="color: #4b5563; font-size: 14px;">获取专业的能力分析和提升建议</p>
+                </div>
+            </div>
+            
+            <form style="max-width: 600px; margin: 0 auto;">
+                <div style="margin-bottom: 20px;">
+                    <label for="teacher-name" style="display: block; margin-bottom: 8px; font-weight: 500;">姓名</label>
+                    <input type="text" id="teacher-name" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--gray-300);">
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label for="school" style="display: block; margin-bottom: 8px; font-weight: 500;">学校</label>
+                    <input type="text" id="school" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--gray-300);">
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label for="subject" style="display: block; margin-bottom: 8px; font-weight: 500;">任教学科</label>
+                    <select id="subject" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--gray-300);">
+                        <option value="">请选择</option>
+                        <option value="语文">语文</option>
+                        <option value="数学">数学</option>
+                        <option value="英语">英语</option>
+                        <option value="物理">物理</option>
+                        <option value="化学">化学</option>
+                        <option value="生物">生物</option>
+                        <option value="历史">历史</option>
+                        <option value="地理">地理</option>
+                        <option value="政治">政治</option>
+                        <option value="音乐">音乐</option>
+                        <option value="美术">美术</option>
+                        <option value="体育">体育</option>
+                        <option value="信息技术">信息技术</option>
+                        <option value="其他">其他</option>
+                    </select>
+                </div>
+                <div style="margin-bottom: 30px;">
+                    <label for="experience" style="display: block; margin-bottom: 8px; font-weight: 500;">教龄</label>
+                    <select id="experience" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--gray-300);">
+                        <option value="">请选择</option>
+                        <option value="0-5">0-5年</option>
+                        <option value="6-10">6-10年</option>
+                        <option value="11-15">11-15年</option>
+                        <option value="16-20">16-20年</option>
+                        <option value="20+">20年以上</option>
+                    </select>
+                </div>
+                <div style="text-align: center; margin-top: 40px;">
+                    <button class="btn btn-primary" style="padding: 12px 25px;" onclick="openModal('applyMentorModal')">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/clipboard-check.svg" width="18" height="18" alt="提交">
+                     提交
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Course Detail Modal -->
+    <div id="courseDetailModal" class="modal">
+        <div class="modal-content glass" style="max-width: 900px;">
+            <button class="close-btn" onclick="closeModal('courseDetailModal')">
+                <img src="https://unpkg.com/lucide-static@latest/icons/x.svg" width="24" height="24" alt="关闭">
+            </button>
+            
+            <div style="display: flex; flex-wrap: wrap; gap: 30px;">
+                <div style="flex: 1; min-width: 300px;">
+                    <img src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" style="width: 100%; border-radius: 12px; margin-bottom: 20px;" alt="课程">
+                    <div style="background-color: #f3f4f6; border-radius: 12px; padding: 20px;">
+                        <h4 style="margin-bottom: 15px; font-size: 1.1rem;">课程信息</h4>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span style="color: #6b7280;">课程类型</span>
+                            <span>信息素养</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span style="color: #6b7280;">课时数量</span>
+                            <span>6课时</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span style="color: #6b7280;">学习人数</span>
+                            <span>3,652人</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span style="color: #6b7280;">更新日期</span>
+                            <span>2025-04-15</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: #6b7280;">课程评分</span>
+                            <span style="display: flex; align-items: center; gap: 5px;">
+                                <img src="https://unpkg.com/lucide-static@latest/icons/star.svg" width="14" height="14" alt="评分">
+                                4.8 (126人评价)
+                            </span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" style="padding: 12px 120px;" onclick="window.open('https://office.teacher.com.cn/views/learningViews/myOffice/autonomousselection.htm?projectid=1026&flag=0&isopenpayfunction=1', '_blank')">
+                        <img src="https://unpkg.com/lucide-static@latest/icons/book-open.svg" width="18" height="18" alt="申请">
+                        去学习
+                    </button>
+                    
+                </div>
+                
+                <div style="flex: 1.5; min-width: 300px;">
+                    <h2 style="margin-bottom: 20px; font-size: 1.8rem;">数字信息检索与甄别实战</h2>
+                    <p style="color: #4b5563; line-height: 1.6; margin-bottom: 20px;">
+                        本课程旨在帮助教师掌握高效的数字信息检索技巧和信息甄别方法，提升教学信息质量和信息素养水平。通过实战案例和实操演练，让教师能够快速应用到实际教学工作中。
+                    </p>
+                    
+                    <h3 style="margin: 25px 0 15px; font-size: 1.3rem;">课程大纲</h3>
+                    <div style="margin-bottom: 30px;">
+                        <div style="border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden;">
+                            <div style="padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb; background-color: #f9fafb;">
+                                <span style="font-weight: 500;">第一章：信息检索基础</span>
+                                <span style="color: #6b7280; font-size: 0.9rem;">45分钟</span>
+                            </div>
+                            <div style="padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb;">
+                                <span style="font-weight: 500;">第二章：高级搜索技巧</span>
+                                <span style="color: #6b7280; font-size: 0.9rem;">60分钟</span>
+                            </div>
+                            <div style="padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb;">
+                                <span style="font-weight: 500;">第三章：信息可靠性评估</span>
+                                <span style="color: #6b7280; font-size: 0.9rem;">50分钟</span>
+                            </div>
+                            <div style="padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb;">
+                                <span style="font-weight: 500;">第四章：学科信息资源库使用</span>
+                                <span style="color: #6b7280; font-size: 0.9rem;">55分钟</span>
+                            </div>
+                            <div style="padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb;">
+                                <span style="font-weight: 500;">第五章：信息整合与管理</span>
+                                <span style="color: #6b7280; font-size: 0.9rem;">45分钟</span>
+                            </div>
+                            <div style="padding: 15px; display: flex; justify-content: space-between; align-items: center;">
+                                <span style="font-weight: 500;">第六章：实战案例分析</span>
+                                <span style="color: #6b7280; font-size: 0.9rem;">60分钟</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3 style="margin: 25px 0 15px; font-size: 1.3rem;">讲授专家介绍</h3>
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                        <img src="http://portal.teacherclub.com.cn/uploadfile/2021/1015/20211015044903561.jpg" style="width: 60px; height: 60px; border-radius: 50%;" alt="老师">
+                        <div>
+                            <h4 style="margin-bottom: 5px;">林崇德 特级教师 北京师范大学教授</h4>
+                            <p style="color: #6b7280; font-size: 0.9rem;">20年教育信息化实践经验，多次获得国家级教学大赛奖项</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Mentor Detail Modal -->
+    <div id="mentorDetailModal" class="modal">
+        <div class="modal-content glass" style="max-width: 800px;">
+            <button class="close-btn" onclick="closeModal('mentorDetailModal')">
+                <img src="https://unpkg.com/lucide-static@latest/icons/x.svg" width="24" height="24" alt="关闭">
+            </button>
+            
+            <div style="display: flex; flex-wrap: wrap; gap: 30px;">
+                <div style="flex: 0 0 200px;">
+                    <img src="http://portal.teacherclub.com.cn/uploadfile/2021/1015/20211015044903561.jpg" style="width: 100%; border-radius: 12px; margin-bottom: 20px;" alt="名师">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <h3 style="margin-bottom: 5px; font-size: 1.3rem;">林崇德</h3>
+                        <p style="color: #6b7280;">特级教师 | 信息化教学专家</p>
+                    </div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
+                        <span style="font-size: 0.75rem; padding: 3px 10px; border-radius: 12px; background-color: #f3f4f6; color: #4b5563;">信息技术</span>
+                        <span style="font-size: 0.75rem; padding: 3px 10px; border-radius: 12px; background-color: #f3f4f6; color: #4b5563;">数字教学</span>
+                        <span style="font-size: 0.75rem; padding: 3px 10px; border-radius: 12px; background-color: #f3f4f6; color: #4b5563;">教学设计</span>
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%;" onclick="openModal('applyMentorModal')">申请指导</button>
+                </div>
+                
+                <div style="flex: 1; min-width: 300px;">
+                    <h2 style="margin-bottom: 20px; font-size: 1.6rem;">专家名师简介</h2>
+                    <p style="color: #4b5563; line-height: 1.6; margin-bottom: 20px;">
+                        林教授拥有20年教育信息化实践经验，是国家级信息化教学名师，多次获得全国教育信息化教学大赛一等奖。北京师范大学教授，现任某重点中学信息技术学科带头人，教育部信息化教学指导委员会委员。
+                    </p>
+                    <p style="color: #4b5563; line-height: 1.6; margin-bottom: 20px;">
+                        李老师致力于数字技术与学科教学的深度融合研究，在数字教学设计、信息化课程开发等方面有丰富经验，已指导上千名教师提升数字教学能力，深受学员好评。
+                    </p>
+                    
+                    <h3 style="margin: 25px 0 15px; font-size: 1.2rem;">专业特长</h3>
+                    <ul style="color: #4b5563; line-height: 1.6; padding-left: 20px; margin-bottom: 25px;">
+                        <li>数字技术与学科教学融合创新</li>
+                        <li>信息化教学设计与实施</li>
+                        <li>数字教学资源开发与应用</li>
+                        <li>教师数字素养提升培训</li>
+                    </ul>
+                    
+                    <h3 style="margin: 25px 0 15px; font-size: 1.2rem;">指导方式</h3>
+                    <div style="display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 20px;">
+                        <div style="flex: 1; min-width: 150px; background-color: #f3f4f6; border-radius: 8px; padding: 15px; text-align: center;">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/video.svg" width="24" height="24" alt="线上指导" style="margin-bottom: 10px;">
+                            <h4 style="margin-bottom: 5px; font-size: 1rem;">线上远程直播</h4>
+                            <p style="color: #6b7280; font-size: 0.9rem;">时间灵活安排，深度交流</p>
+                        </div>
+                        <div style="flex: 1; min-width: 150px; background-color: #f3f4f6; border-radius: 8px; padding: 15px; text-align: center;">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/users.svg" width="24" height="24" alt="小组指导" style="margin-bottom: 10px;">
+                            <h4 style="margin-bottom: 5px; font-size: 1rem;">名师引领，小组研讨</h4>
+                            <p style="color: #6b7280; font-size: 0.9rem;">专业社群服务，名师引领学习，共同成长提升</p>
+                        </div>
+                        <div style="flex: 1; min-width: 150px; background-color: #f3f4f6; border-radius: 8px; padding: 15px; text-align: center;">
+                            <img src="https://unpkg.com/lucide-static@latest/icons/message-square.svg" width="24" height="24" alt="随时咨询" style="margin-bottom: 10px;">
+                            <h4 style="margin-bottom: 5px; font-size: 1rem;">面对面咨询</h4>
+                            <p style="color: #6b7280; font-size: 0.9rem;">面向学校的实时探校咨询服务，现场讲座，实时答疑解惑</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Apply Mentor Modal -->
+    <div id="applyMentorModal" class="modal">
+        <div class="modal-content glass" style="max-width: 600px;">
+            <button class="close-btn" onclick="closeModal('applyMentorModal')">
+                <img src="https://unpkg.com/lucide-static@latest/icons/x.svg" width="24" height="24" alt="关闭">
+            </button>
+            <h2 style="text-align: center; margin-bottom: 30px;">申请名师指导</h2>
+            <form>
+                <div style="margin-bottom: 20px;">
+                    <label for="apply-name" style="display: block; margin-bottom: 8px; font-weight: 500;">姓名</label>
+                    <input type="text" id="apply-name" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--gray-300);">
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label for="apply-school" style="display: block; margin-bottom: 8px; font-weight: 500;">学校</label>
+                    <input type="text" id="apply-school" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--gray-300);">
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label for="apply-contact" style="display: block; margin-bottom: 8px; font-weight: 500;">联系方式</label>
+                    <input type="text" id="apply-contact" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--gray-300);">
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label for="apply-mentor" style="display: block; margin-bottom: 8px; font-weight: 500;">期望指导老师</label>
+                    <select id="apply-mentor" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--gray-300);">
+                        <option value="">请选择</option>
+                        <option value="李明">李明 (信息化教学专家)</option>
+                        <option value="张华">张华 (教育技术学博士)</option>
+                        <option value="王静">王静 (创新教学实践者)</option>
+                    </select>
+                </div>
+                <div style="margin-bottom: 30px;">
+                    <label for="apply-needs" style="display: block; margin-bottom: 8px; font-weight: 500;">指导需求</label>
+                    <textarea id="apply-needs" rows="4" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--gray-300);"></textarea>
+                </div>
+                <button type="button" class="btn btn-primary" style="width: 100%;">提交申请</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Script for Modal Functionality -->
+    <script>
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close modal when clicking outside the modal content
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+    </script>
+</body>
+</html>
